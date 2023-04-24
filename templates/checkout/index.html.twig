@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CheckoutController!
+{% endblock %}
+
+{% block body %}
+	<div>
+		<h1>Checkout</h1>
+		{{ form_start(checkout, {'action': path('checkout_confirm')}) }}
+
+		<h2>Votre adresse</h2>
+		{{ form_widget(checkout.address) | replace({"[spr]" : "<br>"}) | raw }}
+
+		<a href="{{ path('app_address_new') }}">Ajouter une nouvelle adresse</a>
+
+		<h2>Votre transporteur</h2>
+		{{ form_widget(checkout.carrier) | replace({"[spr]" : "<br>"}) | raw }}
+
+		<h2>Informations aditionnelles</h2>
+		{{ form_widget(checkout.information) }}
+
+		<h2>Votre commande</h2>
+		<table>
+			<thead>
+				<tr>
+					<th>Produit</th>
+					<th>Prix</th>
+					<th>Quantité</th>
+					<th>Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for element in cart.products %}
+					<tr>
+						<td>
+							{{ element.product.name }}
+						</td>
+						<td>
+							{{ element.product.price }}
+						</td>
+						<td>
+							{{ element.quantity }}
+						</td>
+						<td>
+							{{ element.quantity * (element.product.price) }}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<table>
+			<tbody>
+				<tr>
+					<td>
+						Panier total
+					</td>
+					<td>
+						{{ cart.data.subTotalHT }}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Taxe (20%)
+					</td>
+					<td>
+						{{ cart.data.taxe }}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Total TTC
+					</td>
+					<td>
+						{{ cart.data.subTotalTTC }}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<button type="submit">Envoyer</button>
+		{{ form_end(checkout) }}
+
+	</div>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!
+{% endblock %}
+
+{% block body %}
+	<div>
+		<h1>
+			Produit
+			{{ product.name }}
+		</h1>
+
+		<a href="{{ path('cart_add', {'id':product.id}) }}">
+			Ajouter au panier
+		</a>
+
+		<br><br>
+
+		{% for category in product.category %}
+			<a href="{{ path('product_category', {'slug':category.slug}) }}">
+				{{ category.name }}
+			</a>
+		{% endfor %}
+
+		{% if product.isBestSeller == true %}
+			<p>
+				Best-seller
+			</p>
+		{% endif %}
+		{% if product.isNewArrival == true %}
+			<p>
+				New arrival
+			</p>
+		{% endif %}
+		{% if product.isFeatured == true %}
+			<p>
+				Vedette
+			</p>
+		{% endif %}
+		{% if product.isSpecialOffer == true %}
+			<p>
+				Special offer
+			</p>
+		{% endif %}
+
+		<p>
+			{{ product.description|raw }}
+		</p>
+		<p>
+			{{ product.moreInformations|raw }}
+		</p>
+		<p>{{ product.price }}&euro;</p>
+		{% if product.lastPrice %}
+			<p style="text-decoration: line-through;">{{ product.lastPrice }}&euro;</p>
+			{% set discountPercent = ((product.lastPrice - product.price) / product.lastPrice * 100) %}
+			<p>{{ discountPercent|round(0) }}% de réduction !</p>
+		{% endif %}
+
+		{% if product.image %}
+			<img src="/assets/images/{{ product.image }}" alt="{{ product.name }}">
+		{% endif %}
+
+
+		{% if product.reviewsProducts is not empty %}
+			<section>
+				<h3>Les avis</h3>
+
+				{% for review in product.reviewsProducts %}
+					{% if review.isActive %}
+						<div>
+							<p>
+								{{ review.note }}/5
+							</p>
+							<p>Avis de
+								{{ review.user.username }}
+								:
+								{{ review.comment|raw }}
+							</p>
+						</div>
+					{% endif %}
+				{% endfor %}
+
+			</section>
+		{% else %}
+			<h3>Aucun avis disponible pour le moment.</h3>
+		{% endif %}
+		{% if app.user %}
+			<section>
+				{{ form_start(form) }}
+				{{ form_row(form.note) }}
+				{{ form_row(form.comment) }}
+				<button type="submit" class="btn btn-primary">Envoyer</button>
+				{{ form_end(form) }}
+			</section>
+		{% else %}
+			<a href="{{ path('app_login') }}">Connectez-vous</a>
+		{% endif %}
+
+	</div>
+{% endblock %}

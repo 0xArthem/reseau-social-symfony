@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BlogController!{% endblock %}
+
+{% block body %}
+<div>
+    <h1>{{ article.title }}</h1>
+    <span>{{ article.category.name }}</span>
+    <p>{{ article.content|raw }}</p>
+    {% if article.image %}
+        <img src="/assets/images/{{ article.image }}" alt="{{ article.title }}">
+    {% endif %}
+    
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!
+{% endblock %}
+
+{% block body %}
+	<div>
+		<h1>Produits par catégorie
+			{{ category.name }}
+		</h1>
+		{% if category.description %}
+			<p>{{ category.description|raw }}</p>
+		{% endif %}
+
+		{% if category.image %}
+			<img src="/assets/images/{{ category.image }}" alt="{{ category.name }}">
+		{% endif %}
+
+
+		{% for product in products %}
+			{% include "include/product.html.twig" %}
+		{% endfor %}
+
+		<div class="navigation">
+			{{ knp_pagination_render(products) }}
+		</div>
+	</div>
+{% endblock %}
