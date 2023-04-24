@@ -37,3 +37,7 @@
 .modal-edit-profil {
   margin-top: 100px;
 }
+.alert-dismissible {
+  width: 50% !important;
+  text-align: center !important;
+}

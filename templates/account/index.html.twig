@@ -5,13 +5,36 @@
 
 {% block body %}
 	<div>
+		<a data-mdb-toggle="modal" data-mdb-target="#exampleModal" href="#exampleModal">
+			<div class="d-flex justify-content-center">
+				{% for type, messages in app.flashes %}
+					{% for message in messages %}
+						{% if type == 'error' %}
+							<div class="alert alert-{{ type }} alert-dismissible fade show bg-light text-danger shadow mt-5" role="alert">
+								<i class="fas fa-circle-exclamation me-2"></i>
+								{{ message }}
+								<br>
+								<b>Rafraîchissez la page, ou corrigez ici</b>.
+							</div>
+						{% elseif type == 'success' %}
+							<div class="alert alert-success alert-dismissible fade show bg-light text-success shadow mt-5" role="alert">
+								<i class="fas fa-check-circle me-2"></i>
+								{{ message }}
+							</div>
+						{% endif %}
+					{% endfor %}
+				{% endfor %}
+			</div>
+		</a>
+
+
 		<div class="d-flex justify-content-center">
 			<section class="section-profil shadow">
 				<section class="section-profil-top">
 					<img
 					src="/assets/images/profil/{{ app.user.image }}" alt="" class="section-profil-img shadow">
 					<!-- Button trigger modal -->
-					<a class="vers-edit-profil" type="button" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+					<a class="vers-edit-profil" type="button" data-mdb-toggle="modal" data-mdb-target="#exampleModal" href="#exampleModal">
 						Editer mon profil
 						<i class="fas fa-arrow-right-long ms-1"></i>
 					</a>

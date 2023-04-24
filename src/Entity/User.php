@@ -40,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=20)
      */
     private $username;
 
@@ -70,7 +70,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $orders;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=200, nullable=true)
      */
     private $bio;
 

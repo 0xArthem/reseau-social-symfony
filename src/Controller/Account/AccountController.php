@@ -23,14 +23,13 @@ class AccountController extends AbstractController
     {
         $orders = $repoOrder->findBy(['isPaid' => true, 'user' => $this->getUser()], ['id' => 'DESC'], null, null, ['orderDetails']);
 
-         // récupère l'utilisateur connecté
-         $user = $this->getUser();
-         // crée le formulaire et le lie à l'utilisateur
-         $form = $this->createForm(EditProfilType::class, $user);
-         $form->handleRequest($request);
+        // récupère l'utilisateur connecté
+        $user = $this->getUser();
+        // crée le formulaire et le lie à l'utilisateur
+        $form = $this->createForm(EditProfilType::class, $user);
+        $form->handleRequest($request);
  
-         if ($form->isSubmitted() && $form->isValid()) {
- 
+        if ($form->isSubmitted() && $form->isValid()) {
              // gérer l'upload de l'image de profil
              $imageFile = $form->get('image')->getData();
              if ($imageFile) {
@@ -46,12 +45,20 @@ class AccountController extends AbstractController
                  }
  
                  $user->setImage($newFilename);
-             }
+            }
  
-             $this->getDoctrine()->getManager()->flush();
- 
-             return $this->redirectToRoute('app_account');
-         }
+            $this->getDoctrine()->getManager()->flush();
+            
+            // Message de succès
+            $this->addFlash('success', 'Votre profil a été correctement mis à jour !');
+            
+            return $this->redirectToRoute('app_account');
+        }
+        if ($form->isSubmitted() && !$form->isValid()) {
+            // Message d'erreur
+            $this->addFlash('error', 'Votre profil n\'a pas pu être correctement mis à jour.');
+            // return $this->redirectToRoute('app_account');
+        }
 
         return $this->render('account/index.html.twig', [
             'orders' => $orders,
