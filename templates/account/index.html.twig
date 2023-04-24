@@ -24,6 +24,11 @@
 			{% endif %}
 		</section>
 
+		<p>Image de profil</p>
+		<img src="/assets/images/profil/{{ app.user.image }}" alt="" width="100px">
+
+		<br>
+
 		<a href="{{ path('app_account_edit_profil') }}">
 			Modifier mon profil
 		</a>
