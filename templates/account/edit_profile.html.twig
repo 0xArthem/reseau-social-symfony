@@ -1,17 +1,41 @@
-{% extends 'base.html.twig' %}
+<div class="form-edit-profil mx-auto">
+	<h1>Editer mon profil</h1>
 
-{% block title %}Modifier mon profil
-{% endblock %}
-
-{% block body %}
-	<h1>Modifier mon profil</h1>
+	<br>
 
 	{{ form_start(form) }}
-	{{ form_row(form.username) }}
-	{{ form_row(form.bio) }}
-	{{ form_row(form.localisation) }}
+
 	{{ form_row(form.isPublic) }}
-	{{ form_row(form.image) }}
-	<button type="submit">Modifier</button>
+
+	<br>
+
+	<div class="row">
+		<div class="col">
+			{{ form_row(form.username) }}
+		</div>
+		<div class="col">
+			{{ form_row(form.image) }}
+		</div>
+	</div>
+
+	<br>
+
+	<div class="row">
+		<div class="col">
+			{{ form_row(form.bio) }}
+		</div>
+	</div>
+
+	<br>
+
+	<div class="row">
+		<div class="col">
+			{{ form_row(form.localisation) }}
+		</div>
+	</div>
+
+	<br>
+
+	{{ form_row(form.submit) }}
 	{{ form_end(form) }}
-{% endblock %}
+</div>

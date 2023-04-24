@@ -8,9 +8,11 @@
 		<div class="d-flex justify-content-center">
 			<section class="section-profil shadow">
 				<section class="section-profil-top">
-					<img src="/assets/images/profil/{{ app.user.image }}" alt="" class="section-profil-img shadow">
-					<a href="{{ path('app_account_edit_profil') }}" class="vers-edit-profil">
-						Modifier mon profil
+					<img
+					src="/assets/images/profil/{{ app.user.image }}" alt="" class="section-profil-img shadow">
+					<!-- Button trigger modal -->
+					<a class="vers-edit-profil" type="button" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+						Editer mon profil
 						<i class="fas fa-arrow-right-long ms-1"></i>
 					</a>
 				</section>
@@ -37,6 +39,15 @@
 					</p>
 				</section>
 			</section>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade modal-edit-profil" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					{% include "account/edit_profile.html.twig" %}
+				</div>
+			</div>
 		</div>
 	</div>
 {% endblock %}

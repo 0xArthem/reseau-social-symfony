@@ -24,3 +24,16 @@
 .vers-edit-profil:hover {
   color: var(--main);
 }
+/** form edit profil **/
+.form-edit-profil {
+  padding: 25px !important;
+  background-color: var(--third) !important;
+  border-radius: 5px !important;
+}
+.textarea-edit-profil {
+  height: 110px;
+  max-height: 110px;
+}
+.modal-edit-profil {
+  margin-top: 100px;
+}
