@@ -1,0 +1,26 @@
+/** profil **/
+.section-profil {
+  margin-top: 75px;
+
+  color: var(--main);
+  background-color: var(--third);
+  width: 35%;
+  padding: 25px;
+  border-radius: 10px;
+  padding-bottom: 7.5px !important;
+}
+.section-profil-top {
+  display: flex;
+  justify-content: space-between;
+}
+.section-profil-img {
+  border-radius: 100px;
+  width: 125px;
+  margin-top: -50px !important;
+}
+.vers-edit-profil {
+  color: var(--main);
+}
+.vers-edit-profil:hover {
+  color: var(--main);
+}
