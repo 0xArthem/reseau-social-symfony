@@ -5,79 +5,27 @@
 
 {% block body %}
 	<div>
-		<h1>Compte</h1>
+		<h1>Mon Profil</h1>
 
-		<h2>{{ app.user.email }}</h2>
+		<h2>
+			pseudo : @{{ app.user.username }}
+		</h2>
+		<p>
+			{{ app.user.bio }}
+		</p>
+		<p>
+			{{ app.user.localisation }}
+		</p>
+		<section>
+			{% if app.user.isPublic %}
+				<p>compte public</p>
+			{% else %}
+				<p>compte privé</p>
+			{% endif %}
+		</section>
 
-		<a href="{{ path('app_address_index') }}">Mes adresses</a>
-		<a href="{{ path('app_address_new') }}">Enregister une nouvelle adresse</a>
-
-		<h2>Mes commandes</h2>
-
-		{% if orders %}
-			{% for order in orders %}
-				<p>
-					{{ order.id }}
-					-
-					{{ order.reference }}
-					-
-					{{ order.createdAt|date('d/m/Y') }}
-					-
-					{{ order.subTotalTTC / 100}}&euro; pour
-					{{ order.quantity }}
-					{% if order.quantity == 1 %}
-						produit
-					{% else %}
-						produits
-					{% endif %}
-				</p>
-
-				<p>
-					{{ order.carrierName }}
-					{{ order.carrierPrice }}&euro;
-					{{ order.deliveryAddress }}
-					{{ order.moreInformations }}
-					{{ order.subTotalHT / 100}}&euro;
-					{{ order.taxe / 100}}&euro;
-					{{ order.subTotalTTC / 100}}&euro;
-				</p>
-
-				{% for orderDetail in order.orderDetails %}
-					<p>
-						{{ orderDetail.productName }}
-						-
-						{{ orderDetail.productPrice }}
-						-
-						{{ orderDetail.quantity }}
-						-
-						{{ orderDetail.subTotalHT / 100}}&euro;
-																																																																																																																																																																																																																																																																																										-
-						{{ orderDetail.taxe / 100}}&euro;
-																																																																																																																																																																																																																																																																																										-
-						{{ orderDetail.subTotalTTC / 100}}&euro;
-					</p>
-				{% endfor %}
-				<p>
-					{% if order.isCanceled == true %}
-						Commande annulée.
-					{% elseif order.isRefunded == true %}
-						Commande remboursée.
-					{% elseif order.isInReturn == true %}
-						Commande retournée.
-					{% elseif order.isDelivered == true %}
-						Commande livrée.
-					{% elseif order.isInDelivering == true %}
-						Vommande en cours de livraison.
-					{% elseif order.isIsProcess == true %}
-						Commande en cours de traitement.
-					{% endif %}
-				</p>
-				<br>
-			{% endfor %}
-		{% else %}
-			<p>Vous n'avez pas encore de commande.</p>
-		{% endif %}
-
-
+		<a href="{{ path('app_account_edit_profil') }}">
+			Modifier mon profil
+		</a>
 	</div>
 {% endblock %}

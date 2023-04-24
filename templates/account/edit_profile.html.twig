@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mon profil
+{% endblock %}
+
+{% block body %}
+	<h1>Modifier mon profil</h1>
+
+	{{ form_start(form) }}
+	{{ form_row(form.username) }}
+	{{ form_row(form.bio) }}
+	{{ form_row(form.localisation) }}
+	{{ form_row(form.isPublic) }}
+	<button type="submit">Modifier</button>
+	{{ form_end(form) }}
+{% endblock %}

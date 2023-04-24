@@ -1,0 +1,96 @@
+<div>
+	<h1>Accueil</h1>
+
+	{% if app.user %}
+		<a href="{{ path('app_account') }}">Compte</a>
+		<a href="{{ path('app_logout') }}">Déconnexion</a>
+		{% if is_granted('ROLE_ADMIN') %}
+			<a href="{{path('admin') }}" target="_BLANK">Administration</a>
+		{% endif %}
+	{% else %}
+		<a href="{{ path('app_register') }}">Inscription</a>
+		<a href="{{ path('app_login') }}">Connexion</a>
+	{% endif %}
+	<a href="{{path('app_cart') }}">Panier</a>
+
+
+	<section>
+		<h2>Section BLOG</h2>
+
+		<h4>Tous les articles</h4>
+		{% for article in articles %}
+			<a href="{{ path('article', {'slug':article.slug}) }}">
+				{{ article.title }}
+				-
+				{{ article.category.name }}
+			</a>
+			<p>
+				{{ article.description|raw }}
+			</p>
+		{% endfor %}
+
+		<a href="{{ path('articles') }}">Voir tous les articles</a>
+
+		<h4>Toutes les catégories des articles</h4>
+		{% for articlesCategorie in articlesCategories %}
+			<a href="{{ path('article_category', {'slug':articlesCategorie.slug}) }}">
+				{{ articlesCategorie.name }}
+			</a>
+		{% endfor %}
+
+	</section>
+
+
+	<h2>Affichage des produits</h2>
+
+	<p>Tous les produits</p>
+	<form method="get" action="{{ path('search_products') }}">
+		<label for="search">Rechercher :</label>
+		<input type="text" id="search" name="search" placeholder="Entrez un mot-clé">
+		<button type="submit">Rechercher</button>
+	</form>
+
+	{% for product in products %}
+		<a href="{{ path('product', {'slug':product.slug}) }}">
+			{% include "include/product.html.twig" %}
+		</a>
+	{% endfor %}
+
+	<div class="navigation">
+		{{ knp_pagination_render(products) }}
+	</div>
+
+	<h2>Affichage des catégories</h2>
+
+	<p>Toutes les catégories</p>
+
+	{% for category in categories %}
+		<a href="{{ path('product_category', {'slug':category.slug}) }}">
+			{{ category.name }}
+		</a>
+	{% endfor %}
+
+	<br><br>
+	<p>Tous les produits BestSeller</p>
+	{% for product in productBestSeller %}
+		{{ include('include/product.html.twig', {'product': product})}}
+	{% endfor %}
+
+	<br><br>
+	<p>Tous les produits New Arrival</p>
+	{% for product in productNewArrival %}
+		{{ include('include/product.html.twig', {'product': product})}}
+	{% endfor %}
+
+	<br><br>
+	<p>Tous les produits Featured</p>
+	{% for product in productFeatured %}
+		{{ include('include/product.html.twig', {'product': product})}}
+	{% endfor %}
+
+	<br><br>
+	<p>Tous les produits SpecialOffer</p>
+	{% for product in productSpecialOffer %}
+		{{ include('include/product.html.twig', {'product': product})}}
+	{% endfor %}
+</div>
