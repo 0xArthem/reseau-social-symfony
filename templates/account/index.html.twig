@@ -76,11 +76,51 @@
 
 		<section class="section-posts">
 			<div class="row row-cols-1 row-cols-md-3 g-4">
+				{% for postIsPinned in postsIsPinned %}
+					<div class="col">
+						<div class="card">
+							{% if postIsPinned.image %}
+								<img src="{{ postIsPinned.image }}" class="card-img-top post-card-img shadow" alt="{{ postIsPinned.title }}"/>
+								<div class="card-body post-card-body-img">
+									{% if postIsPinned.title %}
+										<h5 class="card-title">
+											<i class="far fa-bookmark me-1"></i>
+											{{ postIsPinned.title }}
+										</h5>
+										<p class="card-text">
+											{{ postIsPinned.content|striptags|length > 140 ? postIsPinned.content|striptags|slice(0, 140) ~ ' ...' : postIsPinned.content|striptags }}
+										</p>
+									{% else %}
+										<div class="mt-3"></div>
+										<p class="card-text">
+											<i class="far fa-bookmark me-1"></i>
+											{{ postIsPinned.content|striptags|length > 140 ? postIsPinned.content|striptags|slice(0, 140) ~ ' ...' : postIsPinned.content|striptags }}
+										</p>
+									{% endif %}
+								</div>
+							{% else %}
+								<div class="card-body post-card-body">
+									{% if postIsPinned.title %}
+										<h5 class="card-title mt-1">{{ postIsPinned.title }}</h5>
+										<p class="card-text mt-3">
+											{{ postIsPinned.content|striptags|length > 700 ? postIsPinned.content|striptags|slice(0, 700) ~ ' ...' : postIsPinned.content|striptags }}
+										</p>
+									{% else %}
+										<p class="card-text post-card-text">
+											{{ postIsPinned.content|striptags|length > 700 ? postIsPinned.content|striptags|slice(0, 700) ~ ' ...' : postIsPinned.content|striptags }}
+										</p>
+									{% endif %}
+								</div>
+							{% endif %}
+						</div>
+					</div>
+				{% endfor %}
+
 				{% for post in posts %}
 					<div class="col">
 						<div class="card">
 							{% if post.image %}
-								<img src="{{ post.image }}" class="card-img-top shadow" alt="{{ post.title }}"/>
+								<img src="{{ post.image }}" class="card-img-top post-card-img shadow" alt="{{ post.title }}"/>
 								<div class="card-body post-card-body-img">
 									{% if post.title %}
 										<h5 class="card-title">{{ post.title }}</h5>

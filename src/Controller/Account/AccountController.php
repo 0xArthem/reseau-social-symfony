@@ -61,11 +61,13 @@ class AccountController extends AbstractController
             // return $this->redirectToRoute('app_account');
         }
         $posts = $postRepository->findBy(array(), array('id' => 'DESC'));
+        $postsIsPinned = $postRepository->findBy(array('isPinned' => true), array('id' => 'DESC'));
 
         return $this->render('account/index.html.twig', [
             'orders' => $orders,
             'form' => $form->createView(),
-            'posts' => $posts
+            'posts' => $posts,
+            'postsIsPinned' => $postsIsPinned
         ]);
     }
 }

@@ -58,7 +58,13 @@
   border-bottom-left-radius: 1px !important;
   border-bottom-right-radius: 1px !important;
 }
+.post-card-img {
+  height: 293px !important;
+}
 .post-card-text {
   margin-top: 22.5px !important;
   margin-bottom: 22.5px !important;
+}
+.fa-bookmark {
+  color: var(--second) !important;
 }

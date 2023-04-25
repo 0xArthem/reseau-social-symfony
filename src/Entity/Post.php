@@ -37,6 +37,11 @@ class Post
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isPinned = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +91,18 @@ class Post
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function isIsPinned(): ?bool
+    {
+        return $this->isPinned;
+    }
+
+    public function setIsPinned(?bool $isPinned): self
+    {
+        $this->isPinned = $isPinned;
 
         return $this;
     }
