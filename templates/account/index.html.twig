@@ -75,6 +75,10 @@
 		<br>
 
 		<section class="section-posts">
+
+			<a href="{{ path('app_post_new') }}">Ajouter un post</a>
+			<br><br>
+
 			<div class="row row-cols-1 row-cols-md-3 g-4">
 				{% for postIsPinned in postsIsPinned %}
 					<div class="col">

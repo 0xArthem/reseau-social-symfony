@@ -48,6 +48,7 @@
 }
 .post-card-body {
   background-color: var(--third);
+  height: 451px !important;
 }
 .post-card-body-img {
   height: 158px !important;
@@ -68,3 +69,4 @@
 .fa-bookmark {
   color: var(--second) !important;
 }
+/**** POST CRUD ***/
