@@ -72,57 +72,44 @@
 			</div>
 		</div>
 
-		<br><br><br>
+		<br>
 
-		<section style="margin-left:5%;margin-right:5%;">
+		<section class="section-posts">
 			<div class="row row-cols-1 row-cols-md-3 g-4">
-				<div class="col">
-					<div class="card">
-						<img src="https://mdbcdn.b-cdn.net/img/new/standard/city/041.webp" class="card-img-top" alt="Hollywood Sign on The Hill"/>
-						<div class="card-body">
-							<h5 class="card-title">Card title</h5>
-							<p class="card-text">
-								This is a longer card with supporting text below as a natural lead-in to
-																          additional content. This content is a little bit longer.
-							</p>
+				{% for post in posts %}
+					<div class="col">
+						<div class="card">
+							{% if post.image %}
+								<img src="{{ post.image }}" class="card-img-top shadow" alt="{{ post.title }}"/>
+								<div class="card-body post-card-body-img">
+									{% if post.title %}
+										<h5 class="card-title">{{ post.title }}</h5>
+									{% else %}
+										<div class="mt-3"></div>
+									{% endif %}
+
+									<p class="card-text">
+										{{ post.content|striptags|length > 140 ? post.content|striptags|slice(0, 140) ~ ' ...' : post.content|striptags }}
+									</p>
+								</div>
+							{% else %}
+								<div class="card-body post-card-body">
+									{% if post.title %}
+										<h5 class="card-title mt-1">{{ post.title }}</h5>
+										<p class="card-text mt-3">
+											{{ post.content|striptags|length > 700 ? post.content|striptags|slice(0, 700) ~ ' ...' : post.content|striptags }}
+										</p>
+									{% else %}
+										<p class="card-text post-card-text">
+											{{ post.content|striptags|length > 700 ? post.content|striptags|slice(0, 700) ~ ' ...' : post.content|striptags }}
+										</p>
+									{% endif %}
+								</div>
+							{% endif %}
 						</div>
 					</div>
-				</div>
-				<div class="col">
-					<div class="card">
-						<img src="https://mdbcdn.b-cdn.net/img/new/standard/city/042.webp" class="card-img-top" alt="Palm Springs Road"/>
-						<div class="card-body">
-							<h5 class="card-title">Card title</h5>
-							<p class="card-text">
-								This is a longer card with supporting text below as a natural lead-in to
-																          additional content. This content is a little bit longer.
-							</p>
-						</div>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card">
-						<img src="https://mdbcdn.b-cdn.net/img/new/standard/city/043.webp" class="card-img-top" alt="Los Angeles Skyscrapers"/>
-						<div class="card-body">
-							<h5 class="card-title">Card title</h5>
-							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card">
-						<img src="https://mdbcdn.b-cdn.net/img/new/standard/city/044.webp" class="card-img-top" alt="Skyscrapers"/>
-						<div class="card-body">
-							<h5 class="card-title">Card title</h5>
-							<p class="card-text">
-								This is a longer card with supporting text below as a natural lead-in to
-																          additional content. This content is a little bit longer.
-							</p>
-						</div>
-					</div>
-				</div>
+				{% endfor %}
 			</div>
 		</section>
-
 	</div>
 {% endblock %}

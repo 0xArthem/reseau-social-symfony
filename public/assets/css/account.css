@@ -41,3 +41,24 @@
   width: 50% !important;
   text-align: center !important;
 }
+
+/*** affichage des posts ****/
+.section-posts {
+  margin: 5%;
+}
+.post-card-body {
+  background-color: var(--third);
+}
+.post-card-body-img {
+  height: 158px !important;
+  background-color: var(--third);
+}
+.card-img-top {
+  border-radius: 5px !important;
+  border-bottom-left-radius: 1px !important;
+  border-bottom-right-radius: 1px !important;
+}
+.post-card-text {
+  margin-top: 22.5px !important;
+  margin-bottom: 22.5px !important;
+}
