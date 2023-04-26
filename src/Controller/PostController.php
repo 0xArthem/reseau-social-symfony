@@ -84,13 +84,35 @@ class PostController extends AbstractController
      */
     public function edit(Request $request, Post $post, PostRepository $postRepository): Response
     {
+        // récupère l'utilisateur connecté
+        $user = $this->getUser();
+
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // gérer l'upload de l'image du post
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+
+                try {
+                    $imageFile->move(
+                        $this->getParameter('post_images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // gérer les erreurs d'upload ici
+                }
+
+                $post->setImage($newFilename);
+            }
+
+            $post->setUser($user);
             $postRepository->add($post, true);
 
-            return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_account', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('post/edit.html.twig', [

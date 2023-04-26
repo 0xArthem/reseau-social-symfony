@@ -76,7 +76,9 @@
 
 		<section class="section-posts">
 
-			<a href="{{ path('app_post_new') }}">Ajouter un post</a>
+			<a href="{{ path('app_post_new') }}" class="btn btn-dark btn-rounded">
+				<i class="fas fa-plus"></i>
+			</a>
 			<br><br>
 
 			<div class="row row-cols-1 row-cols-md-3 g-4">
@@ -117,6 +119,11 @@
 								</div>
 							{% endif %}
 						</div>
+						<div class="d-flex justify-content-center">
+							<a href="{{ path('app_post_edit', {'id': postIsPinned.id}) }}" class="btn btn-dark btn-rounded btn-post-edit">
+								<i class="fas fa-pen-to-square"></i>
+							</a>
+						</div>
 					</div>
 				{% endfor %}
 
@@ -150,6 +157,11 @@
 									{% endif %}
 								</div>
 							{% endif %}
+						</div>
+						<div class="d-flex justify-content-center">
+							<a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-dark btn-rounded btn-post-edit">
+								<i class="fas fa-pen-to-square"></i>
+							</a>
 						</div>
 					</div>
 				{% endfor %}

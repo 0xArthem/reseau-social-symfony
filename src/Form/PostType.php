@@ -19,6 +19,7 @@ class PostType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'label' => false,
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Titre'
@@ -55,7 +56,7 @@ class PostType extends AbstractType
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Publier',
+                'label' => 'Sauvegarder',
                 'attr' => [
                     'class' => 'btn btn-dark'
                 ]
