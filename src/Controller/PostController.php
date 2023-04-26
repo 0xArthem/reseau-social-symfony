@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
  * @Route("/post")
@@ -30,14 +31,36 @@ class PostController extends AbstractController
      */
     public function new(Request $request, PostRepository $postRepository): Response
     {
+        // récupère l'utilisateur connecté
+        $user = $this->getUser();
+
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // gérer l'upload de l'image du post
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+
+                try {
+                    $imageFile->move(
+                        $this->getParameter('post_images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // gérer les erreurs d'upload ici
+                }
+
+                $post->setImage($newFilename);
+            }
+
+            $post->setUser($user);
             $postRepository->add($post, true);
 
-            return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_account', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('post/new.html.twig', [

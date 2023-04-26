@@ -84,7 +84,7 @@
 					<div class="col">
 						<div class="card">
 							{% if postIsPinned.image %}
-								<img src="{{ postIsPinned.image }}" class="card-img-top post-card-img shadow" alt="{{ postIsPinned.title }}"/>
+								<img src="/assets/images/post/{{ postIsPinned.image }}" class="card-img-top post-card-img shadow" alt="{{ postIsPinned.title }}"/>
 								<div class="card-body post-card-body-img">
 									{% if postIsPinned.title %}
 										<h5 class="card-title">
@@ -124,7 +124,7 @@
 					<div class="col">
 						<div class="card">
 							{% if post.image %}
-								<img src="{{ post.image }}" class="card-img-top post-card-img shadow" alt="{{ post.title }}"/>
+								<img src="/assets/images/post/{{ post.image }}" class="card-img-top post-card-img shadow" alt="{{ post.title }}"/>
 								<div class="card-body post-card-body-img">
 									{% if post.title %}
 										<h5 class="card-title">{{ post.title }}</h5>

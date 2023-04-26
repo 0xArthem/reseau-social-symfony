@@ -1,4 +1,32 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="form-post">
+	{{ form_start(form) }}
+	<div class="row">
+		<div class="col">
+			{{ form_row(form.title) }}
+		</div>
+		<div class="col">
+			{{ form_row(form.image) }}
+		</div>
+	</div>
+
+	<br>
+
+	<div class="row">
+		{{ form_row(form.content) }}
+	</div>
+
+	<br>
+
+	<div class="row">
+		{{ form_row(form.isPinned) }}
+	</div>
+
+	<br>
+
+	<div class="row">
+		{{ form_row(form.submit) }}
+	</div>
+
+	<br>
+	{{ form_end(form) }}
+</div>
