@@ -27,9 +27,11 @@
 			<!-- Left links -->
 
 			<div class="d-flex align-items-center">
-				<a type="button" class="btn btn-dark btn-rounded" href="{{ path('app_account', {'username':user.username}) }}">
-					<i class="fas fa-user"></i>
-				</a>
+				{% if app.user %}
+					<a type="button" class="btn btn-dark btn-rounded" href="{{ path('app_account', {'username': app.user.username}) }}">
+						<i class="fas fa-user"></i>
+					</a>
+				{% endif %}
 
 				{% if app.session.get('cart') %}
 					Nombre d'éléments dans le panier :

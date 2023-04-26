@@ -76,7 +76,6 @@
 		<br>
 
 		<section class="section-posts">
-
 			<a href="{{ path('app_post_new', {'username': user.username}) }}" class="btn btn-dark btn-rounded">
 				<i class="fas fa-plus"></i>
 			</a>
@@ -150,7 +149,6 @@
 				{% endfor %}
 
 				{% for post in posts %}
-
 					<div class="col">
 						<div class="card">
 							{% if post.image %}

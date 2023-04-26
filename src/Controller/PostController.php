@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
- * @Route("{username}/post")
+ * @Route("/account/{username}/post")
  */
 class PostController extends AbstractController
 {
@@ -51,7 +51,7 @@ class PostController extends AbstractController
             $post->setUser($user);
             $postRepository->add($post, true);
 
-            return $this->redirectToRoute('app_account', ['username' => $user->getUsername()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_account', ['username' => $user->getUsername()]);
         }
 
         return $this->renderForm('post/new.html.twig', [

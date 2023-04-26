@@ -7,8 +7,12 @@
 	<div>
 		<h1>Mon réseau social</h1>
 
-		<a href="{{ path('app_account', {'username': user.username}) }}" type="button">
-			Voir mon profil
-		</a>
+		{% if app.user %}
+			<a href="{{ path('app_account', {'username': app.user.username}) }}" type="button">
+				Voir mon profil
+			</a>
+		{% else %}
+			<a href="{{ path('app_login') }}">Se connecter</a>
+		{% endif %}
 	</div>
 {% endblock %}
