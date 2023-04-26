@@ -17,16 +17,6 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class PostController extends AbstractController
 {
     /**
-     * @Route("/", name="app_post_index", methods={"GET"})
-     */
-    public function index(PostRepository $postRepository): Response
-    {
-        return $this->render('post/index.html.twig', [
-            'posts' => $postRepository->findAll(),
-        ]);
-    }
-
-    /**
      * @Route("/new", name="app_post_new", methods={"GET", "POST"})
      */
     public function new(Request $request, PostRepository $postRepository): Response
@@ -130,6 +120,6 @@ class PostController extends AbstractController
             $postRepository->remove($post, true);
         }
 
-        return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_account', [], Response::HTTP_SEE_OTHER);
     }
 }
