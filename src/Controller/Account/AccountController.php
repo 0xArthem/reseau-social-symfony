@@ -2,6 +2,7 @@
 
 namespace App\Controller\Account;
 
+use App\Entity\User;
 use App\Form\EditProfilType;
 use App\Repository\OrderRepository;
 use App\Repository\OrderDetailsRepository;
@@ -13,19 +14,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
- * @Route("/account")
+ * @Route("/{username}")
  */
 class AccountController extends AbstractController
 {
     /**
      * @Route("/", name="app_account")
      */
-    public function index(PostRepository $postRepository, OrderRepository $repoOrder, OrderDetailsRepository $repoOrderDetails, Request $request): Response
+    public function index(PostRepository $postRepository, $username, OrderRepository $repoOrder, OrderDetailsRepository $repoOrderDetails, Request $request): Response
     {
+        // récupérer l'utilisateur correspondant à l'username
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
+
         $orders = $repoOrder->findBy(['isPaid' => true, 'user' => $this->getUser()], ['id' => 'DESC'], null, null, ['orderDetails']);
 
-        // récupère l'utilisateur connecté
-        $user = $this->getUser();
         // crée le formulaire et le lie à l'utilisateur
         $form = $this->createForm(EditProfilType::class, $user);
         $form->handleRequest($request);
@@ -53,17 +55,17 @@ class AccountController extends AbstractController
             // Message de succès
             $this->addFlash('success', 'Votre profil a été correctement mis à jour !');
             
-            return $this->redirectToRoute('app_account');
+            return $this->redirectToRoute('app_account', ['username' => $user->getUsername()]);
         }
         if ($form->isSubmitted() && !$form->isValid()) {
             // Message d'erreur
             $this->addFlash('error', 'Votre profil n\'a pas pu être correctement mis à jour.');
-            // return $this->redirectToRoute('app_account');
         }
         $posts = $postRepository->findBy(array(), array('id' => 'DESC'));
         $postsIsPinned = $postRepository->findBy(array('isPinned' => true), array('id' => 'DESC'));
 
         return $this->render('account/index.html.twig', [
+            'user' => $user,
             'orders' => $orders,
             'form' => $form->createView(),
             'posts' => $posts,

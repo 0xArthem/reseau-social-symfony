@@ -1,32 +1,68 @@
-<div class="navbar">
-	<h3>Menu</h3>
-	{% if app.session.get('cart') %}
-		Nombre d'éléments dans le panier :
-		{{ app.session.get('cartData').data.quantity_cart }}
-		<a href="{{ path('app_cart') }}">Voir le panier</a>
-	{% endif %}
+<nav
+	class="navbar navbar-expand-lg navbar-light bg-light">
+	<!-- Container wrapper -->
+	<div
+		class="container">
+		<!-- Navbar brand -->
+		<a
+			class="navbar-brand me-2" href="#">{# <img src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp" height="16" alt="MDB Logo" loading="lazy" style="margin-top: -1px;"/> #}
+		</a>
 
-	{% if app.session.get('cart') %}
-		{% if app.session.get('cartData') %}
-			{% for element in app.session.get('cartData').products %}
-				{{ element.product.name }}
-				-
-				{{ element.product.price }}
-				-
-				{{ element.quantity }}
-				-
-				{{ element.quantity * element.product.price }}
-				/
-				<a href="{{ path('cart_delete', {'id':element.product.id}) }}">
-					Supprimer
+		<!-- Toggle button -->
+		<button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarButtonsExample" aria-controls="navbarButtonsExample" aria-expanded="false" aria-label="Toggle navigation">
+			<i class="fas fa-bars"></i>
+		</button>
+
+		<!-- Collapsible wrapper -->
+		<div
+			class="collapse navbar-collapse" id="navbarButtonsExample">
+			<!-- Left links -->
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item">
+					<a class="nav-link text-dark" href="{{ path('app_home') }}">
+						Accueil
+					</a>
+				</li>
+			</ul>
+			<!-- Left links -->
+
+			<div class="d-flex align-items-center">
+				<a type="button" class="btn btn-dark btn-rounded" href="{{ path('app_account', {'username':user.username}) }}">
+					<i class="fas fa-user"></i>
 				</a>
-			{% endfor %}
 
-			Prix total HT :
-			{{ app.session.get('cartData').data.subTotalHT }}
-		{% else %}
-			<p>Panier vide.</p>
-		{% endif %}
-	{% endif %}
+				{% if app.session.get('cart') %}
+					Nombre d'éléments dans le panier :
+					{{ app.session.get('cartData').data.quantity_cart }}
+					<a href="{{ path('app_cart') }}">Voir le panier</a>
+				{% endif %}
 
-</div>
+				{% if app.session.get('cart') %}
+					{% if app.session.get('cartData') %}
+						{% for element in app.session.get('cartData').products %}
+							{{ element.product.name }}
+							-
+							{{ element.product.price }}
+							-
+							{{ element.quantity }}
+							-
+							{{ element.quantity * element.product.price }}
+							/
+							<a href="{{ path('cart_delete', {'id':element.product.id}) }}">
+								Supprimer
+							</a>
+						{% endfor %}
+
+						Prix total HT :
+						{{ app.session.get('cartData').data.subTotalHT }}
+					{% else %}
+						<p>Panier vide.</p>
+					{% endif %}
+				{% endif %}
+			</div>
+		</div>
+		<!-- Collapsible wrapper -->
+	</div>
+	<!-- Container wrapper -->
+</nav>
+<!-- Navbar -->

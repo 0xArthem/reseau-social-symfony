@@ -76,7 +76,7 @@
 
 		<section class="section-posts">
 
-			<a href="{{ path('app_post_new') }}" class="btn btn-dark btn-rounded">
+			<a href="{{ path('app_post_new', {'username': user.username}) }}" class="btn btn-dark btn-rounded">
 				<i class="fas fa-plus"></i>
 			</a>
 			<br><br>
@@ -86,11 +86,11 @@
 					<div class="col">
 						<div class="card">
 							{% if postIsPinned.image %}
-								<a href="{{ path('app_post_show', {'id': postIsPinned.id}) }}">
+								<a href="{{ path('app_post_show', {'id': postIsPinned.id, 'username': user.username}) }}">
 									<img src="/assets/images/post/{{ postIsPinned.image }}" class="card-img-top post-card-img shadow" alt="{{ postIsPinned.title }}"/>
 								</a>
 
-								<a href="{{ path('app_post_show', {'id': postIsPinned.id}) }}" class="text-dark">
+								<a href="{{ path('app_post_show', {'id': postIsPinned.id, 'username': user.username}) }}" class="text-dark">
 									<div class="card-body post-card-body-img">
 										{% if postIsPinned.title %}
 											<h5 class="card-title">
@@ -110,7 +110,7 @@
 									</div>
 								</a>
 							{% else %}
-								<a href="{{ path('app_post_show', {'id': postIsPinned.id}) }}" class="text-dark">
+								<a href="{{ path('app_post_show', {'id': postIsPinned.id, 'username': user.username}) }}" class=" text-dark">
 									<div class="card-body post-card-body">
 										{% if postIsPinned.title %}
 											<h5 class="card-title mt-1">{{ postIsPinned.title }}</h5>
@@ -127,7 +127,7 @@
 							{% endif %}
 						</div>
 						<div class="d-flex justify-content-center">
-							<a href="{{ path('app_post_edit', {'id': postIsPinned.id}) }}" class="btn btn-dark btn-rounded btn-post-edit">
+							<a href="{{ path('app_post_edit', {'id': postIsPinned.id, 'username': user.username}) }}" class="btn btn-dark btn-rounded btn-post-edit">
 								<i class="fas fa-pen-to-square"></i>
 							</a>
 						</div>
@@ -139,11 +139,11 @@
 					<div class="col">
 						<div class="card">
 							{% if post.image %}
-								<a href="{{ path('app_post_show', {'id': post.id}) }}">
+								<a href="{{ path('app_post_show', {'id': post.id, 'username': user.username}) }}">
 									<img src="/assets/images/post/{{ post.image }}" class="card-img-top post-card-img shadow" alt="{{ post.title }}"/>
 								</a>
 
-								<a href="{{ path('app_post_show', {'id': post.id}) }}" class="text-dark">
+								<a href="{{ path('app_post_show', {'id': post.id, 'username': user.username}) }}" class=" text-dark">
 									<div class="card-body post-card-body-img">
 										{% if post.title %}
 											<h5 class="card-title">{{ post.title }}</h5>
@@ -157,7 +157,7 @@
 									</div>
 								</a>
 							{% else %}
-								<a href="{{ path('app_post_show', {'id': post.id}) }}">
+								<a href="{{ path('app_post_show', {'id': post.id, 'username': user.username}) }}">
 									<div class="card-body post-card-body">
 										{% if post.title %}
 											<h5 class="card-title mt-1">{{ post.title }}</h5>
@@ -175,7 +175,7 @@
 						</div>
 
 						<div class="d-flex justify-content-center">
-							<a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-dark btn-rounded btn-post-edit">
+							<a href="{{ path('app_post_edit', {'id': post.id, 'username': user.username}) }}" class="btn btn-dark btn-rounded btn-post-edit">
 								<i class="fas fa-pen-to-square"></i>
 							</a>
 						</div>

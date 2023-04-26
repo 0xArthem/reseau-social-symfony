@@ -6,7 +6,7 @@
 {% block body %}
 	<div class="show-post">
 		<div class="d-flex justify-content-center">
-			<a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-dark btn-rounded me-2">
+			<a href="{{ path('app_post_edit', {'id': post.id, 'username': user.username}) }}" class="btn btn-dark btn-rounded me-2">
 				<i class="fas fa-pen-to-square"></i>
 			</a>
 			<section class="ms-2">

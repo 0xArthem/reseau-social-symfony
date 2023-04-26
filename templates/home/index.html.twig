@@ -7,7 +7,7 @@
 	<div>
 		<h1>Mon réseau social</h1>
 
-		<a href="{{ path('app_account') }}" type="button">
+		<a href="{{ path('app_account', {'username': user.username}) }}" type="button">
 			Voir mon profil
 		</a>
 	</div>

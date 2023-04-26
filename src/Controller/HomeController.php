@@ -16,23 +16,29 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Orm\EntityPaginatorInterface;
+use Symfony\Component\Security\Core\Security;
 
 class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="app_home")
      */
-    public function index(ArticleCategoryRepository $articleCategoryRepository, ArticleRepository $articleRepository, ProductRepository $repoProduct, CategoriesRepository $categoriesRepository , PaginatorInterface $paginator, Request $request): Response
-    {
+    public function index(
+        ArticleCategoryRepository $articleCategoryRepository, 
+        ArticleRepository $articleRepository, 
+        ProductRepository $repoProduct, 
+        CategoriesRepository $categoriesRepository,
+        PaginatorInterface $paginator, 
+        Request $request, 
+        Security $security
+    ): Response {
+        // récupérer l'utilisateur actuellement connecté
+        $user = $security->getUser();
+    
+        // récupérer les données pour la page d'accueil
         $query = $repoProduct->findBy(array('isActive' => true), array('id' => 'DESC'));
-        $products = $paginator->paginate(
-            $query,
-            $request->query->get('page', 1),
-            12
-        );
-
+        $products = $paginator->paginate($query, $request->query->get('page', 1), 12);
         $categories = $categoriesRepository->findAll();
-
         $productBestSeller = $repoProduct->findBy([
             'isBestSeller' => true,
             'isActive' => true
@@ -49,13 +55,11 @@ class HomeController extends AbstractController
             'isSpecialOffer' => true,
             'isActive' => true
         ]);
-
-        /*** blog */
-
         $articles = $articleRepository->findBy(array('isActive' => true), array('id' =>'DESC'), 3, 0);
         $articlesCategories = $articleCategoryRepository->findAll();
-
+    
         return $this->render('home/index.html.twig', [
+            'user' => $user,
             'products' => $products,
             'productBestSeller' => $productBestSeller,
             'productNewArrival' => $productNewArrival,

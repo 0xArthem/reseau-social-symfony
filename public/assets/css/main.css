@@ -3,3 +3,7 @@
   --second: #7fb27d;
   --third: #fbfbfb;
 }
+.navbar {
+  padding-top: 12.5px !important;
+  padding-bottom: 12.5px !important;
+}
