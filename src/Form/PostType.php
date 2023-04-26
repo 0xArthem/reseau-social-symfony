@@ -49,6 +49,14 @@ class PostType extends AbstractType
                     'placeholder' => 'Texte'
                 ]
             ])
+            ->add('link', TextType::class, [
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Lien'
+                ]
+            ])
             ->add('isPinned', null, [
                 'label' => 'Post épinglé',
                 'label_attr' => [

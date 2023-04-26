@@ -48,10 +48,10 @@
 }
 .post-card-body {
   background-color: var(--third);
-  height: 451px !important;
+  height: 467.5px !important;
 }
 .post-card-body-img {
-  height: 158px !important;
+  height: 175px !important;
   background-color: var(--third);
 }
 .card-img-top {
@@ -89,7 +89,19 @@
   color: var(--main) !important;
   padding: 75px !important;
   background-color: var(--third);
+  min-height: 660px;
 }
 .img-fluid {
   border-radius: 5px !important;
+}
+.div-btn-post-compteur {
+  margin-top: -42.5px;
+  padding-bottom: 10px !important;
+}
+.btn-post-compteur {
+  letter-spacing: 0.7px !important;
+  text-transform: none !important;
+  color: var(--third) !important;
+  font-weight: normal !important;
+  background-color: var(--second) !important;
 }

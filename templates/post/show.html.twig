@@ -16,13 +16,61 @@
 
 		<br><br>
 
-		<div>
-			<h1 class="mb-4">{{ post.title }}</h1>
-			<p class="text-muted mb-4">{{ post.content }}</p>
+		<div class="row">
+			{% if post.image %}
+				<div class="col-md-3 mb-3">
+					<img src="{{ asset('assets/images/post/' ~ post.image) }}" type="button" data-mdb-toggle="modal" data-mdb-target="#modalPostImage" alt="{{ post.title }}" class="img-fluid rounded shadow">
+				</div>
 
-			<br>
+				<!-- Modal -->
+				<div class="modal fade mt-5" id="modalPostImage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog mt-5">
+						<img src="{{ asset('assets/images/post/' ~ post.image) }}" alt="{{ post.title }}" width="800px" class="img-fluid rounded shadow">
+					</div>
+				</div>
 
-			<img src="{{ asset('assets/images/post/' ~ post.image) }}" alt="{{ post.title }}" class="img-fluid rounded shadow">
+				<div class="col-md-9 ps-5">
+					<h1>{{ post.title }}</h1>
+
+					{% set months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] %}
+					<p>
+						{{ post.createdAt|date('H:i') }}
+						-
+						{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
+					</p>
+
+					<p class="mb-4">{{ post.content }}</p>
+
+					{% if post.link %}
+						<a class="mb-4" href="{{ post.link }}" target="_BLANK">
+							<i class="fas fa-link me-1 text-dark"></i>
+							{{ post.link }}
+						</a>
+					{% endif %}
+				</div>
+			{% else %}
+				<div>
+					<h1>{{ post.title }}</h1>
+
+					{% set months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] %}
+					<p>
+						{{ post.createdAt|date('H:i') }}
+						-
+						{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
+					</p>
+
+					<p class="mb-4">{{ post.content }}</p>
+
+					{% if post.link %}
+						<a class="mb-4" href="{{ post.link }}" target="_BLANK">
+							<i class="fas fa-link me-1 text-dark"></i>
+							{{ post.link }}
+						</a>
+					{% endif %}
+
+				</div>
+			{% endif %}
+
 		</div>
 	</div>
 {% endblock %}

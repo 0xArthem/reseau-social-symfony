@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block body %}
+	{% set months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] %}
 	<div>
 		<a data-mdb-toggle="modal" data-mdb-target="#exampleModal" href="#exampleModal">
 			<div class="d-flex justify-content-center">
@@ -92,6 +93,13 @@
 
 								<a href="{{ path('app_post_show', {'id': postIsPinned.id, 'username': user.username}) }}" class="text-dark">
 									<div class="card-body post-card-body-img">
+										<div class="mb-2 div-btn-post-compteur">
+											<button class="btn btn-light btn-post-compteur shadow">
+												<i class="far fa-clock me-1"></i>
+												{{ postIsPinned.createdAt|date('d ') ~ months[postIsPinned.createdAt|date('n')-1] ~ postIsPinned.createdAt|date(' Y') }}
+											</button>
+										</div>
+
 										{% if postIsPinned.title %}
 											<h5 class="card-title">
 												<i class="far fa-bookmark me-1"></i>
@@ -112,6 +120,13 @@
 							{% else %}
 								<a href="{{ path('app_post_show', {'id': postIsPinned.id, 'username': user.username}) }}" class=" text-dark">
 									<div class="card-body post-card-body">
+										<div class="mb-2 div-btn-post-compteur">
+											<button class="btn btn-light btn-post-compteur shadow">
+												<i class="far fa-clock me-1"></i>
+												{{ postIsPinned.createdAt|date('d ') ~ months[postIsPinned.createdAt|date('n')-1] ~ postIsPinned.createdAt|date(' Y') }}
+											</button>
+										</div>
+
 										{% if postIsPinned.title %}
 											<h5 class="card-title mt-1">{{ postIsPinned.title }}</h5>
 											<p class="card-text mt-3">
@@ -145,6 +160,13 @@
 
 								<a href="{{ path('app_post_show', {'id': post.id, 'username': user.username}) }}" class=" text-dark">
 									<div class="card-body post-card-body-img">
+										<div class="mb-2 div-btn-post-compteur">
+											<button class="btn btn-light btn-post-compteur shadow">
+												<i class="far fa-clock me-1"></i>
+												{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
+											</button>
+										</div>
+
 										{% if post.title %}
 											<h5 class="card-title">{{ post.title }}</h5>
 										{% else %}
@@ -157,8 +179,15 @@
 									</div>
 								</a>
 							{% else %}
-								<a href="{{ path('app_post_show', {'id': post.id, 'username': user.username}) }}">
+								<a href="{{ path('app_post_show', {'id': post.id, 'username': user.username}) }}" class="text-dark">
 									<div class="card-body post-card-body">
+										<div class="mb-2 div-btn-post-compteur">
+											<button class="btn btn-light btn-post-compteur shadow">
+												<i class="far fa-clock me-1"></i>
+												{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
+											</button>
+										</div>
+
 										{% if post.title %}
 											<h5 class="card-title mt-1">{{ post.title }}</h5>
 											<p class="card-text mt-3">
