@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
- * @Route("/account/{username}/post")
+ * @Route("/compte/{username}/post")
  */
 class PostController extends AbstractController
 {

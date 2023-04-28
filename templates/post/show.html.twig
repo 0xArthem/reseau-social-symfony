@@ -5,17 +5,6 @@
 
 {% block body %}
 	<div class="show-post">
-		<div class="d-flex justify-content-center">
-			<a href="{{ path('app_post_edit', {'id': post.id, 'username': user.username}) }}" class="btn btn-dark btn-rounded me-2">
-				<i class="fas fa-pen-to-square"></i>
-			</a>
-			<section class="ms-2">
-				{{ include('post/_delete_form.html.twig') }}
-			</section>
-		</div>
-
-		<br><br>
-
 		<div class="row">
 			{% if post.image %}
 				<div class="col-md-3 mb-3">
