@@ -22,8 +22,16 @@ class PostController extends AbstractController
      */
     public function new(Request $request, PostRepository $postRepository, $username): Response
     {
+        // récupère l'utilisateur connecté
+        $userConnected = $this->getUser();
+
         // récupérer l'utilisateur correspondant à l'username
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
+
+        // Vérifier si l'utilisateur connecté est l'auteur du post
+        if ($user !== $userConnected) {
+            throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à effectuer cette action');
+        }
 
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
@@ -80,8 +88,17 @@ class PostController extends AbstractController
      */
     public function edit(Request $request, Post $post, PostRepository $postRepository, $username): Response
     {
+
+        // récupère l'utilisateur connecté
+        $userConnected = $this->getUser();
+
         // récupérer l'utilisateur correspondant à l'username
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
+
+        // Vérifier si l'utilisateur connecté est l'auteur du post
+        if ($user !== $userConnected) {
+            throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à effectuer cette action');
+        }
 
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
@@ -123,8 +140,16 @@ class PostController extends AbstractController
      */
     public function delete(Request $request, Post $post, PostRepository $postRepository, $username): Response
     {
+        // récupère l'utilisateur connecté
+        $userConnected = $this->getUser();
+
         // récupérer l'utilisateur correspondant à l'username
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
+
+        // Vérifier si l'utilisateur connecté est l'auteur du post
+        if ($user !== $userConnected) {
+            throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à effectuer cette action');
+        }
 
         if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
             $postRepository->remove($post, true);

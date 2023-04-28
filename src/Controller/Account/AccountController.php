@@ -35,7 +35,7 @@ class AccountController extends AbstractController
         );
 
         $orders = $repoOrder->findBy(['isPaid' => true, 'user' => $user], ['id' => 'DESC'], null, null, ['orderDetails']);
-        
+
         // Vérifie si l'utilisateur visité est l'utilisateur connecté
         if ($visitedUser === $user) {
             $form = $this->createForm(EditProfilType::class, $user);
