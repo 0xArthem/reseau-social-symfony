@@ -112,3 +112,13 @@
   color: var(--main) !important;
   font-weight: normal !important;
 }
+.section-affichage-des-abonnements {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 50px;
+}
+.affichage-des-abonnements-card {
+  width: 535px !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}

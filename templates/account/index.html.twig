@@ -63,7 +63,7 @@
 				</section>
 
 				<section class="mb-3">
-					<a class="btn nbr_abonnes-abonnements">
+					<a class="btn nbr_abonnes-abonnements" href="{{ path('app_account_abonnements', {'username':user.username}) }}">
 						<span class="fw-bold">
 							{{ abonnements|length }}
 						</span>
@@ -84,7 +84,6 @@
 						{% endif %}
 					</a>
 				</section>
-
 			</section>
 		</div>
 

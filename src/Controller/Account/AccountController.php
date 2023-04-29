@@ -88,7 +88,6 @@ class AccountController extends AbstractController
                 'abonnes' => $abonnes
             ]);
         } else {
-
             $abonnements = $visitedUser->getAbonnements();
             $abonnes = $visitedUser->getAbonnes();
 
@@ -112,6 +111,27 @@ class AccountController extends AbstractController
                 'isFollowed' => $isFollowed
             ]);
         }
+    }
+
+    /**
+     * @Route("/{username}/abonnements", name="app_account_abonnements")
+     */
+    public function showAbonnement(Request $request): Response {
+        
+        // récupère l'utilisateur connecté
+        $user = $this->getUser();
+        // récupère l'utilisateur du compte visité à partir de son nom d'utilisateur dans l'URL
+        $visitedUser = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $request->attributes->get('username')]);
+
+        if ($visitedUser === $user) {
+            $abonnements = $user->getAbonnements();
+            $abonnes = $user->getAbonnes();
+        }
+
+        return $this->render('account/abonnements.html.twig', [
+            'abonnements' => $abonnements,
+            'abonnes' => $abonnes
+        ]);
     }
 
    /**

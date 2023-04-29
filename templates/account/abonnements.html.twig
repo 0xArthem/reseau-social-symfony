@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Abonnements
+{% endblock %}
+
+{% block body %}
+
+	<div class="d-flex justify-content-center">
+		<section class="section-profil shadow">
+			<section class="section-profil-top">
+				<img src="/assets/images/profil/{{ app.user.image }}" alt="" class="section-profil-img shadow">
+			</section>
+
+			<section class="mt-4">
+				<h4>
+					{% if app.user.isPublic == false %}
+						<p>
+							@{{ app.user.username }}
+							<i class="fas fa-lock ms-1" title="Ce compte est privé."></i>
+						</p>
+					{% else %}
+						<p>
+							@{{ app.user.username }}
+						</p>
+					{% endif %}
+				</h4>
+				<p>
+					{{ app.user.bio }}
+				</p>
+				<p>
+					<i class="fas fa-location-dot me-1"></i>
+					{{ app.user.localisation }}
+				</p>
+			</section>
+
+			<section class="mb-3">
+				<a class="btn nbr_abonnes-abonnements">
+					<span class="fw-bold">
+						{{ abonnements|length }}
+					</span>
+					{% if abonnements|length > 1 %}
+						abonnements
+					{% else %}
+						abonnement
+					{% endif %}
+				</a>
+				<a class="ms-3 btn nbr_abonnes-abonnements">
+					<span class="fw-bold">
+						{{ abonnes|length }}
+					</span>
+					{% if abonnes|length > 1 %}
+						abonnés
+					{% else %}
+						abonné
+					{% endif %}
+				</a>
+			</section>
+		</section>
+	</div>
+
+	<div class="d-flex justify-content-center text-dark mt-5">
+		<i class="fas fa-angle-down"></i>
+	</div>
+
+	<h4 class="text-center text-dark m-5">Mes abonnements</h4>
+	<section class="section-affichage-des-abonnements">
+		<div class="card affichage-des-abonnements-card">
+			{% for abonnement in abonnements %}
+				<ul class="list-group list-group-light mb-3 bg-light shadow">
+					<li class="list-group-item px-3 bg-light d-flex justify-content-between">
+						<a href="{{ path('app_account', {'username': abonnement.abonnement.username }) }}" class="text-dark mt-2">
+							<i class="fas fa-caret-right me-1"></i>
+							{{ abonnement.abonnement }}
+						</a>
+						<a href="{{ path('app_account_unsubscribe', {'username': abonnement.abonnement.username }) }}" class="btn btn-dark">
+							<i class="fas fa-check me-2"></i>
+							Se désabonner
+						</a>
+					</li>
+				</ul>
+			{% endfor %}
+		</div>
+	</section>
+{% endblock %}
