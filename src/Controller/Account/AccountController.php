@@ -87,10 +87,16 @@ class AccountController extends AbstractController
                 'abonnes' => $abonnes
             ]);
         } else {
+
+            $abonnements = $visitedUser->getAbonnements();
+            $abonnes = $visitedUser->getAbonnes();
+
             return $this->render('account/other.html.twig', [
                 'visitedUser' => $visitedUser,
                 'posts' => $posts,
-                'postsIsPinned' => $postsIsPinned
+                'postsIsPinned' => $postsIsPinned,
+                'abonnements' => $abonnements,
+                'abonnes' => $abonnes
             ]);
         }
     }

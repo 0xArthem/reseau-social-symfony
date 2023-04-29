@@ -8,7 +8,14 @@
 
 	<div class="d-flex justify-content-center">
 		<section class="section-profil shadow">
-			<section class="section-profil-top"><img src="/assets/images/profil/{{ visitedUser.image }}" alt="" class="section-profil-img shadow">
+			<section class="section-profil-top">
+				<img src="/assets/images/profil/{{ visitedUser.image }}" alt="" class="section-profil-img shadow">
+
+				<section>
+					<a href="" class="btn btn-dark">
+						Suivre
+					</a>
+				</section>
 			</section>
 
 			<section class="mt-4">
@@ -24,6 +31,7 @@
 						</p>
 					{% endif %}
 				</h4>
+
 				<p>
 					{{ visitedUser.bio }}
 				</p>
@@ -34,15 +42,25 @@
 			</section>
 
 			<section class="mb-3">
-				<a href="" class="btn btn-dark">
-					S'abonner
+				<a class="btn nbr_abonnes-abonnements">
+					<span class="fw-bold">
+						{{ abonnements|length }}
+					</span>
+					{% if abonnements|length > 1 %}
+						abonnements
+					{% else %}
+						abonnement
+					{% endif %}
 				</a>
-				<a href="" class="btn btn-dark">
-					Abonné(e)
-				</a>
-
-				<a href="" class="btn btn-outline-dark">
-					25 abonnés
+				<a class="ms-3 btn nbr_abonnes-abonnements">
+					<span class="fw-bold">
+						{{ abonnes|length }}
+					</span>
+					{% if abonnes|length > 1 %}
+						abonnés
+					{% else %}
+						abonné
+					{% endif %}
 				</a>
 			</section>
 		</section>

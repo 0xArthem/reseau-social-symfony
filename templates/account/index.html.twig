@@ -63,8 +63,25 @@
 				</section>
 
 				<section class="mb-3">
-					<a href="" class="btn btn-outline-dark">
-						25 abonnés
+					<a class="btn nbr_abonnes-abonnements">
+						<span class="fw-bold">
+							{{ abonnements|length }}
+						</span>
+						{% if abonnements|length > 1 %}
+							abonnements
+						{% else %}
+							abonnement
+						{% endif %}
+					</a>
+					<a class="ms-3 btn nbr_abonnes-abonnements">
+						<span class="fw-bold">
+							{{ abonnes|length }}
+						</span>
+						{% if abonnes|length > 1 %}
+							abonnés
+						{% else %}
+							abonné
+						{% endif %}
 					</a>
 				</section>
 
@@ -81,18 +98,6 @@
 		</div>
 
 		<br>
-
-		<p>Mes abonnements</p>
-		{% for abonnement in abonnements %}
-			{{ abonnement.abonnement }}
-		{% endfor %}
-
-		<br><br>
-
-		<p>Mes abonnés</p>
-		{% for abonne in abonnes %}
-			{{ abonne.abonne }}
-		{% endfor %}
 
 		<section class="section-posts">
 			<a href="{{ path('app_post_new', {'username': user.username}) }}" class="btn btn-dark btn-rounded">
