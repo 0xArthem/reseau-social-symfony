@@ -99,6 +99,9 @@ class AccountController extends AbstractController
                 $isSubscribed = ($abonnement !== null);
             }
 
+            // On vérirife si l'utilisateur visité est abonné à l'utilisateur connecté (qui regarde donc son profil)
+            $isFollowed = $abonnementRepository->findOneBy(['abonne' => $visitedUser, 'abonnement' => $user]) !== null;
+
             return $this->render('account/other.html.twig', [
                 'visitedUser' => $visitedUser,
                 'posts' => $posts,
@@ -106,6 +109,7 @@ class AccountController extends AbstractController
                 'abonnements' => $abonnements,
                 'abonnes' => $abonnes,
                 'isSubscribed' => $isSubscribed,
+                'isFollowed' => $isFollowed
             ]);
         }
     }
@@ -146,5 +150,34 @@ class AccountController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('app_account', ['username' => $userToFollow->getUsername()]);
+    }
+
+    /**
+     * @Route("/{username}/desabonnement", name="app_account_unsubscribe")
+     */
+    public function desabonnement(Request $request, User $userToUnfollow, AbonnementRepository $abonnementRepository): Response
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+            // Si l'utilisateur n'est pas connecté, redirection vers la page de connexion
+            return $this->redirectToRoute('app_login');
+        }
+
+        // On vérifie si l'utilisateur connecté est abonné à cet utilisateur
+        $abonnement = $abonnementRepository->findOneBy(['abonne' => $user, 'abonnement' => $userToUnfollow]);
+
+        if (!$abonnement) {
+            // Si l'utilisateur n'est pas abonné, message d'erreur
+            $this->addFlash('error', 'Vous n\'êtes pas abonné à cet utilisateur.');
+            return $this->redirectToRoute('app_account', ['username' => $userToUnfollow->getUsername()]);
+        }
+
+        // Si l'utilisateur est abonné à l'utilisateur à désabonner, on supprime l'abonnement
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($abonnement);
+        $em->flush();
+
+        return $this->redirectToRoute('app_account', ['username' => $userToUnfollow->getUsername()]);
     }
 }

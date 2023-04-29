@@ -12,14 +12,33 @@
 				<img src="/assets/images/profil/{{ visitedUser.image }}" alt="" class="section-profil-img shadow">
 
 				<section>
-					{% if isSubscribed %}
-						<a href="">
-							Abonné
+					{% if isSubscribed and isFollowed %}
+						<a href="{{ path('app_account_unsubscribe', {'username': visitedUser.username}) }}" class="btn btn-dark">
+							<i class="fas fa-check me-2"></i>
+							Abonné(e)
+
+							<i class="fas fa-handshake-angle ms-2"></i>
 						</a>
 					{% else %}
-						<a href="{{ path('app_account_subscribe', {'username': visitedUser.username} ) }}" class="btn btn-dark">
-							Suivre
-						</a>
+
+						{% if isSubscribed %}
+							<a href="{{ path('app_account_unsubscribe', {'username': visitedUser.username}) }}" class="btn btn-dark">
+								<i class="fas fa-check me-2"></i>
+								Abonné(e)
+							</a>
+						{% else %}
+							{% if isFollowed %}
+								<a href="{{ path('app_account_subscribe', {'username': visitedUser.username} ) }}" class="btn btn-dark">
+									<i class="fas fa-plus me-2"></i>
+									S'abonner en retour
+								</a>
+							{% else %}
+								<a href="{{ path('app_account_subscribe', {'username': visitedUser.username} ) }}" class="btn btn-dark">
+									<i class="fas fa-plus me-2" title="Vous êtes abonnés l'un à l'autre."></i>
+									S'abonner
+								</a>
+							{% endif %}
+						{% endif %}
 					{% endif %}
 				</section>
 			</section>
