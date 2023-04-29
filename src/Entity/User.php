@@ -79,12 +79,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=20, nullable=true)
      */
     private $localisation;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $isPublic = true;
-
+    
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -350,18 +345,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLocalisation(?string $localisation): self
     {
         $this->localisation = $localisation;
-
-        return $this;
-    }
-
-    public function isIsPublic(): ?bool
-    {
-        return $this->isPublic;
-    }
-
-    public function setIsPublic(?bool $isPublic): self
-    {
-        $this->isPublic = $isPublic;
 
         return $this;
     }

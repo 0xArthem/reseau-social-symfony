@@ -30,6 +30,9 @@ class AccountController extends AbstractController
         // récupère l'utilisateur du compte visité à partir de son nom d'utilisateur dans l'URL
         $visitedUser = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $request->attributes->get('username')]);
 
+        $abonnements = $visitedUser->getAbonnements();
+        $abonnes = $visitedUser->getAbonnes();
+
         $posts = $postRepository->findBy(['user' => $visitedUser], ['id' => 'DESC']);
         $postsIsPinned = $postRepository->findBy(
             array('isPinned' => true, 'user' => $visitedUser),
@@ -73,10 +76,6 @@ class AccountController extends AbstractController
                 $this->addFlash('error', 'Votre profil n\'a pas pu être correctement mis à jour.');
                 // return $this->redirectToRoute('app_account');
             }
-
-            $abonnements = $user->getAbonnements();
-            $abonnes = $user->getAbonnes();
-
             return $this->render('account/index.html.twig', [
                 'user' => $user,
                 'posts' => $posts,
@@ -88,8 +87,10 @@ class AccountController extends AbstractController
                 'abonnes' => $abonnes
             ]);
         } else {
-            $abonnements = $visitedUser->getAbonnements();
-            $abonnes = $visitedUser->getAbonnes();
+
+            // On vérirife si l'utilisateur visité est abonné à l'utilisateur connecté (qui regarde donc son profil)
+            $isFollowed = $abonnementRepository->findOneBy(['abonne' => $visitedUser, 'abonnement' => $user]) !== null;
+
 
             // On vérifie si l'utilisateur connecté est abonné à l'utilisateur visité
             $isSubscribed = $abonnementRepository->findOneBy(['abonne' => $user, 'abonnement' => $visitedUser]) !== null;
@@ -98,17 +99,14 @@ class AccountController extends AbstractController
                 $isSubscribed = ($abonnement !== null);
             }
 
-            // On vérirife si l'utilisateur visité est abonné à l'utilisateur connecté (qui regarde donc son profil)
-            $isFollowed = $abonnementRepository->findOneBy(['abonne' => $visitedUser, 'abonnement' => $user]) !== null;
-
             return $this->render('account/other.html.twig', [
-                'visitedUser' => $visitedUser,
-                'posts' => $posts,
-                'postsIsPinned' => $postsIsPinned,
-                'abonnements' => $abonnements,
-                'abonnes' => $abonnes,
-                'isSubscribed' => $isSubscribed,
-                'isFollowed' => $isFollowed
+                    'visitedUser' => $visitedUser,
+                    'posts' => $posts,
+                    'postsIsPinned' => $postsIsPinned,
+                    'abonnements' => $abonnements,
+                    'abonnes' => $abonnes,
+                    'isSubscribed' => $isSubscribed,
+                    'isFollowed' => $isFollowed
             ]);
         }
     }

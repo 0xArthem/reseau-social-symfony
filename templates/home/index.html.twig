@@ -26,5 +26,12 @@
 			{% endfor %}
 		</section>
 
+		{% if app.user %}
+			<section>
+				<h3>Les derniers posts de mes abonnements</h3>
+			</section>
+		{% endif %}
+
+
 	</div>
 {% endblock %}

@@ -13,16 +13,7 @@
 
 			<section class="mt-4">
 				<h4>
-					{% if app.user.isPublic == false %}
-						<p>
-							@{{ app.user.username }}
-							<i class="fas fa-lock ms-1" title="Ce compte est privé."></i>
-						</p>
-					{% else %}
-						<p>
-							@{{ app.user.username }}
-						</p>
-					{% endif %}
+					@{{ app.user.username }}
 				</h4>
 				<p>
 					{{ app.user.bio }}

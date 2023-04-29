@@ -45,16 +45,7 @@
 
 			<section class="mt-4">
 				<h4>
-					{% if visitedUser.isPublic == false %}
-						<p>
-							@{{ visitedUser.username }}
-							<i class="fas fa-lock ms-1" title="Ce compte est privé."></i>
-						</p>
-					{% else %}
-						<p>
-							@{{ visitedUser.username }}
-						</p>
-					{% endif %}
+					{{ visitedUser.username }}
 				</h4>
 
 				<p>
@@ -212,4 +203,4 @@
 			{% endfor %}
 		</div>
 	</section>
-</div>{% endblock %}
+{% endblock %}

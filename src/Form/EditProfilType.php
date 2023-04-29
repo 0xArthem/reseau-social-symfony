@@ -65,12 +65,6 @@ class EditProfilType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('isPublic', null, [
-                'label' => 'Profil public',
-                'label_attr' => [
-                    'class' => 'me-2'
-                ]
-            ])
             ->add('image', FileType::class, [
                 'label' => false,
                 'mapped' => false,
