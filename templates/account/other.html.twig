@@ -12,9 +12,15 @@
 				<img src="/assets/images/profil/{{ visitedUser.image }}" alt="" class="section-profil-img shadow">
 
 				<section>
-					<a href="" class="btn btn-dark">
-						Suivre
-					</a>
+					{% if isSubscribed %}
+						<a href="">
+							Abonné
+						</a>
+					{% else %}
+						<a href="{{ path('app_account_subscribe', {'username': visitedUser.username} ) }}" class="btn btn-dark">
+							Suivre
+						</a>
+					{% endif %}
 				</section>
 			</section>
 

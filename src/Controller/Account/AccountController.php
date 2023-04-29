@@ -5,6 +5,7 @@ namespace App\Controller\Account;
 use App\Entity\User;
 use App\Entity\Abonnement;
 use App\Form\EditProfilType;
+use App\Repository\AbonnementRepository;
 use App\Repository\PostRepository;
 use App\Repository\OrderRepository;
 use App\Repository\OrderDetailsRepository;
@@ -22,7 +23,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/{username}", name="app_account")
      */
-    public function index(PostRepository $postRepository, OrderRepository $repoOrder, OrderDetailsRepository $repoOrderDetails, Request $request): Response
+    public function index(PostRepository $postRepository, AbonnementRepository $abonnementRepository, OrderRepository $repoOrder, OrderDetailsRepository $repoOrderDetails, Request $request): Response
     {
         // récupère l'utilisateur connecté
         $user = $this->getUser();
@@ -91,13 +92,59 @@ class AccountController extends AbstractController
             $abonnements = $visitedUser->getAbonnements();
             $abonnes = $visitedUser->getAbonnes();
 
+            // On vérifie si l'utilisateur connecté est abonné à l'utilisateur visité
+            $isSubscribed = $abonnementRepository->findOneBy(['abonne' => $user, 'abonnement' => $visitedUser]) !== null;
+            if ($user) {
+                $abonnement = $abonnementRepository->findOneBy(['abonne' => $user, 'abonnement' => $visitedUser]);
+                $isSubscribed = ($abonnement !== null);
+            }
+
             return $this->render('account/other.html.twig', [
                 'visitedUser' => $visitedUser,
                 'posts' => $posts,
                 'postsIsPinned' => $postsIsPinned,
                 'abonnements' => $abonnements,
-                'abonnes' => $abonnes
+                'abonnes' => $abonnes,
+                'isSubscribed' => $isSubscribed,
             ]);
         }
+    }
+
+   /**
+     * @Route("/{username}/abonnement", name="app_account_subscribe")
+     */
+    public function abonnement(Request $request, User $userToFollow, AbonnementRepository $abonnementRepository): Response
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+            // Si l'utilisateur n'est pas connecté, redirection vers la page de connexion
+            return $this->redirectToRoute('app_login');
+        }
+
+        // On vérifie si l'utilisateur connecté n'est pas déjà abonné à cet utilisateur
+        $abonnement = $abonnementRepository->findOneBy(['abonne' => $user, 'abonnement' => $userToFollow]);
+
+        if ($abonnement) {
+            // Si l'utilisateur est déjà abonné, message d'erreur
+            $this->addFlash('error', 'Vous êtes déjà abonné à cet utilisateur.');
+            return $this->redirectToRoute('app_account', ['username' => $userToFollow->getUsername()]);
+        }
+
+        if (!$userToFollow) {
+            // Si l'utilisateur à suivre n'existe pas, message d'erreur
+            $this->addFlash('error', 'Cet utilisateur n\'existe pas.');
+            return $this->redirectToRoute('app_account', ['username' => $userToFollow->getUsername()]);
+        }
+
+        // Si l'utilisateur n'est pas déjà abonné et que l'utilisateur à suivre existe, on crée un nouvel abonnement
+        $newAbonnement = new Abonnement();
+        $newAbonnement->setAbonne($user);
+        $newAbonnement->setAbonnement($userToFollow);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($newAbonnement);
+        $em->flush();
+
+        return $this->redirectToRoute('app_account', ['username' => $userToFollow->getUsername()]);
     }
 }
