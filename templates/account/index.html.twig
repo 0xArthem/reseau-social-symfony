@@ -61,6 +61,13 @@
 						{{ app.user.localisation }}
 					</p>
 				</section>
+
+				<section class="mb-3">
+					<a href="" class="btn btn-outline-dark">
+						25 abonnés
+					</a>
+				</section>
+
 			</section>
 		</div>
 
@@ -74,6 +81,18 @@
 		</div>
 
 		<br>
+
+		<p>Mes abonnements</p>
+		{% for abonnement in abonnements %}
+			{{ abonnement.abonnement }}
+		{% endfor %}
+
+		<br><br>
+
+		<p>Mes abonnés</p>
+		{% for abonne in abonnes %}
+			{{ abonne.abonne }}
+		{% endfor %}
 
 		<section class="section-posts">
 			<a href="{{ path('app_post_new', {'username': user.username}) }}" class="btn btn-dark btn-rounded">

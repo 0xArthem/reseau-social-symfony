@@ -95,9 +95,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $posts;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Abonnement::class, mappedBy="abonne")
+     */
+    private $abonnements;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Abonnement::class, mappedBy="abonnement")
+     */
+    private $abonnes;
+
     public function __toString()
     {
-        return $this->getFirstName() . ' ' . $this->getLastName();
+        return $this->username;
     }
 
     public function __construct()
@@ -106,6 +116,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->reviewsProducts = new ArrayCollection();
         $this->orders = new ArrayCollection();
         $this->posts = new ArrayCollection();
+        $this->abonnements = new ArrayCollection();
+        $this->abonnes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -395,4 +407,65 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Abonnement>
+     */
+    public function getAbonnements(): Collection
+    {
+        return $this->abonnements;
+    }
+
+    public function addAbonnement(Abonnement $abonnement): self
+    {
+        if (!$this->abonnements->contains($abonnement)) {
+            $this->abonnements[] = $abonnement;
+            $abonnement->setAbonne($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAbonnement(Abonnement $abonnement): self
+    {
+        if ($this->abonnements->removeElement($abonnement)) {
+            // set the owning side to null (unless already changed)
+            if ($abonnement->getAbonne() === $this) {
+                $abonnement->setAbonne(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Abonnement>
+     */
+    public function getAbonnes(): Collection
+    {
+        return $this->abonnes;
+    }
+
+    public function addAbonne(Abonnement $abonne): self
+    {
+        if (!$this->abonnes->contains($abonne)) {
+            $this->abonnes[] = $abonne;
+            $abonne->setAbonnement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAbonne(Abonnement $abonne): self
+    {
+        if ($this->abonnes->removeElement($abonne)) {
+            // set the owning side to null (unless already changed)
+            if ($abonne->getAbonnement() === $this) {
+                $abonne->setAbonnement(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

@@ -14,5 +14,17 @@
 		{% else %}
 			<a href="{{ path('app_login') }}">Se connecter</a>
 		{% endif %}
+
+
+		<hr>
+
+		<section>
+			{% for allUser in allUsers %}
+				<a href="{{ path('app_account', {'username': allUser.username}) }}">
+					{{ allUser.username }}
+				</a>
+			{% endfor %}
+		</section>
+
 	</div>
 {% endblock %}

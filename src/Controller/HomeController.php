@@ -10,6 +10,7 @@ use App\Repository\ArticleCategoryRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoriesRepository;
+use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,10 +31,13 @@ class HomeController extends AbstractController
         CategoriesRepository $categoriesRepository,
         PaginatorInterface $paginator, 
         Request $request, 
-        Security $security
+        Security $security,
+        UserRepository $userRepository
     ): Response {
         // récupérer l'utilisateur actuellement connecté
         $user = $security->getUser();
+
+        $allUsers = $userRepository->findAll();
     
         // récupérer les données pour la page d'accueil
         $query = $repoProduct->findBy(array('isActive' => true), array('id' => 'DESC'));
@@ -67,7 +71,8 @@ class HomeController extends AbstractController
             'productSpecialOffer' => $productSpecialOffer,
             'categories' => $categories,
             'articles' => $articles,
-            'articlesCategories' => $articlesCategories
+            'articlesCategories' => $articlesCategories,
+            'allUsers' => $allUsers
         ]);
     }
 

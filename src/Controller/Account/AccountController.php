@@ -3,10 +3,11 @@
 namespace App\Controller\Account;
 
 use App\Entity\User;
+use App\Entity\Abonnement;
 use App\Form\EditProfilType;
+use App\Repository\PostRepository;
 use App\Repository\OrderRepository;
 use App\Repository\OrderDetailsRepository;
-use App\Repository\PostRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,37 +41,40 @@ class AccountController extends AbstractController
         if ($visitedUser === $user) {
             $form = $this->createForm(EditProfilType::class, $user);
             $form->handleRequest($request);
-    
-                if ($form->isSubmitted() && $form->isValid()) {
-                    // gérer l'upload de l'image de profil
-                    $imageFile = $form->get('image')->getData();
-                    if ($imageFile) {
-                        $newFilename = uniqid().'.'.$imageFile->guessExtension();
-    
-                        try {
-                            $imageFile->move(
-                                $this->getParameter('profile_images_directory'),
-                                $newFilename
-                            );
-                        } catch (FileException $e) {
-                            // gérer les erreurs d'upload ici
-                        }
-    
-                        $user->setImage($newFilename);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                // gérer l'upload de l'image de profil
+                $imageFile = $form->get('image')->getData();
+                if ($imageFile) {
+                    $newFilename = uniqid().'.'.$imageFile->guessExtension();
+            
+                    try {
+                        $imageFile->move(
+                            $this->getParameter('profile_images_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // gérer les erreurs d'upload ici
                     }
-    
-                    $this->getDoctrine()->getManager()->flush();
-    
-                    // Message de succès
-                    $this->addFlash('success', 'Votre profil a été correctement mis à jour !');
-    
-                    return $this->redirectToRoute('app_account', ['username' => $user->getUsername()]);
+            
+                    $user->setImage($newFilename);
                 }
-                if ($form->isSubmitted() && !$form->isValid()) {
-                    // Message d'erreur
-                    $this->addFlash('error', 'Votre profil n\'a pas pu être correctement mis à jour.');
-                    // return $this->redirectToRoute('app_account');
-                }
+            
+                $this->getDoctrine()->getManager()->flush();
+            
+                // Message de succès
+                $this->addFlash('success', 'Votre profil a été correctement mis à jour !');
+            
+                return $this->redirectToRoute('app_account', ['username' => $user->getUsername()]);
+            }
+            if ($form->isSubmitted() && !$form->isValid()) {
+                // Message d'erreur
+                $this->addFlash('error', 'Votre profil n\'a pas pu être correctement mis à jour.');
+                // return $this->redirectToRoute('app_account');
+            }
+
+            $abonnements = $user->getAbonnements();
+            $abonnes = $user->getAbonnes();
 
             return $this->render('account/index.html.twig', [
                 'user' => $user,
@@ -79,6 +83,8 @@ class AccountController extends AbstractController
                 'visitedUser' => $visitedUser,
                 'form' => $form->createView(),
                 'orders' => $orders,
+                'abonnements' => $abonnements,
+                'abonnes' => $abonnes
             ]);
         } else {
             return $this->render('account/other.html.twig', [
