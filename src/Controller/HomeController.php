@@ -10,6 +10,7 @@ use App\Repository\ArticleCategoryRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoriesRepository;
+use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,12 +33,13 @@ class HomeController extends AbstractController
         PaginatorInterface $paginator, 
         Request $request, 
         Security $security,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        PostRepository $postRepository
     ): Response {
         // récupérer l'utilisateur actuellement connecté
         $user = $security->getUser();
 
-        $allUsers = $userRepository->findAll();
+        // $allUsers = $userRepository->findAll();
     
         // récupérer les données pour la page d'accueil
         $query = $repoProduct->findBy(array('isActive' => true), array('id' => 'DESC'));
@@ -61,7 +63,27 @@ class HomeController extends AbstractController
         ]);
         $articles = $articleRepository->findBy(array('isActive' => true), array('id' =>'DESC'), 3, 0);
         $articlesCategories = $articleCategoryRepository->findAll();
-    
+
+       if ($user) {
+         // Affichage des posts des abonnements de l'utilisateur connecté //
+            // on récupére les abonnements de l'utilisateur actuel
+            $abonnements = $user->getAbonnements();
+            $usersAbonnement = [];
+            // récupérer les utilisateurs auxquels l'utilisateur actuel est abonné
+            foreach ($abonnements as $abonnement) {
+                $usersAbonnement[] = $abonnement->getAbonnement();
+            }
+            // et on récupère les posts des utilisateurs abonnés
+            $abonnementsPosts = $postRepository->findBy(['user' => $usersAbonnement], ['id' => 'DESC']);
+
+            return $this->render('home/index.html.twig', [
+                'user' => $user,
+                // TL
+                'abonnementsPosts' => $abonnementsPosts,
+                'abonnements' => $abonnements
+            ]);
+       }
+   
         return $this->render('home/index.html.twig', [
             'user' => $user,
             'products' => $products,
@@ -72,7 +94,7 @@ class HomeController extends AbstractController
             'categories' => $categories,
             'articles' => $articles,
             'articlesCategories' => $articlesCategories,
-            'allUsers' => $allUsers
+            // 'allUsers' => $allUsers,
         ]);
     }
 
