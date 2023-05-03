@@ -39,6 +39,25 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
+    public function searchByPost(string $searchTerm): array
+    {
+        $queryBuilder = $this->createQueryBuilder('ap');
+
+        $queryBuilder
+            ->join('ap.user', 'u')
+            ->andWhere(
+                $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->like('ap.content', ':searchTerm'),
+                    $queryBuilder->expr()->like('ap.title', ':searchTerm'),
+                    $queryBuilder->expr()->like('u.username', ':searchTerm')
+                )
+            )
+            ->setParameter('searchTerm', '%' . $searchTerm . '%')
+        ;
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Post[] Returns an array of Post objects
 //     */

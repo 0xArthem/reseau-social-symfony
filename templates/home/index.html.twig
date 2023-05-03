@@ -5,15 +5,20 @@
 
 {% block body %}
 	<div>
+
 		<h1 class="text-dark text-center pt-5">Lorem ipsum.</h1>
 
-		<section class="d-flex justify-content-center pt-5">
-			<a href="" class="btn btn-dark btn-rounded">
-				<i class="fas fa-rotate"></i>
-			</a>
-		</section>
-
 		<section class="posts-TL">
+			<form action="{{ path('abonnements_post_search') }}" method="get" class="mb-5">
+				<div class="input-group mb-3">
+					<input type="text" class="form-control" name="q" placeholder="Rechercher une publication ...">
+					<button class="btn btn-dark btn-rounded" type="submit">
+						<i class="fas fa-magnifying-glass"></i>
+					</button>
+				</div>
+			</form>
+
+
 			{% set months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] %}
 			<div class="row row-cols-1 row-cols-md-3 g-4">
 				{% for abonnementsPost in abonnementsPosts %}
