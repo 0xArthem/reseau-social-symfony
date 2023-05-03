@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block body %}
+	{% set months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] %}
 	<div class="show-post">
 		<div class="row">
 			{% if post.image %}
@@ -21,7 +22,11 @@
 				<div class="col-md-9 ps-5">
 					<h1>{{ post.title }}</h1>
 
-					{% set months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] %}
+					<a href="{{ path('app_account', {'username':user.username}) }}" class="btn btn-light shadow btn-rounded">
+						{{ post.user }}
+					</a>
+					<br><br>
+
 					<p>
 						{{ post.createdAt|date('H:i') }}
 						-
@@ -41,7 +46,11 @@
 				<div>
 					<h1>{{ post.title }}</h1>
 
-					{% set months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] %}
+					<a href="{{ path('app_account', {'username':user.username}) }}" class="btn btn-light shadow btn-rounded">
+						{{ post.user }}
+					</a>
+					<br><br>
+
 					<p>
 						{{ post.createdAt|date('H:i') }}
 						-

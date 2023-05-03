@@ -2,23 +2,24 @@
 
 namespace App\Controller;
 
-use App\Entity\ArticleCategory;
+use App\Entity\User;
 use App\Entity\Product;
 use App\Entity\ReviewsProduct;
+use App\Entity\ArticleCategory;
 use App\Form\ReviewsProductType;
-use App\Repository\ArticleCategoryRepository;
+use App\Repository\PostRepository;
+use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoriesRepository;
-use App\Repository\PostRepository;
-use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use App\Repository\ArticleCategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Orm\EntityPaginatorInterface;
-use Symfony\Component\Security\Core\Security;
 
 class HomeController extends AbstractController
 {
@@ -65,7 +66,7 @@ class HomeController extends AbstractController
         $articlesCategories = $articleCategoryRepository->findAll();
 
        if ($user) {
-         // Affichage des posts des abonnements de l'utilisateur connecté //
+            // Affichage des posts des abonnements de l'utilisateur connecté //
             // on récupére les abonnements de l'utilisateur actuel
             $abonnements = $user->getAbonnements();
             $usersAbonnement = [];
@@ -76,11 +77,12 @@ class HomeController extends AbstractController
             // et on récupère les posts des utilisateurs abonnés
             $abonnementsPosts = $postRepository->findBy(['user' => $usersAbonnement], ['id' => 'DESC']);
 
+             // récupère l'utilisateur du compte visité à partir de son nom d'utilisateur dans l'URL
             return $this->render('home/index.html.twig', [
                 'user' => $user,
                 // TL
                 'abonnementsPosts' => $abonnementsPosts,
-                'abonnements' => $abonnements
+                'abonnements' => $abonnements,
             ]);
        }
    

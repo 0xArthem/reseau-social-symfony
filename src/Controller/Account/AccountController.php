@@ -87,7 +87,6 @@ class AccountController extends AbstractController
                 'abonnes' => $abonnes
             ]);
         } else {
-
             // On vérirife si l'utilisateur visité est abonné à l'utilisateur connecté (qui regarde donc son profil)
             $isFollowed = $abonnementRepository->findOneBy(['abonne' => $visitedUser, 'abonnement' => $user]) !== null;
 
