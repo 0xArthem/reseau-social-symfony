@@ -22,7 +22,7 @@
 				<div class="col-md-9 ps-5">
 					<h1>{{ post.title }}</h1>
 
-					<a href="{{ path('app_account', {'username':user.username}) }}" class="btn btn-light shadow btn-rounded">
+					<a href="{{ path('app_account', {'username':user.username}) }}" class="btn shadow show-post-user">
 						{{ post.user }}
 					</a>
 					<br><br>
@@ -46,9 +46,12 @@
 				<div>
 					<h1>{{ post.title }}</h1>
 
-					<a href="{{ path('app_account', {'username':user.username}) }}" class="btn btn-light shadow btn-rounded">
+					<a href="{{ path('app_account', {'username':user.username}) }}" class="btn shadow show-post-user">
 						{{ post.user }}
 					</a>
+
+					<a href="{{ path('app_post_like', {'id':post.id, 'username':user.username}) }}">J'aime</a>
+					<p>{{ countLikes }}</p>
 					<br><br>
 
 					<p>

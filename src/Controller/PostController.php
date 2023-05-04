@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Entity\Post;
+use App\Entity\User;
 use App\Form\PostType;
 use App\Repository\PostRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
@@ -76,11 +77,25 @@ class PostController extends AbstractController
     {
         // récupérer l'utilisateur correspondant à l'username
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
+        
+        $likes = $post->getLikes();
+        $countLikes = $likes->count();
+
 
         return $this->render('post/show.html.twig', [
             'user' => $user,
             'post' => $post,
+            'countLikes' => $countLikes
         ]);
+    }
+
+
+    /**
+     * @Route("/{id}/like", name="app_post_like", methods={"GET"})
+     */
+    public function like(Post $post, $username): Response
+    {
+        return $this->redirectToRoute('app_post_show', ['id' => $post->getId(), 'username' => $username]);
     }
 
     /**

@@ -122,3 +122,11 @@
   border-radius: 10px !important;
   box-shadow: none !important;
 }
+
+.show-post-user {
+  text-transform: none !important;
+  font-size: 15px !important;
+  font-weight: normal !important;
+  color: var(--third) !important;
+  background-color: var(--second) !important;
+}
