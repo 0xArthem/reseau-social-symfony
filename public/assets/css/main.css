@@ -6,6 +6,7 @@
 .navbar {
   padding-top: 12.5px !important;
   padding-bottom: 12.5px !important;
+  box-shadow: none !important;
 }
 /** TL **/
 .posts-TL {

@@ -139,6 +139,12 @@
   color: var(--second) !important;
 }
 .btn-se-desabonner {
-  background-color: var(--second) !important;
+  background-color: var(--main) !important;
   color: var(--third) !important;
+}
+.post-content {
+  border-left: solid 2px var(--main);
+  padding-left: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
