@@ -5,7 +5,7 @@
 
 {% block body %}
 	{% set months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] %}
-	<div>
+	<div class="div-global">
 		<a data-mdb-toggle="modal" data-mdb-target="#exampleModal" href="#exampleModal">
 			<div class="d-flex justify-content-center">
 				{% for type, messages in app.flashes %}
@@ -35,8 +35,7 @@
 					src="/assets/images/profil/{{ app.user.image }}" alt="" class="section-profil-img shadow">
 					<!-- Button trigger modal -->
 					<a class="vers-edit-profil" type="button" data-mdb-toggle="modal" data-mdb-target="#exampleModal" href="#exampleModal">
-						Editer mon profil
-						<i class="fas fa-arrow-right-long ms-1"></i>
+						<i class="fas fa-gear"></i>
 					</a>
 				</section>
 
@@ -48,7 +47,7 @@
 						{{ app.user.bio }}
 					</p>
 					<p>
-						<i class="fas fa-location-dot me-1"></i>
+						<i class="fas fa-location-dot me-1 app-user-info"></i>
 						{{ app.user.localisation }}
 					</p>
 				</section>
@@ -86,8 +85,6 @@
 				</div>
 			</div>
 		</div>
-
-		<br>
 
 		<section class="section-posts">
 			<a href="{{ path('app_post_new', {'username': user.username}) }}" class="btn btn-dark btn-rounded">

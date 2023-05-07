@@ -19,10 +19,10 @@
   margin-top: -50px !important;
 }
 .vers-edit-profil {
-  color: var(--main);
+  color: var(--second);
 }
 .vers-edit-profil:hover {
-  color: var(--main);
+  color: var(--second);
 }
 /** form edit profil **/
 .form-edit-profil {
@@ -44,7 +44,7 @@
 
 /*** affichage des posts ****/
 .section-posts {
-  margin: 5%;
+  padding: 5%;
 }
 .post-card-body {
   background-color: var(--third);
@@ -129,4 +129,16 @@
   font-weight: normal !important;
   color: var(--third) !important;
   background-color: var(--second) !important;
+}
+
+/****/
+.div-global {
+  background-color: var(--third) !important;
+}
+.app-user-info {
+  color: var(--second) !important;
+}
+.btn-se-desabonner {
+  background-color: var(--second) !important;
+  color: var(--third) !important;
 }
