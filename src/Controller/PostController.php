@@ -89,7 +89,6 @@ class PostController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route("/{id}/like", name="app_post_like", methods={"GET"})
      */

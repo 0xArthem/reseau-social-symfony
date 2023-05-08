@@ -107,16 +107,19 @@ class HomeController extends AbstractController
     }
     
     /**
-     * @Route("/posts/recherche/tag/{slug}", name="abonnements_post_tag")
+     * @Route("/posts/recherche/tag/{slug}", name="posts_tag")
      */
     public function byPostTag($slug, PostTagRepository $postTagRepository): Response
     {
         $postTag = $postTagRepository->findOneBySlug($slug);
         $posts = $postTag->getPosts();
+        $postTags = $postTagRepository->findAll();
+
 
         return $this->render('home/byTag.html.twig', [
             'posts' => $posts,
-            'postTag' => $postTag
+            'postTag' => $postTag,
+            'postTags' => $postTags
         ]);
     }
 
