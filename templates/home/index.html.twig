@@ -23,7 +23,7 @@
 					<i class="fas fa-xmark"></i>
 				</a>
 				{% for postTag in postTags %}
-					<a href="#" class="btn btn-dark btn-rounded me-4">
+					<a href="{{ path('abonnements_post_tag', {'slug': postTag.slug}) }}" class="btn btn-dark btn-rounded me-4">
 						{{ postTag.name }}
 					</a>
 				{% endfor %}

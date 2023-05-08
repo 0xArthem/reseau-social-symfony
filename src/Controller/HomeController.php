@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Product;
 use App\Entity\ReviewsProduct;
 use App\Entity\ArticleCategory;
+use App\Entity\Post;
 use App\Form\ReviewsProductType;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
@@ -104,17 +105,34 @@ class HomeController extends AbstractController
             // 'allUsers' => $allUsers,
         ]);
     }
+    
+    /**
+     * @Route("/posts/recherche/tag/{slug}", name="abonnements_post_tag")
+     */
+    public function byPostTag($slug, PostTagRepository $postTagRepository): Response
+    {
+        $postTag = $postTagRepository->findOneBySlug($slug);
+        $posts = $postTag->getPosts();
+
+        return $this->render('home/byTag.html.twig', [
+            'posts' => $posts,
+            'postTag' => $postTag
+        ]);
+    }
 
     /**
      * @Route("/posts/recherche", name="abonnements_post_search")
      */
-    public function searchAbonnementsPosts(Request $request, PostRepository $postRepository): Response
+    public function searchAbonnementsPosts(Request $request, PostRepository $postRepository, PostTagRepository $postTagRepository): Response
     {
         $query = $request->query->get('q');
         $abonnementsPosts = $postRepository->searchByPost($query);
 
+        $postTags = $postTagRepository->findAll();
+
         return $this->render('home/index.html.twig', [
             'abonnementsPosts' => $abonnementsPosts,
+            'postTags' => $postTags
         ]);
     }
 

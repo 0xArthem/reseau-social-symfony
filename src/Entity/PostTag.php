@@ -29,6 +29,11 @@ class PostTag
      */
     private $posts;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $slug;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -74,6 +79,18 @@ class PostTag
         if ($this->posts->removeElement($post)) {
             $post->removePosttag($this);
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

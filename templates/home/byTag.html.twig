@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="div-global">
+		<h1>{{ postTag.name }}</h1>
+		{% for post in posts %}
+			{{ post.title }}
+		{% endfor %}
+	</div>
+{% endblock %}
