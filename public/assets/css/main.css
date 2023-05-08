@@ -10,5 +10,15 @@
 }
 /** TL **/
 .posts-TL {
-  margin: 5%;
+  padding: 5%;
+}
+/***************/
+.barre-form {
+  margin-top: 2.5%;
+
+  margin-left: 5%;
+  margin-right: 5%;
+  padding: 3.5%;
+  background-color: var(--third) !important;
+  border-radius: 5px !important;
 }
