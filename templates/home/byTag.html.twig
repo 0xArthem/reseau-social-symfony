@@ -2,9 +2,78 @@
 
 {% block body %}
 	<div class="div-global">
-		<h1>{{ postTag.name }}</h1>
-		{% for post in posts %}
-			{{ post.title }}
-		{% endfor %}
+		<section class="posts-TL">
+
+			<h1 class="text-dark">
+				{{ postTag.name }}
+			</h1>
+
+			<br>
+
+			{% set months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] %}
+			{% if posts %}
+				<div class="row row-cols-1 row-cols-md-3 g-4">
+					{% for post in posts %}
+						<div class="col">
+							<div class="card mb-4">
+								{% if post.image %}
+									<a href="{{ path('app_post_show', {'id': post.id, 'username': post.user.username}) }}" class=" text-dark">
+										<img src="/assets/images/post/{{ post.image }}" class="card-img-top post-card-img shadow" alt="{{ post.title }}"/>
+									</a>
+
+									<a href="{{ path('app_post_show', {'id': post.id, 'username': post.user.username}) }}" class=" text-dark">
+										<div class="card-body post-card-body-img">
+											<div class="mb-2 div-btn-post-compteur">
+												<button class="btn btn-light btn-post-compteur shadow">
+													<i class="far fa-clock me-1"></i>
+													{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
+												</button>
+											</div>
+
+											{% if post.title %}
+												<h5 class="card-title">{{ post.title }}</h5>
+											{% else %}
+												<div class="mt-3"></div>
+											{% endif %}
+
+											<p class="card-text">
+												{{ post.content|striptags|length > 140 ? post.content|striptags|slice(0, 140) ~ ' ...' : post.content|striptags }}
+											</p>
+										</div>
+									</a>
+								{% else %}
+									<a href="{{ path('app_post_show', {'id': post.id, 'username': post.user.username}) }}" class=" text-dark">
+										<div class="card-body post-card-body">
+											<div class="mb-2 div-btn-post-compteur">
+												<button class="btn btn-light btn-post-compteur shadow">
+													<i class="far fa-clock me-1"></i>
+													{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
+												</button>
+											</div>
+
+											{% if post.title %}
+												<h5 class="card-title mt-1">
+													{{ post.title }}
+												</h5>
+												<p class="card-text mt-3">
+													{{ post.content|striptags|length > 700 ? post.content|striptags|slice(0, 700) ~ ' ...' : post.content|striptags }}
+												</p>
+											{% else %}
+												<p class="card-text post-card-text">
+													{{ post.content|striptags|length > 700 ? post.content|striptags|slice(0, 700) ~ ' ...' : post.content|striptags }}
+												</p>
+											{% endif %}
+										</div>
+									</a>
+								{% endif %}
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% else %}
+				<p>Aucun résultat.</p>
+			{% endif %}
+
+		</section>
 	</div>
 {% endblock %}
