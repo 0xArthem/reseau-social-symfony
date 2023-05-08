@@ -22,15 +22,11 @@
 				<a href="{{ path('app_home') }}" class="btn btn-outline-dark btn-rounded me-4">
 					<i class="fas fa-xmark"></i>
 				</a>
-				<a href="#" class="btn btn-dark btn-rounded me-4">
-					Catégorie
-				</a>
-				<a href="#" class="btn btn-dark btn-rounded me-4">
-					Catégorie
-				</a>
-				<a href="#" class="btn btn-dark btn-rounded me-4">
-					Catégorie
-				</a>
+				{% for postTag in postTags %}
+					<a href="#" class="btn btn-dark btn-rounded me-4">
+						{{ postTag.name }}
+					</a>
+				{% endfor %}
 			</section>
 		</div>
 

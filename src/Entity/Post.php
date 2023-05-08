@@ -60,10 +60,16 @@ class Post
      */
     private $likes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=PostTag::class, inversedBy="posts")
+     */
+    private $posttag;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
         $this->likes = new ArrayCollection();
+        $this->posttag = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -181,6 +187,30 @@ class Post
                 $like->setPost(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PostTag>
+     */
+    public function getPosttag(): Collection
+    {
+        return $this->posttag;
+    }
+
+    public function addPosttag(PostTag $posttag): self
+    {
+        if (!$this->posttag->contains($posttag)) {
+            $this->posttag[] = $posttag;
+        }
+
+        return $this;
+    }
+
+    public function removePosttag(PostTag $posttag): self
+    {
+        $this->posttag->removeElement($posttag);
 
         return $this;
     }

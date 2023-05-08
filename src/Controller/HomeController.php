@@ -14,6 +14,7 @@ use App\Repository\ProductRepository;
 use App\Repository\CategoriesRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use App\Repository\ArticleCategoryRepository;
+use App\Repository\PostTagRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,7 +36,8 @@ class HomeController extends AbstractController
         Request $request, 
         Security $security,
         UserRepository $userRepository,
-        PostRepository $postRepository
+        PostRepository $postRepository,
+        PostTagRepository $postTagRepository
     ): Response {
         // récupérer l'utilisateur actuellement connecté
         $user = $security->getUser();
@@ -77,12 +79,15 @@ class HomeController extends AbstractController
             // et on récupère les posts des utilisateurs abonnés
             $abonnementsPosts = $postRepository->findBy(['user' => $usersAbonnement], ['id' => 'DESC']);
 
+            $postTags = $postTagRepository->findAll();
+
              // récupère l'utilisateur du compte visité à partir de son nom d'utilisateur dans l'URL
             return $this->render('home/index.html.twig', [
                 'user' => $user,
                 // TL
                 'abonnementsPosts' => $abonnementsPosts,
                 'abonnements' => $abonnements,
+                'postTags' => $postTags
             ]);
        }
    
