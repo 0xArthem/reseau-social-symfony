@@ -1,26 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccountController!
+{% block title %}
+	Profil -
+	{{ visitedUser.username }}
 {% endblock %}
 
 {% block body %}
-	{% set months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] %}
 	<div class="div-global">
-		<div class="d-flex justify-content-center">
+		<div
+			class="d-flex justify-content-center">
+			<!-- affichage du profil de l'utilisateur -->
 			<section class="section-profil shadow">
 				<section class="section-profil-top">
-					<img src="/assets/images/profil/{{ visitedUser.image }}" alt="" class="section-profil-img shadow">
-
-					<section>
-						{% if isSubscribed and isFollowed %}
-							<a href="{{ path('app_account_unsubscribe', {'username': visitedUser.username}) }}" class="btn btn-dark">
-								<i class="fas fa-check me-2"></i>
+					<img src="{{ asset('assets/images/profil/' ~ visitedUser.image) }}" alt="" class="section-profil-img shadow">
+					<!-- affichage de la section du bouton pour s'abonner -->
+					<!-- selon si l'utilisateur est déjà abonné, non abonné, ou si l'autre personne est déjà abonné à lui etc -->
+						<section>
+							{% if isSubscribed and isFollowed %}
+								<a href="{{ path('app_account_unsubscribe', {'username': visitedUser.username}) }}" class="btn btn-dark"> <i class="fas fa-check me-2"></i>
 								Abonné(e)
 
 								<i class="fas fa-handshake-angle ms-2"></i>
 							</a>
 						{% else %}
-
 							{% if isSubscribed %}
 								<a href="{{ path('app_account_unsubscribe', {'username': visitedUser.username}) }}" class="btn btn-dark">
 									<i class="fas fa-check me-2"></i>
@@ -43,163 +45,48 @@
 					</section>
 				</section>
 
+				<!-- affichage des informations du profil -->
 				<section class="mt-4">
-					<h4>
-						{{ visitedUser.username }}
-					</h4>
-
-					<p>
-						{{ visitedUser.bio }}
-					</p>
+					<h4>{{ visitedUser.username }}</h4>
+					<p>{{ visitedUser.bio }}</p>
 					<p>
 						<i class="fas fa-location-dot app-user-info me-1"></i>
 						{{ visitedUser.localisation }}
 					</p>
 				</section>
 
+				<!-- affichage du nombre d'abonnements et d'abonnés -->
 				<section class="mb-3">
 					<a class="btn nbr_abonnes-abonnements">
-						<span class="fw-bold">
-							{{ abonnements|length }}
-						</span>
-						{% if abonnements|length > 1 %}
-							abonnements
-						{% else %}
-							abonnement
+						<span class="fw-bold">{{ abonnements|length }}</span>
+						{% if abonnements|length > 1 %}abonnements{% else %}abonnement
 						{% endif %}
 					</a>
 					<a class="ms-3 btn nbr_abonnes-abonnements">
-						<span class="fw-bold">
-							{{ abonnes|length }}
-						</span>
-						{% if abonnes|length > 1 %}
-							abonnés
-						{% else %}
-							abonné
+						<span class="fw-bold">{{ abonnes|length }}</span>
+						{% if abonnes|length > 1 %}abonnés{% else %}abonné
 						{% endif %}
 					</a>
 				</section>
 			</section>
 		</div>
 
-		<br>
-
-		<section class="section-posts">
-			<div class="row row-cols-1 row-cols-md-3 g-4">
+		<!-- affichage de la section des posts -->
+		<section class="section-posts mt-4">
+			<div
+				class="row row-cols-1 row-cols-md-3 g-4">
+				<!-- affichage des posts épinglés par l'utilisateur -->
 				{% for postIsPinned in postsIsPinned %}
-					<div class="col">
-						<div class="card">
-							{% if postIsPinned.image %}
-								<a href="{{ path('app_post_show', {'id': postIsPinned.id, 'username': visitedUser.username}) }}">
-									<img src="/assets/images/post/{{ postIsPinned.image }}" class="card-img-top post-card-img shadow" alt="{{ postIsPinned.title }}"/>
-								</a>
-
-								<a href="{{ path('app_post_show', {'id': postIsPinned.id, 'username': visitedUser.username}) }}" class=" text-dark">
-									<div class="card-body post-card-body-img">
-										<div class="mb-2 div-btn-post-compteur">
-											<button class="btn btn-light btn-post-compteur shadow">
-												<i class="far fa-clock me-1"></i>
-												{{ postIsPinned.createdAt|date('d ') ~ months[postIsPinned.createdAt|date('n')-1] ~ postIsPinned.createdAt|date(' Y') }}
-											</button>
-										</div>
-
-										{% if postIsPinned.title %}
-											<h5 class="card-title">
-												<i class="far fa-bookmark me-1"></i>
-												{{ postIsPinned.title }}
-											</h5>
-										{% else %}
-											<div class="mt-3"></div>
-										{% endif %}
-
-										<p class="card-text">
-											{{ postIsPinned.content|striptags|length > 140 ? postIsPinned.content|striptags|slice(0, 140) ~ ' ...' : postIsPinned.content|striptags }}
-										</p>
-									</div>
-								</a>
-							{% else %}
-								<a href="{{ path('app_post_show', {'id': postIsPinned.id, 'username': visitedUser.username}) }}" class=" text-dark">
-									<div class="card-body post-card-body">
-										<div class="mb-2 div-btn-post-compteur">
-											<button class="btn btn-light btn-post-compteur shadow">
-												<i class="far fa-clock me-1"></i>
-												{{ postIsPinned.createdAt|date('d ') ~ months[postIsPinned.createdAt|date('n')-1] ~ postIsPinned.createdAt|date(' Y') }}
-											</button>
-										</div>
-
-										{% if postIsPinned.title %}
-											<h5 class="card-title mt-1">
-												<i class="far fa-bookmark me-1"></i>
-												{{ postIsPinned.title }}
-											</h5>
-											<p class="card-text mt-3">
-												{{ postIsPinned.content|striptags|length > 700 ? postIsPinned.content|striptags|slice(0, 700) ~ ' ...' : postIsPinned.content|striptags }}
-											</p>
-										{% else %}
-											<p class="card-text post-card-text">
-												{{ postIsPinned.content|striptags|length > 700 ? postIsPinned.content|striptags|slice(0, 700) ~ ' ...' : postIsPinned.content|striptags }}
-											</p>
-										{% endif %}
-									</div>
-								</a>
-							{% endif %}
-						</div>
-					</div>
+					<a href="{{ path('app_post_show', {'id': postIsPinned.id, 'username': visitedUser.username}) }}" class="text-dark">
+						{% include "include/forPostIsPinned.html.twig" %}
+					</a>
 				{% endfor %}
 
+				<!-- affichage de tous les posts -->
 				{% for post in posts %}
-					<div class="col">
-						<div class="card">
-							{% if post.image %}
-								<a href="{{ path('app_post_show', {'id': post.id, 'username': visitedUser.username}) }}">
-									<img src="/assets/images/post/{{ post.image }}" class="card-img-top post-card-img shadow" alt="{{ post.title }}"/>
-								</a>
-
-								<a href="{{ path('app_post_show', {'id': post.id, 'username': visitedUser.username}) }}" class=" text-dark">
-									<div class="card-body post-card-body-img">
-										<div class="mb-2 div-btn-post-compteur">
-											<button class="btn btn-light btn-post-compteur shadow">
-												<i class="far fa-clock me-1"></i>
-												{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
-											</button>
-										</div>
-
-										{% if post.title %}
-											<h5 class="card-title">{{ post.title }}</h5>
-										{% else %}
-											<div class="mt-3"></div>
-										{% endif %}
-
-										<p class="card-text">
-											{{ post.content|striptags|length > 140 ? post.content|striptags|slice(0, 140) ~ ' ...' : post.content|striptags }}
-										</p>
-									</div>
-								</a>
-							{% else %}
-								<a href="{{ path('app_post_show', {'id': post.id, 'username': visitedUser.username}) }}" class="text-dark">
-									<div class="card-body post-card-body">
-										<div class="mb-2 div-btn-post-compteur">
-											<button class="btn btn-light btn-post-compteur shadow">
-												<i class="far fa-clock me-1"></i>
-												{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
-											</button>
-										</div>
-
-										{% if post.title %}
-											<h5 class="card-title mt-1">{{ post.title }}</h5>
-											<p class="card-text mt-3">
-												{{ post.content|striptags|length > 700 ? post.content|striptags|slice(0, 700) ~ ' ...' : post.content|striptags }}
-											</p>
-										{% else %}
-											<p class="card-text post-card-text">
-												{{ post.content|striptags|length > 700 ? post.content|striptags|slice(0, 700) ~ ' ...' : post.content|striptags }}
-											</p>
-										{% endif %}
-									</div>
-								</a>
-							{% endif %}
-						</div>
-					</div>
+					<a href="{{ path('app_post_show', {'id': post.id, 'username': visitedUser.username}) }}" class="text-dark">
+						{% include "include/forPost.html.twig" %}
+					</a>
 				{% endfor %}
 			</div>
 		</section>

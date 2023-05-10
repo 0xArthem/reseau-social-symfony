@@ -1,62 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccountController!
+{% block title %}
+	Profil -
+	{{ app.user.username }}
 {% endblock %}
 
 {% block body %}
-	{% set months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] %}
-	<div class="div-global">
-		<a data-mdb-toggle="modal" data-mdb-target="#exampleModal" href="#exampleModal">
-			<div class="d-flex justify-content-center">
-				{% for type, messages in app.flashes %}
-					{% for message in messages %}
-						{% if type == 'error' %}
-							<div class="alert alert-{{ type }} alert-dismissible fade show bg-light text-danger shadow mt-5" role="alert">
-								<i class="fas fa-circle-exclamation me-2"></i>
-								{{ message }}
-								<br>
-								<b>Rafraîchissez la page, ou corrigez ici</b>.
-							</div>
-						{% elseif type == 'success' %}
-							<div class="alert alert-success alert-dismissible fade show bg-light text-success shadow mt-5" role="alert">
-								<i class="fas fa-check-circle me-2"></i>
-								{{ message }}
-							</div>
-						{% endif %}
-					{% endfor %}
+	<div
+		class="div-global">
+		<!-- section d'affichage des messages de succès et d'erreur du formulaire d'édition du compte -->
+		<div class="d-flex justify-content-center">
+			{% for type, messages in app.flashes %}
+				{% for message in messages %}
+					{% if type == 'error' %}
+						<div class="alert alert-{{ type }} alert-dismissible fade show bg-light text-danger shadow mt-5" role="alert">
+							<i class="fas fa-circle-exclamation me-2"></i>
+							{{ message }}
+							<br>
+							<b>Rafraîchissez la page</b>.
+						</div>
+					{% elseif type == 'success' %}
+						<div class="alert alert-success alert-dismissible fade show bg-light text-success shadow mt-5" role="alert">
+							<i class="fas fa-check-circle me-2"></i>
+							{{ message }}
+						</div>
+					{% endif %}
 				{% endfor %}
-			</div>
-		</a>
+			{% endfor %}
+		</div>
 
+		<!-- affichage des informations du compte de l'utilisateur connecté et de son nombre d'abonnés / abonnements -->
 		<div class="d-flex justify-content-center">
 			<section class="section-profil shadow">
 				<section class="section-profil-top">
 					<img
-					src="/assets/images/profil/{{ app.user.image }}" alt="" class="section-profil-img shadow">
+					src="{{ asset('assets/images/profil/' ~ app.user.image) }}" alt="" class="section-profil-img shadow">
 					<!-- Button trigger modal -->
-					<a class="vers-edit-profil" type="button" data-mdb-toggle="modal" data-mdb-target="#exampleModal" href="#exampleModal">
+					<a class="vers-edit-profil" type="button" data-mdb-toggle="modal" data-mdb-target="#editModal" href="#editModal">
 						<i class="fas fa-gear"></i>
 					</a>
 				</section>
 
 				<section class="mt-4">
-					<h4>
-						@{{ app.user.username }}
-					</h4>
-					<p>
-						{{ app.user.bio }}
-					</p>
+					<h4>{{ app.user.username }}</h4>
+					<p>{{ app.user.bio }}</p>
 					<p>
 						<i class="fas fa-location-dot me-1 app-user-info"></i>
-						{{ app.user.localisation }}
-					</p>
+						{{ app.user.localisation }}</p>
 				</section>
 
+				<!-- affichage du nombre d'abonnements et d'abonnés -->
 				<section class="mb-3">
-					<a class="btn nbr_abonnes-abonnements" href="{{ path('app_account_abonnements', {'username':user.username}) }}">
-						<span class="fw-bold">
-							{{ abonnements|length }}
-						</span>
+					<a class="btn nbr_abonnes-abonnements" href="{{ path('app_account_abonnements', {'username': user.username}) }}">
+						<span class="fw-bold">{{ abonnements|length }}</span>
 						{% if abonnements|length > 1 %}
 							abonnements
 						{% else %}
@@ -64,9 +60,7 @@
 						{% endif %}
 					</a>
 					<a class="ms-3 btn nbr_abonnes-abonnements">
-						<span class="fw-bold">
-							{{ abonnes|length }}
-						</span>
+						<span class="fw-bold">{{ abonnes|length }}</span>
 						{% if abonnes|length > 1 %}
 							abonnés
 						{% else %}
@@ -77,8 +71,8 @@
 			</section>
 		</div>
 
-		<!-- Modal -->
-		<div class="modal fade modal-edit-profil" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<!-- fenêtre modale d'édition du profil -->
+		<div class="modal fade modal-edit-profil" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					{% include "account/edit_profile.html.twig" %}
@@ -86,71 +80,20 @@
 			</div>
 		</div>
 
+		<!-- section d'affichage des posts -->
 		<section class="section-posts">
 			<a href="{{ path('app_post_new', {'username': user.username}) }}" class="btn btn-dark btn-rounded">
 				<i class="fas fa-plus"></i>
 			</a>
-			<br><br><br>
 
-			<div class="row row-cols-1 row-cols-md-3 g-4">
+			<div
+				class="row row-cols-1 row-cols-md-3 g-4 mt-1">
+				<!-- affichage des posts épinglés par l'utilisateur -->
 				{% for postIsPinned in postsIsPinned %}
-					<div class="col">
-						<div class="card">
-							{% if postIsPinned.image %}
-								<a href="{{ path('app_post_show', {'id': postIsPinned.id, 'username': user.username}) }}">
-									<img src="/assets/images/post/{{ postIsPinned.image }}" class="card-img-top post-card-img shadow" alt="{{ postIsPinned.title }}"/>
-								</a>
-
-								<a href="{{ path('app_post_show', {'id': postIsPinned.id, 'username': user.username}) }}" class=" text-dark">
-									<div class="card-body post-card-body-img">
-										<div class="mb-2 div-btn-post-compteur">
-											<button class="btn btn-light btn-post-compteur shadow">
-												<i class="far fa-clock me-1"></i>
-												{{ postIsPinned.createdAt|date('d ') ~ months[postIsPinned.createdAt|date('n')-1] ~ postIsPinned.createdAt|date(' Y') }}
-											</button>
-										</div>
-
-										{% if postIsPinned.title %}
-											<h5 class="card-title">
-												<i class="far fa-bookmark me-1"></i>
-												{{ postIsPinned.title }}
-											</h5>
-										{% else %}
-											<div class="mt-3"></div>
-										{% endif %}
-
-										<p class="card-text">
-											{{ postIsPinned.content|striptags|length > 140 ? postIsPinned.content|striptags|slice(0, 140) ~ ' ...' : postIsPinned.content|striptags }}
-										</p>
-									</div>
-								</a>
-							{% else %}
-								<a href="{{ path('app_post_show', {'id': postIsPinned.id, 'username': user.username}) }}" class=" text-dark">
-									<div class="card-body post-card-body">
-										<div class="mb-2 div-btn-post-compteur">
-											<button class="btn btn-light btn-post-compteur shadow">
-												<i class="far fa-clock me-1"></i>
-												{{ postIsPinned.createdAt|date('d ') ~ months[postIsPinned.createdAt|date('n')-1] ~ postIsPinned.createdAt|date(' Y') }}
-											</button>
-										</div>
-
-										{% if postIsPinned.title %}
-											<h5 class="card-title mt-1">
-												<i class="far fa-bookmark me-1"></i>
-												{{ postIsPinned.title }}
-											</h5>
-											<p class="card-text mt-3">
-												{{ postIsPinned.content|striptags|length > 700 ? postIsPinned.content|striptags|slice(0, 700) ~ ' ...' : postIsPinned.content|striptags }}
-											</p>
-										{% else %}
-											<p class="card-text post-card-text">
-												{{ postIsPinned.content|striptags|length > 700 ? postIsPinned.content|striptags|slice(0, 700) ~ ' ...' : postIsPinned.content|striptags }}
-											</p>
-										{% endif %}
-									</div>
-								</a>
-							{% endif %}
-						</div>
+					<div>
+						<a href="{{ path('app_post_show', {'id': postIsPinned.id, 'username': user.username}) }}" class="text-dark">
+							{% include "include/forPostIsPinned.html.twig" %}
+						</a>
 						<div class="d-flex justify-content-center">
 							<a href="{{ path('app_post_edit', {'id': postIsPinned.id, 'username': user.username}) }}" class="btn btn-dark btn-rounded btn-post-edit">
 								<i class="fas fa-pen-to-square"></i>
@@ -159,61 +102,12 @@
 					</div>
 				{% endfor %}
 
+				<!-- affichage de tous les posts -->
 				{% for post in posts %}
-					<div class="col">
-						<div class="card">
-							{% if post.image %}
-								<a href="{{ path('app_post_show', {'id': post.id, 'username': user.username}) }}">
-									<img src="/assets/images/post/{{ post.image }}" class="card-img-top post-card-img shadow" alt="{{ post.title }}"/>
-								</a>
-
-								<a href="{{ path('app_post_show', {'id': post.id, 'username': user.username}) }}" class=" text-dark">
-									<div class="card-body post-card-body-img">
-										<div class="mb-2 div-btn-post-compteur">
-											<button class="btn btn-light btn-post-compteur shadow">
-												<i class="far fa-clock me-1"></i>
-												{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
-											</button>
-										</div>
-
-										{% if post.title %}
-											<h5 class="card-title">{{ post.title }}</h5>
-										{% else %}
-											<div class="mt-3"></div>
-										{% endif %}
-
-										<p class="card-text">
-											{{ post.content|striptags|length > 140 ? post.content|striptags|slice(0, 140) ~ ' ...' : post.content|striptags }}
-										</p>
-									</div>
-								</a>
-							{% else %}
-								<a href="{{ path('app_post_show', {'id': post.id, 'username': user.username}) }}" class="text-dark">
-									<div class="card-body post-card-body">
-										<div class="mb-2 div-btn-post-compteur">
-											<button class="btn btn-light btn-post-compteur shadow">
-												<i class="far fa-clock me-1"></i>
-												{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
-											</button>
-										</div>
-
-										{% if post.title %}
-											<h5 class="card-title mt-1">
-												{{ post.title }}
-											</h5>
-											<p class="card-text mt-3">
-												{{ post.content|striptags|length > 700 ? post.content|striptags|slice(0, 700) ~ ' ...' : post.content|striptags }}
-											</p>
-										{% else %}
-											<p class="card-text post-card-text">
-												{{ post.content|striptags|length > 700 ? post.content|striptags|slice(0, 700) ~ ' ...' : post.content|striptags }}
-											</p>
-										{% endif %}
-									</div>
-								</a>
-							{% endif %}
-						</div>
-
+					<div>
+						<a href="{{ path('app_post_show', {'id': post.id, 'username': user.username}) }}" class="text-dark">
+							{% include "include/forPost.html.twig" %}
+						</a>
 						<div class="d-flex justify-content-center">
 							<a href="{{ path('app_post_edit', {'id': post.id, 'username': user.username}) }}" class="btn btn-dark btn-rounded btn-post-edit">
 								<i class="fas fa-pen-to-square"></i>

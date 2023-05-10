@@ -8,41 +8,28 @@
 		<div class="d-flex justify-content-center">
 			<section class="section-profil shadow">
 				<section class="section-profil-top">
-					<img src="/assets/images/profil/{{ app.user.image }}" alt="" class="section-profil-img shadow">
+					<img src="{{ asset('assets/images/profil/' ~ app.user.image) }}" alt="" class="section-profil-img shadow">
 				</section>
 
 				<section class="mt-4">
-					<h4>
-						@{{ app.user.username }}
-					</h4>
-					<p>
-						{{ app.user.bio }}
-					</p>
+					<h4>{{ app.user.username }}</h4>
+					<p>{{ app.user.bio }}</p>
 					<p>
 						<i class="fas fa-location-dot me-1 app-user-info"></i>
 						{{ app.user.localisation }}
 					</p>
 				</section>
 
+				<!-- affichage du nombre d'abonnements et d'abonnés -->
 				<section class="mb-3">
 					<a class="btn nbr_abonnes-abonnements">
-						<span class="fw-bold">
-							{{ abonnements|length }}
-						</span>
-						{% if abonnements|length > 1 %}
-							abonnements
-						{% else %}
-							abonnement
+						<span class="fw-bold">{{ abonnements|length }}</span>
+						{% if abonnements|length > 1 %}abonnements{% else %}abonnement
 						{% endif %}
 					</a>
 					<a class="ms-3 btn nbr_abonnes-abonnements">
-						<span class="fw-bold">
-							{{ abonnes|length }}
-						</span>
-						{% if abonnes|length > 1 %}
-							abonnés
-						{% else %}
-							abonné
+						<span class="fw-bold">{{ abonnes|length }}</span>
+						{% if abonnes|length > 1 %}abonnés{% else %}abonné
 						{% endif %}
 					</a>
 				</section>
@@ -53,6 +40,7 @@
 			<i class="fas fa-angle-down"></i>
 		</div>
 
+		<!-- affichage de la liste des abonnements -->
 		<h4 class="text-center text-dark m-5">Mes abonnements</h4>
 		<section class="section-affichage-des-abonnements">
 			<div class="card affichage-des-abonnements-card">
