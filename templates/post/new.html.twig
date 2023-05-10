@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Post
+{% block title %}
+	Nouvelle publication
 {% endblock %}
 
 {% block body %}
 	<div class="form-crud">
-		<h1>Nouveau post</h1>
-		<br>
-
+		<h1 class="mb-4">{{ block('title') }}</h1>
+		<!-- intégration du formulaire -->
 		{{ include('post/_form.html.twig') }}
 	</div>
 {% endblock %}

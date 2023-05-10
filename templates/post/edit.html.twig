@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Post
+{% block title %}Editer
 {% endblock %}
 
 {% block body %}
 	<div class="form-crud">
-		<h1>Editer un post</h1>
-		<br>
-
+		<h1 class="mb-4">
+			{{ block('title') }}
+		</h1>
+		<!-- intégration du formulaire de suppression -->
 		{{ include('post/_delete_form.html.twig') }}
-
 		<br>
-
+		<!-- intégration du formulaire -->
 		{{ include('post/_form.html.twig') }}
 	</div>
 {% endblock %}
