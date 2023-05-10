@@ -81,11 +81,14 @@ class PostController extends AbstractController
         $likes = $post->getLikes();
         $countLikes = $likes->count();
 
+        $postTags = $post->getPosttag();
+
 
         return $this->render('post/show.html.twig', [
             'user' => $user,
             'post' => $post,
-            'countLikes' => $countLikes
+            'countLikes' => $countLikes,
+            'postTags' => $postTags
         ]);
     }
 

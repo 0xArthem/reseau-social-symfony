@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Montez&display=swap");
 :root {
   --main: #262626;
   --second: #ddbc64;
@@ -21,4 +22,7 @@
   padding: 3.5%;
   background-color: var(--third) !important;
   border-radius: 5px !important;
+}
+.titre-home {
+  color: var(--main) !important;
 }

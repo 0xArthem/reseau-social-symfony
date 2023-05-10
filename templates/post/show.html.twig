@@ -5,7 +5,16 @@
 
 {% block body %}
 	{% set months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] %}
-	<div class="show-post">
+	<div
+		class="show-post">
+		<!-- ajouter le ou les tags liés au post en btn-rounded et clickables -->
+		<section class="mb-4">
+			{% for postTag in postTags %}
+				<a href="{{ path('posts_tag', {'slug': postTag.slug}) }}" class="btn btn-dark btn-rounded me-4">
+					{{ postTag.name }}
+				</a>
+			{% endfor %}
+		</section>
 		<div class="row">
 			{% if post.image %}
 				<div class="col-md-3 mb-3">
