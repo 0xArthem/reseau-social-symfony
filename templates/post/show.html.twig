@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Post
+{% block title %}
+	Publication
 {% endblock %}
 
 {% block body %}
-	{% set months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] %}
 	<div
 		class="show-post">
-		<!-- ajouter le ou les tags liés au post en btn-rounded et clickables -->
+		<!-- affichage des tags du post -->
 		<section class="mb-4">
 			{% for postTag in postTags %}
 				<a href="{{ path('posts_tag', {'slug': postTag.slug}) }}" class="btn btn-dark btn-rounded me-4">
@@ -15,78 +15,50 @@
 				</a>
 			{% endfor %}
 		</section>
-		<div class="row">
-			{% if post.image %}
-				<div class="col-md-3 mb-3">
-					<img src="{{ asset('assets/images/post/' ~ post.image) }}" type="button" data-mdb-toggle="modal" data-mdb-target="#modalPostImage" alt="{{ post.title }}" class="img-fluid rounded shadow">
-				</div>
 
-				<!-- Modal -->
-				<div class="modal fade mt-5" id="modalPostImage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog mt-5">
-						<img src="{{ asset('assets/images/post/' ~ post.image) }}" alt="{{ post.title }}" width="800px" class="img-fluid rounded shadow">
+		<div
+			class="row">
+			<!-- affichage du contenu du post -->
+			<div>
+				<!-- affiache des propriétés communes à tous les posts -->
+				<h1>
+					{{ post.title }}
+				</h1>
+				<p class="ms-1">
+					Publié le
+					{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
+					à
+					{{ post.createdAt|date('H:i') }}
+				</p>
+				<a href="{{ path('app_account', {'username':user.username}) }}" class="btn shadow show-post-user ms-1">
+					{{ post.user }}
+				</a>
+				<p class="mb-4 mt-5 mx-1 post-content">
+					{{ post.content }}
+				</p>
+
+				<!-- si l'utilisateur a ajouté un lien (peut être null) -->
+				{% if post.link %}
+					<a class="mb-4 mt-4" href="{{ post.link }}" target="_BLANK">
+						<i class="fas fa-link me-1 text-dark"></i>
+						{{ post.link }}
+					</a>
+				{% endif %}
+
+				<!-- si le post a une image -->
+				{% if post.image %}
+					<div class="col-md-3 mb-3 mt-5">
+						<img src="{{ asset('assets/images/post/' ~ post.image) }}" type="button" data-mdb-toggle="modal" data-mdb-target="#modalPostImage" alt="{{ post.title }}" class="img-fluid rounded shadow">
 					</div>
-				</div>
 
-				<div class="col-md-9 ps-5 mt-4">
-					<h1 class="mt-1">{{ post.title }}</h1>
-
-					<p class="ms-1">
-						Publié le
-						{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
-						à
-						{{ post.createdAt|date('H:i') }}
-					</p>
-
-					<a href="{{ path('app_account', {'username':user.username}) }}" class="btn shadow show-post-user ms-1">
-						{{ post.user }}
-					</a>
-
-					{# <a href="{{ path('app_post_like', {'id':post.id, 'username':user.username}) }}" class="text-dark ms-3"><i class="fas fa-heart mb-2"></i></a><a class="text-dark ms-1">{{ countLikes }}</a> #}
-				</div>
-				<div>
-					<p class="mb-4 mx-1 mt-5 post-content">{{ post.content }}</p>
-
-					{% if post.link %}
-						<br>
-						<a class="mb-4" href="{{ post.link }}" target="_BLANK">
-							<i class="fas fa-link me-1 text-dark"></i>
-							{{ post.link }}
-						</a>
-					{% endif %}
-				</div>
-			{% else %}
-				<div>
-					<h1>{{ post.title }}</h1>
-
-					<p class="ms-1">
-						Publié le
-						{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
-						à
-						{{ post.createdAt|date('H:i') }}
-					</p>
-
-					<a href="{{ path('app_account', {'username':user.username}) }}" class="btn shadow show-post-user ms-1">
-						{{ post.user }}
-					</a>
-
-					{# <a href="{{ path('app_post_like', {'id':post.id, 'username':user.username}) }}" class="text-dark ms-3"><i class="fas fa-heart mb-2"></i></a><a class="text-dark ms-1">{{ countLikes }}</a> #}
-
-					<br><br><br>
-
-					<p class="mb-4 mx-1 post-content">{{ post.content }}</p>
-
-					{% if post.link %}
-						<br>
-						<a class="mb-4" href="{{ post.link }}" target="_BLANK">
-							<i class="fas fa-link me-1 text-dark"></i>
-							{{ post.link }}
-						</a>
-					{% endif %}
-
-				</div>
-			{% endif %}
-
+					<!-- Modal -->
+					<div class="modal fade mt-5" id="modalPostImage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog mt-5">
+							<img src="{{ asset('assets/images/post/' ~ post.image) }}" alt="{{ post.title }}" width="800px" class="img-fluid rounded shadow">
+						</div>
+					</div>
+				{% endif %}
+			</div>
 		</div>
 	</div>
 {% endblock %}

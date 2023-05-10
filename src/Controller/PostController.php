@@ -77,9 +77,6 @@ class PostController extends AbstractController
     {
         // récupérer l'utilisateur correspondant à l'username
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
-        
-        $likes = $post->getLikes();
-        $countLikes = $likes->count();
 
         $postTags = $post->getPosttag();
 
@@ -87,17 +84,8 @@ class PostController extends AbstractController
         return $this->render('post/show.html.twig', [
             'user' => $user,
             'post' => $post,
-            'countLikes' => $countLikes,
             'postTags' => $postTags
         ]);
-    }
-
-    /**
-     * @Route("/{id}/like", name="app_post_like", methods={"GET"})
-     */
-    public function like(Post $post, $username): Response
-    {
-        return $this->redirectToRoute('app_post_show', ['id' => $post->getId(), 'username' => $username]);
     }
 
     /**
