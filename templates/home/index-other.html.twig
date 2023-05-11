@@ -10,8 +10,17 @@
 			Lorem ipsum
 		</h1>
 
-		<!-- affichage des liens vers les formulaires de connexion et d'inscription -->
-		<a href="{{ path('app_login') }}">Connexion</a>
-		<a href="{{ path('app_register') }}">Inscription</a>
+		<!-- include de l'affichage de la section de recherche des posts -->
+		{% include "include/formPost.html.twig" %}
+
+		<!-- affichage de tous les posts de tous les utilisateurs par ordre décroissant -->
+		<section class="posts-TL">
+			<h4 class="text-dark mb-5">
+				<i class="fas fa-caret-right me-1"></i>
+				Nouveautés
+			</h4>
+			<!-- affichage des posts -->
+			{% include "include/forPostHome.html.twig" %}
+		</section>
 	</div>
 {% endblock %}

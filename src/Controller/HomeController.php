@@ -91,8 +91,15 @@ class HomeController extends AbstractController
                 'postTags' => $postTags
             ]);
        }
-   
-        return $this->render('home/index-other.html.twig');
+       else {
+        $posts = $postRepository->findBy(array(), array('id' => 'DESC'));
+        $postTags = $postTagRepository->findAll();
+
+        return $this->render('home/index-other.html.twig', [
+            'posts' => $posts,
+            'postTags' => $postTags
+        ]);
+       }
     }
     
     /**
