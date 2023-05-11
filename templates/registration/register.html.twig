@@ -4,15 +4,45 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Inscription</h1>
+	<div class="div-global">
+		<h1 class="text-center text-dark pt-5">{{ block('title')}}</h1>
 
-	{{ form_start(registrationForm) }}
-	{{ form_row(registrationForm.email) }}
-	{{ form_row(registrationForm.username) }}
-	{{ form_row(registrationForm.firstname) }}
-	{{ form_row(registrationForm.lastname) }}
-	{{ form_row(registrationForm.plainPassword) }}
-	{{ form_row(registrationForm.agreeTerms) }}
-	{{ form_row(registrationForm.submit) }}
-	{{ form_end(registrationForm) }}
+		<section class="form-log">
+			{{ form_start(registrationForm) }}
+
+			<div class="row mt-4">
+				<div class="col">
+					{{ form_row(registrationForm.email) }}
+				</div>
+				<div class="col">
+					{{ form_row(registrationForm.username) }}
+				</div>
+			</div>
+			<div class="row mt-4">
+				<div class="col">
+					{{ form_row(registrationForm.firstname) }}
+				</div>
+				<div class="col">
+					{{ form_row(registrationForm.lastname) }}
+				</div>
+			</div>
+			<div class="row mt-4">
+				<div class="col">
+					{{ form_row(registrationForm.plainPassword) }}
+				</div>
+			</div>
+			<div class="row mt-4">
+				<div class="col">
+					{{ form_row(registrationForm.agreeTerms) }}
+				</div>
+			</div>
+			<div class="row mt-4">
+				<div class="col">
+					{{ form_row(registrationForm.submit) }}
+				</div>
+			</div>
+
+			{{ form_end(registrationForm) }}
+		</section>
+	</div>
 {% endblock %}

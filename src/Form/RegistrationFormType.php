@@ -26,7 +26,8 @@ class RegistrationFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Adresse électronique'
+                    'placeholder' => 'Adresse électronique',
+                    'class' => 'form-control'
                 ],
                 'constraints' => [
                     new NotBlank([
@@ -41,7 +42,8 @@ class RegistrationFormType extends AbstractType
             ->add('username', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Pseudo'
+                    'placeholder' => 'Pseudo',
+                    'class' => 'form-control'
                 ],
                 'constraints' => [
                     new NotBlank([
@@ -62,7 +64,8 @@ class RegistrationFormType extends AbstractType
             ->add('firstname', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Prénom'
+                    'placeholder' => 'Prénom',
+                    'class' => 'form-control'
                 ],
                 'constraints' => [
                     new NotBlank([
@@ -83,7 +86,8 @@ class RegistrationFormType extends AbstractType
             ->add('lastname', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Nom'
+                    'placeholder' => 'Nom',
+                    'class' => 'form-control'
                 ],
                 'constraints' => [
                     new NotBlank([
@@ -102,6 +106,9 @@ class RegistrationFormType extends AbstractType
                 ]
             ])
             ->add('agreeTerms', CheckboxType::class, [
+                'attr' => [
+                    'class' => 'form-checkbox ms-2'
+                ],
                 'mapped' => false,
                 'label' => 'J\'accepte le traitement de mes données.',
                 'constraints' => [
@@ -118,10 +125,12 @@ class RegistrationFormType extends AbstractType
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
                 'first_options'  => ['label' => false, 'attr' => [
-                    'placeholder' => 'Mot de passe'
+                    'placeholder' => 'Mot de passe',
+                    'class' => 'form-control'
                 ]],
                 'second_options' => ['label' => false, 'attr' => [
-                    'placeholder' => 'Répéter le mot de passe'
+                    'placeholder' => 'Répéter le mot de passe',
+                    'class' => 'form-control mt-4'
                 ]],
                 'constraints' => [
                     new NotBlank([
@@ -139,7 +148,10 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Envoyer'
+                'label' => 'Envoyer',
+                'attr' => [
+                    'class' => 'btn btn-dark'
+                ]
             ]);
     }
 

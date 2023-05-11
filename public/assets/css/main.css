@@ -27,3 +27,9 @@
 .titre-home {
   color: var(--main) !important;
 }
+.form-log {
+  padding-top: 35px;
+  padding-left: 250px;
+  padding-right: 250px;
+  min-height: 550px;
+}
