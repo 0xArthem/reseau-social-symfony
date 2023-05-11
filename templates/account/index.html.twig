@@ -106,7 +106,7 @@
 				{% for post in posts %}
 					<div>
 						<a href="{{ path('app_post_show', {'id': post.id, 'username': user.username}) }}" class="text-dark">
-							{% include "include/forPost.html.twig" %}
+							{% include "include/forPostAccount.html.twig" %}
 						</a>
 						<div class="d-flex justify-content-center">
 							<a href="{{ path('app_post_edit', {'id': post.id, 'username': user.username}) }}" class="btn btn-dark btn-rounded btn-post-edit">

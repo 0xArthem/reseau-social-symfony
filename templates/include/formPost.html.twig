@@ -1,0 +1,24 @@
+<!-- affichage de la section de recherche des posts -->
+<div
+	class="barre-form shadow">
+	<!-- formulaire -->
+	<form action="{{ path('abonnements_post_search') }}" method="get" class="mb-4">
+		<div class="input-group mb-3">
+			<input type="text" class="form-control" name="q" placeholder="Rechercher une publication ...">
+			<button class="btn btn-dark btn-rounded" type="submit">
+				<i class="fas fa-magnifying-glass"></i>
+			</button>
+		</div>
+	</form>
+	<!-- affichage des filtres (par tags) -->
+	<section class="d-flex justify-content-start">
+		<a href="{{ path('app_home') }}" class="btn btn-outline-dark btn-rounded me-4">
+			<i class="fas fa-xmark"></i>
+		</a>
+		{% for postTag in postTags %}
+			<a href="{{ path('posts_tag', {'slug': postTag.slug}) }}" class="btn btn-dark btn-rounded me-4">
+				{{ postTag.name }}
+			</a>
+		{% endfor %}
+	</section>
+</div>

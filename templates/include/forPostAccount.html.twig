@@ -1,10 +1,7 @@
 <div class="col">
 	<div class="card">
 		{% if post.image %}
-
 			<img src="/assets/images/post/{{ post.image }}" class="card-img-top post-card-img shadow" alt="{{ post.title }}"/>
-
-
 			<div class="card-body post-card-body-img">
 				<div class="mb-2 div-btn-post-compteur">
 					<button class="btn btn-light btn-post-compteur shadow">
@@ -31,7 +28,6 @@
 						{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
 					</button>
 				</div>
-
 				{% if post.title %}
 					<h5 class="card-title mt-1">
 						{{ post.title }}

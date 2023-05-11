@@ -1,0 +1,11 @@
+{% if posts %}
+	<div class="row row-cols-1 row-cols-md-3 g-4">
+		{% for post in posts %}
+			<a href="{{ path('app_post_show', {'id': post.id, 'username': post.user.username}) }}" class=" text-dark">
+				{% include "include/forPostAccount.html.twig" %}
+			</a>
+		{% endfor %}
+	</div>
+{% else %}
+	<p>Aucun résultat.</p>
+{% endif %}

@@ -78,7 +78,7 @@ class HomeController extends AbstractController
                 $usersAbonnement[] = $abonnement->getAbonnement();
             }
             // et on récupère les posts des utilisateurs abonnés
-            $abonnementsPosts = $postRepository->findBy(['user' => $usersAbonnement], ['id' => 'DESC']);
+            $posts = $postRepository->findBy(['user' => $usersAbonnement], ['id' => 'DESC']);
 
             $postTags = $postTagRepository->findAll();
 
@@ -86,24 +86,13 @@ class HomeController extends AbstractController
             return $this->render('home/index.html.twig', [
                 'user' => $user,
                 // TL
-                'abonnementsPosts' => $abonnementsPosts,
+                'posts' => $posts,
                 'abonnements' => $abonnements,
                 'postTags' => $postTags
             ]);
        }
    
-        return $this->render('home/index.html.twig', [
-            'user' => $user,
-            'products' => $products,
-            'productBestSeller' => $productBestSeller,
-            'productNewArrival' => $productNewArrival,
-            'productFeatured' => $productFeatured,
-            'productSpecialOffer' => $productSpecialOffer,
-            'categories' => $categories,
-            'articles' => $articles,
-            'articlesCategories' => $articlesCategories,
-            // 'allUsers' => $allUsers,
-        ]);
+        return $this->render('home/index-other.html.twig');
     }
     
     /**
@@ -129,12 +118,12 @@ class HomeController extends AbstractController
     public function searchAbonnementsPosts(Request $request, PostRepository $postRepository, PostTagRepository $postTagRepository): Response
     {
         $query = $request->query->get('q');
-        $abonnementsPosts = $postRepository->searchByPost($query);
+        $posts = $postRepository->searchByPost($query);
 
         $postTags = $postTagRepository->findAll();
 
         return $this->render('home/index.html.twig', [
-            'abonnementsPosts' => $abonnementsPosts,
+            'posts' => $posts,
             'postTags' => $postTags
         ]);
     }
