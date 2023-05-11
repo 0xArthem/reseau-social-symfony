@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Informations du compte
+{% endblock %}
+
+{% block body %}
+	<div
+		class="div-global pb-5">
+
+		<!-- section d'affichage des messages de succès et d'erreur -->
+		<div class="d-flex justify-content-center">
+			{% for type, messages in app.flashes %}
+				{% for message in messages %}
+					{% if type == 'error' %}
+						<div class="alert alert-{{ type }} alert-dismissible fade show bg-light text-danger shadow mt-5" role="alert">
+							<i class="fas fa-circle-exclamation me-2"></i>
+							{{ message }}
+							<br>
+							<b>Rafraîchissez la page</b>.
+						</div>
+					{% elseif type == 'success' %}
+						<div class="alert alert-success alert-dismissible fade show bg-light text-success shadow mt-5" role="alert">
+							<i class="fas fa-check-circle me-2"></i>
+							{{ message }}
+						</div>
+					{% endif %}
+				{% endfor %}
+			{% endfor %}
+		</div>
+
+		<div class="form-log">
+			<h1 class="text-dark mt-5 mb-5">{{ block('title') }}</h1>
+
+			{{ form_start(form)}}
+			<div class="row mt-4">
+				<div class="col">
+					{{ form_row(form.firstname)}}
+				</div>
+				<div class="col">
+					{{ form_row(form.lastname)}}
+				</div>
+			</div>
+
+			<br>
+			<p class="text-dark mt-4">
+				Envie de changer de
+				<span class="fw-bold">mot de passe</span>
+				?
+			</p>
+
+			<div class="row mt-4">
+				<div class="col">
+					{{ form_row(form.password.first)}}
+				</div>
+			</div>
+			<div class="row mt-4">
+				<div class="col">
+					{{ form_row(form.password.second)}}
+				</div>
+			</div>
+			<div class="row mt-4">
+				<div class="col">
+					{{ form_row(form.submit)}}
+				</div>
+			</div>
+			{{ form_end(form)}}
+		</div>
+		<br><br>
+	</div>
+{% endblock %}

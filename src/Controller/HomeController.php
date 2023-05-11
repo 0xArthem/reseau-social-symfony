@@ -120,9 +120,9 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/posts/recherche", name="abonnements_post_search")
+     * @Route("/posts/recherche", name="post_search")
      */
-    public function searchAbonnementsPosts(Request $request, PostRepository $postRepository, PostTagRepository $postTagRepository): Response
+    public function searchPosts(Request $request, PostRepository $postRepository, PostTagRepository $postTagRepository): Response
     {
         $query = $request->query->get('q');
         $posts = $postRepository->searchByPost($query);

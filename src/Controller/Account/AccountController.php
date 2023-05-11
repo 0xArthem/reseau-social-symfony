@@ -3,17 +3,21 @@
 namespace App\Controller\Account;
 
 use App\Entity\User;
+use App\Form\AccountType;
 use App\Entity\Abonnement;
 use App\Form\EditProfilType;
-use App\Repository\AbonnementRepository;
 use App\Repository\PostRepository;
 use App\Repository\OrderRepository;
+use Symfony\Component\Form\FormError;
+use App\Repository\AbonnementRepository;
 use App\Repository\OrderDetailsRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\PasswordHasher\Hasher\PasswordEncoderInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/compte")
@@ -196,5 +200,47 @@ class AccountController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('app_account', ['username' => $userToUnfollow->getUsername()]);
+    }
+
+    /**
+     * @Route("/{username}/parametres", name="app_account_type")
+     */
+    public function accountType(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    {
+        // récupère l'utilisateur connecté
+        $user = $this->getUser();
+        
+        // récupère l'utilisateur du compte visité à partir de son nom d'utilisateur dans l'URL
+        $visitedUser = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $request->attributes->get('username')]);
+
+        if ($visitedUser === $user) {
+            $form = $this->createForm(AccountType::class, $user);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                // Hacher le nouveau mot de passe
+                $newPassword = $form->get('password')->getData();
+                if ($newPassword) {
+                    $hashedPassword = $passwordEncoder->encodePassword($user, $newPassword);
+                    $user->setPassword($hashedPassword);
+                }
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->flush();
+
+                // Message de succès
+                $this->addFlash('success', 'Vos informations ont été correctement mises à jour !');
+            }
+            if ($form->isSubmitted() && !$form->isValid()) {
+                // Message d'erreur
+                $this->addFlash('error', 'VVos informations n\'ont pas pu être correctement mises à jour');
+            }
+        }
+
+        return $this->render('account/accountType.html.twig', [
+            'user' => $user,
+            'visitedUser' => $visitedUser,
+            'form' => $form->createView()
+        ]);
     }
 }

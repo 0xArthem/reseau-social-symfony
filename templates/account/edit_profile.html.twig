@@ -1,5 +1,6 @@
 <div class="form-edit-profil mx-auto">
 	<h2 class="text-dark">Editer mon profil</h2>
+
 	{{ form_start(form) }}
 	<div class="row mt-4">
 		<div class="col">
@@ -22,4 +23,10 @@
 	<br>
 	{{ form_row(form.submit) }}
 	{{ form_end(form) }}
+
+	<br>
+	<a href="{{ path('app_account_type', {'username':user.username}) }}" class="text-dark">
+		<i class="fas fa-caret-right me-1"></i>
+		Modifier les informations du compte
+	</a>
 </div>
