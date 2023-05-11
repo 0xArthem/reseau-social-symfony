@@ -4,32 +4,48 @@
 {% endblock %}
 
 {% block body %}
-	{% if app.user %}
-		<div class="mb-3">
-			Vous êtes déjà connecté(e) en tant que
-			{{ app.user.firstname }}
-			{{ app.user.lastname }},
-			<a href="{{ path('app_logout') }}">déconnectez-vous.</a>
-		</div>
-	{% else %}
-		<form method="post">
-			{% if error %}
-				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+	<div class="div-global">
+		<h1 class="text-center text-dark pt-5">{{ block('title')}}</h1>
+
+		<section class="form-log">
+			{% if app.user %}
+				<div class="mb-3">
+					Vous êtes déjà connecté(e) en tant que
+					{{ app.user.username }}
+					<a href="{{ path('app_logout') }}">déconnectez-vous.</a>
+				</div>
+			{% else %}
+				<form method="post">
+					{% if error %}
+						<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+					{% endif %}
+
+					<div class="row mt-4">
+						<div class="col">
+							<input placeholder="Adresse électronique" type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+						</div>
+					</div>
+
+					<div class="row mt-4">
+						<div class="col">
+							<input placeholder="Mot de passe" type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+						</div>
+					</div>
+
+					<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+					<button class="btn btn-dark mt-4" type="submit">
+						Se connecter
+					</button>
+				</form>
+
+				<section class="mt-4">
+					<p>
+						Pas encore inscrit(e) ?
+						<a href="{{ path('app_register') }}" class="text-dark fw-bold">Inscrivez-vous !</a>
+					</p>
+				</section>
 			{% endif %}
-
-
-			<h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
-			<label for="inputEmail">Adresse électronique</label>
-			<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-			<label for="inputPassword">Mot de passe</label>
-			<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-			<button class="btn btn-lg btn-primary" type="submit">
-				Se connecter
-			</button>
-
-		</form>
-	{% endif %}
+		</section>
+	</div>
 {% endblock %}

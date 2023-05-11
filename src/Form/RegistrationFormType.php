@@ -148,7 +148,7 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Envoyer',
+                'label' => 'S\'inscrire',
                 'attr' => [
                     'class' => 'btn btn-dark'
                 ]
