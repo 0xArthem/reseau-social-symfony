@@ -99,11 +99,20 @@
   padding-bottom: 10px !important;
 }
 .btn-post-compteur {
-  letter-spacing: 0.7px !important;
   text-transform: none !important;
-  color: var(--third) !important;
+  font-size: 14px !important;
   font-weight: normal !important;
+  color: var(--main) !important;
+  background-color: #fbfbfb !important;
+}
+.btn-post-user {
+  text-transform: none !important;
+  font-size: 14px !important;
+  font-weight: normal !important;
+  color: var(--third) !important;
   background-color: var(--second) !important;
+
+  margin-left: 5px !important;
 }
 /*** système d'abonnement ***/
 .nbr_abonnes-abonnements {
@@ -125,7 +134,7 @@
 
 .show-post-user {
   text-transform: none !important;
-  font-size: 15px !important;
+  font-size: 14px !important;
   font-weight: normal !important;
   color: var(--third) !important;
   background-color: var(--second) !important;

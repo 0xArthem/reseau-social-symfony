@@ -8,6 +8,9 @@
 						<i class="far fa-clock me-1"></i>
 						{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
 					</button>
+					<button class="btn btn-light btn-post-user shadow">
+						{{ post.user }}
+					</button>
 				</div>
 
 				{% if post.title %}
@@ -27,11 +30,15 @@
 						<i class="far fa-clock me-1"></i>
 						{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
 					</button>
+					<button class="btn btn-light btn-post-user shadow">
+						{{ post.user }}
+					</button>
 				</div>
 				{% if post.title %}
 					<h5 class="card-title mt-1">
 						{{ post.title }}
 					</h5>
+
 					<p class="card-text mt-3">
 						{{ post.content|striptags|length > 700 ? post.content|striptags|slice(0, 700) ~ ' ...' : post.content|striptags }}
 					</p>
