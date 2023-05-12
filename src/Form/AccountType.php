@@ -65,7 +65,7 @@ class AccountType extends AbstractType
                 ],
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Sauvegarder',
+                'label' => 'Enregistrer',
                 'attr' => [
                     'class' => 'btn btn-dark'
                 ]
