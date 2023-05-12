@@ -4,13 +4,14 @@ namespace App\Controller\Account;
 
 use App\Entity\User;
 use App\Form\AccountType;
-use App\Entity\Abonnement;
 use App\Form\EditProfilType;
 use App\Repository\PostRepository;
+use App\Services\AbonnementServices;
 use App\Repository\AbonnementRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -20,10 +21,19 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class AccountController extends AbstractController
 {
+    private $postRepository;
+    private $abonnementRepository;
+
+    public function __construct(PostRepository $postRepository, AbonnementRepository $abonnementRepository)
+    {
+        $this->postRepository = $postRepository;
+        $this->abonnementRepository = $abonnementRepository;
+    }
+
     /**
      * @Route("/{username}", name="app_account")
      */
-    public function index(PostRepository $postRepository, AbonnementRepository $abonnementRepository, Request $request): Response
+    public function index(Request $request): Response
     {
         // récupère l'utilisateur connecté
         $user = $this->getUser();
@@ -33,14 +43,14 @@ class AccountController extends AbstractController
         $abonnements = $visitedUser->getAbonnements();
         $abonnes = $visitedUser->getAbonnes();
 
-        $posts = $postRepository->findBy(['user' => $visitedUser], ['id' => 'DESC']);
-        $postsIsPinned = $postRepository->findBy(['isPinned' => true, 'user' => $visitedUser], ['id' => 'DESC']);
+        $posts = $this->postRepository->findBy(['user' => $visitedUser], ['id' => 'DESC']);
+        $postsIsPinned = $this->postRepository->findBy(['isPinned' => true, 'user' => $visitedUser], ['id' => 'DESC']);
 
         // Vérifie si l'utilisateur visité est l'utilisateur connecté
         if ($visitedUser === $user) {
-            return $this->indexLoggedInUser($user, $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned, $abonnementRepository, $request);
+            return $this->indexLoggedInUser($user, $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned, $this->abonnementRepository, $request);
         } else {
-            return $this->indexOtherUser($user, $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned, $abonnementRepository);
+            return $this->indexOtherUser($user, $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned, $this->abonnementRepository);
         }
     }
 
@@ -113,95 +123,7 @@ class AccountController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{username}/abonnements", name="app_account_abonnements")
-     */
-    public function showAbonnement(Request $request): Response {
-        
-        // récupère l'utilisateur connecté
-        $user = $this->getUser();
-        // récupère l'utilisateur du compte visité à partir de son nom d'utilisateur dans l'URL
-        $visitedUser = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $request->attributes->get('username')]);
-
-        if ($visitedUser === $user) {
-            $abonnements = $user->getAbonnements();
-            $abonnes = $user->getAbonnes();
-        }
-
-        return $this->render('account/abonnements.html.twig', [
-            'abonnements' => $abonnements,
-            'abonnes' => $abonnes
-        ]);
-    }
-
-   /**
-     * @Route("/{username}/abonnement", name="app_account_subscribe")
-     */
-    public function abonnement(Request $request, User $userToFollow, AbonnementRepository $abonnementRepository): Response
-    {
-        $user = $this->getUser();
-
-        if (!$user) {
-            // Si l'utilisateur n'est pas connecté, redirection vers la page de connexion
-            return $this->redirectToRoute('app_login');
-        }
-
-        // On vérifie si l'utilisateur connecté n'est pas déjà abonné à cet utilisateur
-        $abonnement = $abonnementRepository->findOneBy(['abonne' => $user, 'abonnement' => $userToFollow]);
-
-        if ($abonnement) {
-            // Si l'utilisateur est déjà abonné, message d'erreur
-            $this->addFlash('error', 'Vous êtes déjà abonné à cet utilisateur.');
-            return $this->redirectToRoute('app_account', ['username' => $userToFollow->getUsername()]);
-        }
-
-        if (!$userToFollow) {
-            // Si l'utilisateur à suivre n'existe pas, message d'erreur
-            $this->addFlash('error', 'Cet utilisateur n\'existe pas.');
-            return $this->redirectToRoute('app_account', ['username' => $userToFollow->getUsername()]);
-        }
-
-        // Si l'utilisateur n'est pas déjà abonné et que l'utilisateur à suivre existe, on crée un nouvel abonnement
-        $newAbonnement = new Abonnement();
-        $newAbonnement->setAbonne($user);
-        $newAbonnement->setAbonnement($userToFollow);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($newAbonnement);
-        $em->flush();
-
-        return $this->redirectToRoute('app_account', ['username' => $userToFollow->getUsername()]);
-    }
-
-    /**
-     * @Route("/{username}/desabonnement", name="app_account_unsubscribe")
-     */
-    public function desabonnement(Request $request, User $userToUnfollow, AbonnementRepository $abonnementRepository): Response
-    {
-        $user = $this->getUser();
-
-        if (!$user) {
-            // Si l'utilisateur n'est pas connecté, redirection vers la page de connexion
-            return $this->redirectToRoute('app_login');
-        }
-
-        // On vérifie si l'utilisateur connecté est abonné à cet utilisateur
-        $abonnement = $abonnementRepository->findOneBy(['abonne' => $user, 'abonnement' => $userToUnfollow]);
-
-        if (!$abonnement) {
-            // Si l'utilisateur n'est pas abonné, message d'erreur
-            $this->addFlash('error', 'Vous n\'êtes pas abonné à cet utilisateur.');
-            return $this->redirectToRoute('app_account', ['username' => $userToUnfollow->getUsername()]);
-        }
-
-        // Si l'utilisateur est abonné à l'utilisateur à désabonner, on supprime l'abonnement
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($abonnement);
-        $em->flush();
-
-        return $this->redirectToRoute('app_account', ['username' => $userToUnfollow->getUsername()]);
-    }
-
-    /**
+        /**
      * @Route("/{username}/parametres", name="app_account_type")
      */
     public function accountType(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
@@ -241,5 +163,39 @@ class AccountController extends AbstractController
             'visitedUser' => $visitedUser,
             'form' => $form->createView()
         ]);
+    }
+
+    /** abonnements **/
+
+    /**
+     * @Route("/{username}/abonnements", name="app_account_abonnements")
+     */
+    public function showAbonnement(Request $request, AbonnementServices $abonnementServices): Response
+    {
+        return $abonnementServices->showAbonnement($request);
+    }
+
+    /**
+     * @Route("/{username}/abonnement", name="app_account_subscribe")
+     */
+    public function abonnement(User $userToFollow, AbonnementServices $abonnementServices, SessionInterface $session): Response
+    {
+        $user = $this->getUser();
+        $abonnementServices->setSession($session); // Injecte la session dans le service
+        return $abonnementServices->abonnement($user, $userToFollow);
+    }
+
+    /**
+     * @Route("/{username}/desabonnement", name="app_account_unsubscribe")
+     */
+    public function desabonnement(User $userToFollow, AbonnementServices $abonnementServices): Response
+    {
+        $user = $this->getUser();
+        
+        if (!$user) {
+            // Si l'utilisateur n'est pas connecté, redirection vers la page de connexion
+            return $this->redirectToRoute('app_login');
+        }
+        return $abonnementServices->desabonnement($user, $userToFollow);
     }
 }
