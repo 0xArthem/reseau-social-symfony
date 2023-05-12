@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Accueil - Recherche par mot-clé
+	Accueil - Recherche
 {% endblock %}
 
 {% block body %}
 	{% set keywords = query|split(' ') %}
 	<div class="div-global">
 		<h1 class="text-center text-dark pt-5">
-			{{ keywords|join(', ') }}
+			Recherche
 		</h1>
 
 		<!-- include de l'affichage de la section de recherche des posts -->
@@ -18,8 +18,8 @@
 		<section class="posts-TL">
 			<h4 class="text-dark mb-5">
 				<i class="fas fa-caret-right me-1"></i>
-				Résultats pour :
-				{{ keywords|join(', ') }}
+				Résultats pour
+				"{{ keywords|join(', ') }}"
 			</h4>
 			<!-- affichage des posts -->
 			{% include "include/forPostHome.html.twig" %}

@@ -37,3 +37,6 @@
   padding-right: 250px;
   min-height: 550px;
 }
+.fa-check-postTag {
+  color: var(--second);
+}

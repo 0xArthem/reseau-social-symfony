@@ -16,9 +16,16 @@
 			<i class="fas fa-xmark"></i>
 		</a>
 		{% for postTag in postTags %}
-			<a href="{{ path('posts_tag', {'slug': postTag.slug}) }}" class="btn btn-dark btn-rounded me-4">
-				{{ postTag.name }}
-			</a>
+			{% if postTag.slug == app.request.get('slug') %}
+				<a href="{{ path('posts_tag', {'slug': postTag.slug}) }}" class="btn btn-dark btn-rounded me-4 active">
+				<i class="fas fa-check fa-check-postTag me-2"></i>
+					{{ postTag.name }}
+				</a>
+			{% else %}
+				<a href="{{ path('posts_tag', {'slug': postTag.slug}) }}" class="btn btn-dark btn-rounded me-4">
+					{{ postTag.name }}
+				</a>
+			{% endif %}
 		{% endfor %}
 	</section>
 </div>

@@ -102,7 +102,8 @@ class HomeController extends AbstractController
         return $this->render('post/byTag.html.twig', [
             'posts' => $posts,
             'postTag' => $postTag,
-            'postTags' => $postTags
+            'postTags' => $postTags,
+            'query' => $query,
         ]);
     }
 

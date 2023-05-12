@@ -70,7 +70,6 @@ class PostRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
-
 //    /**
 //     * @return Post[] Returns an array of Post objects
 //     */
