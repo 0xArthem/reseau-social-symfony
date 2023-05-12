@@ -123,8 +123,8 @@ class HomeController extends AbstractController
         );
 
         return $this->render('post/bySearch.html.twig', [
-            'query' => $query,
             'posts' => $posts,
+            'query' => $query,
             'postTags' => $postTags
         ]);
     }

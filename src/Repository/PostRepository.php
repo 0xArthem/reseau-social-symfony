@@ -41,23 +41,35 @@ class PostRepository extends ServiceEntityRepository
 
     public function searchByPost(string $searchTerm): array
     {
-        $queryBuilder = $this->createQueryBuilder('ap');
+        // on divise la recherche en mots-clés séparés par des espaces et on stocke dans $keywords
+        $keywords = explode(' ', $searchTerm);
 
+        $queryBuilder = $this->createQueryBuilder('ap');
         $queryBuilder
             ->join('ap.user', 'u')
             ->andWhere(
-                $queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->like('ap.content', ':searchTerm'),
-                    $queryBuilder->expr()->like('ap.title', ':searchTerm'),
-                    $queryBuilder->expr()->like('u.username', ':searchTerm')
+                $queryBuilder->expr()->andX(
+                    // on utilise une boucle pour ajouter une condition "like" pour chaque mot-clé
+                    ...array_map(
+                        function ($index, $keyword) use ($queryBuilder) {
+                            return $queryBuilder->expr()->like("ap.content", ":searchTerm$index")
+                                . ' OR ' . $queryBuilder->expr()->like("ap.title", ":searchTerm$index")
+                                . ' OR ' . $queryBuilder->expr()->like("u.username", ":searchTerm$index");
+                        },
+                        array_keys($keywords),
+                        $keywords
+                    )
                 )
             )
-            ->orderBy('ap.createdAt', 'DESC')
-            ->setParameter('searchTerm', '%' . $searchTerm . '%')
-        ;
+            ->orderBy('ap.createdAt', 'DESC');
+        // on définit les paramètres pour chaque mot-clé
+        foreach ($keywords as $index => $keyword) {
+            $queryBuilder->setParameter("searchTerm$index", '%' . $keyword . '%');
+        }
 
         return $queryBuilder->getQuery()->getResult();
     }
+
 
 //    /**
 //     * @return Post[] Returns an array of Post objects
