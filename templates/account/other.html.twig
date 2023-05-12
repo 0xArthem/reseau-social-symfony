@@ -15,34 +15,43 @@
 					<img src="{{ asset('assets/images/profil/' ~ visitedUser.image) }}" alt="" class="section-profil-img shadow">
 					<!-- affichage de la section du bouton pour s'abonner -->
 					<!-- selon si l'utilisateur est déjà abonné, non abonné, ou si l'autre personne est déjà abonné à lui etc -->
-						<section>
-							{% if isSubscribed and isFollowed %}
-								<a href="{{ path('app_account_unsubscribe', {'username': visitedUser.username}) }}" class="btn btn-dark"> <i class="fas fa-check me-2"></i>
-								Abonné(e)
-
-								<i class="fas fa-handshake-angle ms-2"></i>
-							</a>
-						{% else %}
-							{% if isSubscribed %}
-								<a href="{{ path('app_account_unsubscribe', {'username': visitedUser.username}) }}" class="btn btn-dark">
-									<i class="fas fa-check me-2"></i>
+						{% if app.user %}
+							<section>
+								{% if isSubscribed and isFollowed %}
+									<a href="{{ path('app_account_unsubscribe', {'username': visitedUser.username}) }}" class="btn btn-dark"> <i class="fas fa-check me-2"></i>
 									Abonné(e)
+
+									<i class="fas fa-handshake-angle ms-2"></i>
 								</a>
 							{% else %}
-								{% if isFollowed %}
-									<a href="{{ path('app_account_subscribe', {'username': visitedUser.username} ) }}" class="btn btn-dark">
-										<i class="fas fa-plus me-2"></i>
-										S'abonner en retour
+								{% if isSubscribed %}
+									<a href="{{ path('app_account_unsubscribe', {'username': visitedUser.username}) }}" class="btn btn-dark">
+										<i class="fas fa-check me-2"></i>
+										Abonné(e)
 									</a>
 								{% else %}
-									<a href="{{ path('app_account_subscribe', {'username': visitedUser.username} ) }}" class="btn btn-dark">
-										<i class="fas fa-plus me-2" title="Vous êtes abonnés l'un à l'autre."></i>
-										S'abonner
-									</a>
+									{% if isFollowed %}
+										<a href="{{ path('app_account_subscribe', {'username': visitedUser.username} ) }}" class="btn btn-dark">
+											<i class="fas fa-plus me-2"></i>
+											S'abonner en retour
+										</a>
+									{% else %}
+										<a href="{{ path('app_account_subscribe', {'username': visitedUser.username} ) }}" class="btn btn-dark">
+											<i class="fas fa-plus me-2" title="Vous êtes abonnés l'un à l'autre."></i>
+											S'abonner
+										</a>
+									{% endif %}
 								{% endif %}
 							{% endif %}
-						{% endif %}
-					</section>
+						</section>
+					{% else %}
+						<section>
+							<a href="{{ path('app_login') }}" class="btn btn-dark">
+								<i class="fas fa-plus me-2" title="Vous êtes abonnés l'un à l'autre."></i>
+								S'abonner
+							</a>
+						</section>
+					{% endif %}
 				</section>
 
 				<!-- affichage des informations du profil -->
@@ -90,5 +99,8 @@
 				{% endfor %}
 			</div>
 		</section>
+
+		<!-- pagination avec KnpPaginatorBundle -->
+		{% include "include/paginationPost.html.twig" %}
 	</div>
 {% endblock %}

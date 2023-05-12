@@ -26,6 +26,7 @@ class PostTag
 
     /**
      * @ORM\ManyToMany(targetEntity=Post::class, mappedBy="posttag")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $posts;
 

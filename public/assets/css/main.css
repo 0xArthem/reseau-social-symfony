@@ -10,6 +10,10 @@
   box-shadow: none !important;
   margin-left: -90px !important;
 }
+.navigation {
+  display: flex;
+  justify-content: center;
+}
 /** TL **/
 .posts-TL {
   padding: 5%;

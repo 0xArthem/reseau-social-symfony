@@ -7,6 +7,7 @@ use App\Form\AccountType;
 use App\Form\EditProfilType;
 use App\Repository\PostRepository;
 use App\Repository\AbonnementRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,7 +32,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/{username}", name="app_account")
      */
-    public function index(Request $request): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $user = $this->getUser();
         $visitedUser = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $request->attributes->get('username')]);
@@ -39,7 +40,14 @@ class AccountController extends AbstractController
         if ($visitedUser) {
             $abonnements = $visitedUser->getAbonnements();
             $abonnes = $visitedUser->getAbonnes();
-            $posts = $this->postRepository->findBy(['user' => $visitedUser], ['id' => 'DESC']);
+
+            $query = $this->postRepository->findBy(['user' => $visitedUser], ['createdAt' => 'DESC']);
+            $posts = $paginator->paginate(
+                $query,
+                $request->query->get('page', 1),
+                12
+            );
+
             $postsIsPinned = $this->postRepository->findBy(['isPinned' => true, 'user' => $visitedUser], ['id' => 'DESC']);
 
             if ($visitedUser === $user) {
@@ -110,7 +118,7 @@ class AccountController extends AbstractController
     }
 
     /** profil des autres utilisateurs **/
-    private function indexOtherUser(User $user, User $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned): Response {
+    private function indexOtherUser(?User $user, User $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned): Response {
         // On vérifie si l'utilisateur visité est abonné à l'utilisateur connecté (qui regarde donc son profil)
         $isFollowed = $this->abonnementRepository->findOneBy(['abonne' => $visitedUser, 'abonnement' => $user]) !== null;
 

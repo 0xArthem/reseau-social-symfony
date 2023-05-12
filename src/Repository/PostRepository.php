@@ -52,6 +52,7 @@ class PostRepository extends ServiceEntityRepository
                     $queryBuilder->expr()->like('u.username', ':searchTerm')
                 )
             )
+            ->orderBy('ap.createdAt', 'DESC')
             ->setParameter('searchTerm', '%' . $searchTerm . '%')
         ;
 
