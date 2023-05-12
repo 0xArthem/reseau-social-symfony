@@ -6,12 +6,10 @@ use App\Entity\User;
 use App\Form\AccountType;
 use App\Form\EditProfilType;
 use App\Repository\PostRepository;
-use App\Services\AbonnementServices;
 use App\Repository\AbonnementRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -35,32 +33,43 @@ class AccountController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        // récupère l'utilisateur connecté
         $user = $this->getUser();
-        // récupère l'utilisateur du compte visité à partir de son nom d'utilisateur dans l'URL
         $visitedUser = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $request->attributes->get('username')]);
 
-        $abonnements = $visitedUser->getAbonnements();
-        $abonnes = $visitedUser->getAbonnes();
+        if ($visitedUser) {
+            $abonnements = $visitedUser->getAbonnements();
+            $abonnes = $visitedUser->getAbonnes();
+            $posts = $this->postRepository->findBy(['user' => $visitedUser], ['id' => 'DESC']);
+            $postsIsPinned = $this->postRepository->findBy(['isPinned' => true, 'user' => $visitedUser], ['id' => 'DESC']);
 
-        $posts = $this->postRepository->findBy(['user' => $visitedUser], ['id' => 'DESC']);
-        $postsIsPinned = $this->postRepository->findBy(['isPinned' => true, 'user' => $visitedUser], ['id' => 'DESC']);
-
-        // Vérifie si l'utilisateur visité est l'utilisateur connecté
-        if ($visitedUser === $user) {
-            return $this->indexLoggedInUser($user, $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned, $this->abonnementRepository, $request);
+            if ($visitedUser === $user) {
+                return $this->indexLoggedInUser($user, $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned, $request);
+            } else {
+                return $this->indexOtherUser($user, $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned);
+            }
         } else {
-            return $this->indexOtherUser($user, $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned, $this->abonnementRepository);
+            return $this->redirectToRoute('app_home');
         }
     }
 
-    private function indexLoggedInUser(User $user, User $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned, AbonnementRepository $abonnementRepository, Request $request): Response
+    /** profil de l'utilisateur connecté **/
+    private function indexLoggedInUser(User $user, User $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned, Request $request): Response
+    {
+        $this->updateProfile($user, $request);
+
+        $form = $this->createForm(EditProfilType::class, $user);
+        $form->handleRequest($request);
+
+        return $this->renderAccountPage($user, $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned, $form);
+    }
+    
+    private function updateProfile(User $user, Request $request): void
     {
         $form = $this->createForm(EditProfilType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // gérer l'upload de l'image de profil
+            // Gérer l'upload de l'image de profil
             $imageFile = $form->get('image')->getData();
             if ($imageFile) {
                 $newFilename = uniqid().'.'.$imageFile->guessExtension();
@@ -71,7 +80,7 @@ class AccountController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // gérer les erreurs d'upload ici
+                    // Gérer les erreurs d'upload ici
                 }
 
                 $user->setImage($newFilename);
@@ -81,34 +90,34 @@ class AccountController extends AbstractController
 
             // Message de succès
             $this->addFlash('success', 'Votre profil a été correctement mis à jour !');
-
-            return $this->redirectToRoute('app_account', ['username' => $user->getUsername()]);
-        }
-        if ($form->isSubmitted() && !$form->isValid()) {
+        } elseif ($form->isSubmitted() && !$form->isValid()) {
             // Message d'erreur
             $this->addFlash('error', 'Votre profil n\'a pas pu être correctement mis à jour.');
-            // return $this->redirectToRoute('app_account');
         }
+    }
 
+    private function renderAccountPage(User $user, User $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned, $form): Response
+    {
         return $this->render('account/index.html.twig', [
             'user' => $user,
             'posts' => $posts,
             'postsIsPinned' => $postsIsPinned,
             'visitedUser' => $visitedUser,
-            'form' => $form->createView(),
             'abonnements' => $abonnements,
-            'abonnes' => $abonnes
+            'abonnes' => $abonnes,
+            'form' => $form->createView(),
         ]);
     }
 
-    private function indexOtherUser(User $user, User $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned, AbonnementRepository $abonnementRepository): Response {
+    /** profil des autres utilisateurs **/
+    private function indexOtherUser(User $user, User $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned): Response {
         // On vérifie si l'utilisateur visité est abonné à l'utilisateur connecté (qui regarde donc son profil)
-        $isFollowed = $abonnementRepository->findOneBy(['abonne' => $visitedUser, 'abonnement' => $user]) !== null;
+        $isFollowed = $this->abonnementRepository->findOneBy(['abonne' => $visitedUser, 'abonnement' => $user]) !== null;
 
         // On vérifie si l'utilisateur connecté est abonné à l'utilisateur visité
-        $isSubscribed = $abonnementRepository->findOneBy(['abonne' => $user, 'abonnement' => $visitedUser]) !== null;
+        $isSubscribed = $this->abonnementRepository->findOneBy(['abonne' => $user, 'abonnement' => $visitedUser]) !== null;
         if ($user) {
-            $abonnement = $abonnementRepository->findOneBy(['abonne' => $user, 'abonnement' => $visitedUser]);
+            $abonnement = $this->abonnementRepository->findOneBy(['abonne' => $user, 'abonnement' => $visitedUser]);
             $isSubscribed = ($abonnement !== null);
         }
 
@@ -123,7 +132,7 @@ class AccountController extends AbstractController
         ]);
     }
 
-        /**
+    /**
      * @Route("/{username}/parametres", name="app_account_type")
      */
     public function accountType(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
@@ -154,7 +163,7 @@ class AccountController extends AbstractController
             }
             if ($form->isSubmitted() && !$form->isValid()) {
                 // Message d'erreur
-                $this->addFlash('error', 'VVos informations n\'ont pas pu être correctement mises à jour');
+                $this->addFlash('error', 'Vos informations n\'ont pas pu être correctement mises à jour.');
             }
         }
 
@@ -163,39 +172,5 @@ class AccountController extends AbstractController
             'visitedUser' => $visitedUser,
             'form' => $form->createView()
         ]);
-    }
-
-    /** abonnements **/
-
-    /**
-     * @Route("/{username}/abonnements", name="app_account_abonnements")
-     */
-    public function showAbonnement(Request $request, AbonnementServices $abonnementServices): Response
-    {
-        return $abonnementServices->showAbonnement($request);
-    }
-
-    /**
-     * @Route("/{username}/abonnement", name="app_account_subscribe")
-     */
-    public function abonnement(User $userToFollow, AbonnementServices $abonnementServices, SessionInterface $session): Response
-    {
-        $user = $this->getUser();
-        $abonnementServices->setSession($session); // Injecte la session dans le service
-        return $abonnementServices->abonnement($user, $userToFollow);
-    }
-
-    /**
-     * @Route("/{username}/desabonnement", name="app_account_unsubscribe")
-     */
-    public function desabonnement(User $userToFollow, AbonnementServices $abonnementServices): Response
-    {
-        $user = $this->getUser();
-        
-        if (!$user) {
-            // Si l'utilisateur n'est pas connecté, redirection vers la page de connexion
-            return $this->redirectToRoute('app_login');
-        }
-        return $abonnementServices->desabonnement($user, $userToFollow);
     }
 }
