@@ -8,6 +8,12 @@ parameters:
   post_images_directory: "%kernel.project_dir%/public/assets/images/post"
 
 services:
+  App\Services\PostServices:
+    arguments:
+      $postRepository: '@App\Repository\PostRepository'
+      $postImagesDirectory: "%post_images_directory%"
+    calls:
+      - [setContainer, ["@service_container"]]
   # default configuration for services in *this* file
   _defaults:
     autowire: true # Automatically injects dependencies in your services.

@@ -77,7 +77,7 @@ class HomeController extends AbstractController
         $postTags = $this->postTagRepository->findAll();
 
 
-        return $this->render('home/byTag.html.twig', [
+        return $this->render('post/byTag.html.twig', [
             'posts' => $posts,
             'postTag' => $postTag,
             'postTags' => $postTags
