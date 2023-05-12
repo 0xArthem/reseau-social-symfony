@@ -7,16 +7,12 @@ use App\Form\AccountType;
 use App\Entity\Abonnement;
 use App\Form\EditProfilType;
 use App\Repository\PostRepository;
-use App\Repository\OrderRepository;
-use Symfony\Component\Form\FormError;
 use App\Repository\AbonnementRepository;
-use App\Repository\OrderDetailsRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\PasswordHasher\Hasher\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -27,7 +23,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/{username}", name="app_account")
      */
-    public function index(PostRepository $postRepository, AbonnementRepository $abonnementRepository, OrderRepository $repoOrder, OrderDetailsRepository $repoOrderDetails, Request $request): Response
+    public function index(PostRepository $postRepository, AbonnementRepository $abonnementRepository, Request $request): Response
     {
         // récupère l'utilisateur connecté
         $user = $this->getUser();
@@ -38,80 +34,83 @@ class AccountController extends AbstractController
         $abonnes = $visitedUser->getAbonnes();
 
         $posts = $postRepository->findBy(['user' => $visitedUser], ['id' => 'DESC']);
-        $postsIsPinned = $postRepository->findBy(
-            array('isPinned' => true, 'user' => $visitedUser),
-            array('id' => 'DESC')
-        );
-
-        $orders = $repoOrder->findBy(['isPaid' => true, 'user' => $user], ['id' => 'DESC'], null, null, ['orderDetails']);
+        $postsIsPinned = $postRepository->findBy(['isPinned' => true, 'user' => $visitedUser], ['id' => 'DESC']);
 
         // Vérifie si l'utilisateur visité est l'utilisateur connecté
         if ($visitedUser === $user) {
-            $form = $this->createForm(EditProfilType::class, $user);
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                // gérer l'upload de l'image de profil
-                $imageFile = $form->get('image')->getData();
-                if ($imageFile) {
-                    $newFilename = uniqid().'.'.$imageFile->guessExtension();
-            
-                    try {
-                        $imageFile->move(
-                            $this->getParameter('profile_images_directory'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // gérer les erreurs d'upload ici
-                    }
-            
-                    $user->setImage($newFilename);
-                }
-            
-                $this->getDoctrine()->getManager()->flush();
-            
-                // Message de succès
-                $this->addFlash('success', 'Votre profil a été correctement mis à jour !');
-            
-                return $this->redirectToRoute('app_account', ['username' => $user->getUsername()]);
-            }
-            if ($form->isSubmitted() && !$form->isValid()) {
-                // Message d'erreur
-                $this->addFlash('error', 'Votre profil n\'a pas pu être correctement mis à jour.');
-                // return $this->redirectToRoute('app_account');
-            }
-            return $this->render('account/index.html.twig', [
-                'user' => $user,
-                'posts' => $posts,
-                'postsIsPinned' => $postsIsPinned,
-                'visitedUser' => $visitedUser,
-                'form' => $form->createView(),
-                'orders' => $orders,
-                'abonnements' => $abonnements,
-                'abonnes' => $abonnes
-            ]);
+            return $this->indexLoggedInUser($user, $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned, $abonnementRepository, $request);
         } else {
-            // On vérirife si l'utilisateur visité est abonné à l'utilisateur connecté (qui regarde donc son profil)
-            $isFollowed = $abonnementRepository->findOneBy(['abonne' => $visitedUser, 'abonnement' => $user]) !== null;
+            return $this->indexOtherUser($user, $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned, $abonnementRepository);
+        }
+    }
 
+    private function indexLoggedInUser(User $user, User $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned, AbonnementRepository $abonnementRepository, Request $request): Response
+    {
+        $form = $this->createForm(EditProfilType::class, $user);
+        $form->handleRequest($request);
 
-            // On vérifie si l'utilisateur connecté est abonné à l'utilisateur visité
-            $isSubscribed = $abonnementRepository->findOneBy(['abonne' => $user, 'abonnement' => $visitedUser]) !== null;
-            if ($user) {
-                $abonnement = $abonnementRepository->findOneBy(['abonne' => $user, 'abonnement' => $visitedUser]);
-                $isSubscribed = ($abonnement !== null);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // gérer l'upload de l'image de profil
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+
+                try {
+                    $imageFile->move(
+                        $this->getParameter('profile_images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // gérer les erreurs d'upload ici
+                }
+
+                $user->setImage($newFilename);
             }
 
-            return $this->render('account/other.html.twig', [
-                    'visitedUser' => $visitedUser,
-                    'posts' => $posts,
-                    'postsIsPinned' => $postsIsPinned,
-                    'abonnements' => $abonnements,
-                    'abonnes' => $abonnes,
-                    'isSubscribed' => $isSubscribed,
-                    'isFollowed' => $isFollowed
-            ]);
+            $this->getDoctrine()->getManager()->flush();
+
+            // Message de succès
+            $this->addFlash('success', 'Votre profil a été correctement mis à jour !');
+
+            return $this->redirectToRoute('app_account', ['username' => $user->getUsername()]);
         }
+        if ($form->isSubmitted() && !$form->isValid()) {
+            // Message d'erreur
+            $this->addFlash('error', 'Votre profil n\'a pas pu être correctement mis à jour.');
+            // return $this->redirectToRoute('app_account');
+        }
+
+        return $this->render('account/index.html.twig', [
+            'user' => $user,
+            'posts' => $posts,
+            'postsIsPinned' => $postsIsPinned,
+            'visitedUser' => $visitedUser,
+            'form' => $form->createView(),
+            'abonnements' => $abonnements,
+            'abonnes' => $abonnes
+        ]);
+    }
+
+    private function indexOtherUser(User $user, User $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned, AbonnementRepository $abonnementRepository): Response {
+        // On vérifie si l'utilisateur visité est abonné à l'utilisateur connecté (qui regarde donc son profil)
+        $isFollowed = $abonnementRepository->findOneBy(['abonne' => $visitedUser, 'abonnement' => $user]) !== null;
+
+        // On vérifie si l'utilisateur connecté est abonné à l'utilisateur visité
+        $isSubscribed = $abonnementRepository->findOneBy(['abonne' => $user, 'abonnement' => $visitedUser]) !== null;
+        if ($user) {
+            $abonnement = $abonnementRepository->findOneBy(['abonne' => $user, 'abonnement' => $visitedUser]);
+            $isSubscribed = ($abonnement !== null);
+        }
+
+        return $this->render('account/other.html.twig', [
+            'visitedUser' => $visitedUser,
+            'posts' => $posts,
+            'postsIsPinned' => $postsIsPinned,
+            'abonnements' => $abonnements,
+            'abonnes' => $abonnes,
+            'isSubscribed' => $isSubscribed,
+            'isFollowed' => $isFollowed
+        ]);
     }
 
     /**
