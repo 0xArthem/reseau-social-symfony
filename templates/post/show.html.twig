@@ -33,9 +33,11 @@
 				<a href="{{ path('app_account', {'username':user.username}) }}" class="btn shadow show-post-user ms-1">
 					{{ post.user }}
 				</a>
-				<p class="mb-4 mt-5 mx-1 post-content">
-					{{ post.content }}
-				</p>
+				<section class="post-content">
+					<p>
+						{{ post.content|raw }}
+					</p>
+				</section>
 
 				<!-- si l'utilisateur a ajouté un lien (peut être null) -->
 				{% if post.link %}

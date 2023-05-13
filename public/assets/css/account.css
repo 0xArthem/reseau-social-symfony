@@ -82,7 +82,7 @@
   border-radius: 5px !important;
 }
 .btn-post-edit {
-  margin-top: -20px !important;
+  margin-top: -35px !important;
   z-index: 1 !important;
 }
 .show-post {
@@ -153,7 +153,14 @@
 }
 .post-content {
   border-left: solid 2px var(--main);
-  padding-left: 15px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-left: 20px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+
+  margin-top: 35px;
+  margin-left: 5px;
+  margin-bottom: 15px;
+}
+.fleche-nouveautes {
+  color: var(--second) !important;
 }

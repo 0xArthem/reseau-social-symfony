@@ -4,12 +4,16 @@ namespace App\Form;
 
 use App\Entity\Post;
 use Symfony\Component\Form\AbstractType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Url;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class PostType extends AbstractType
@@ -23,7 +27,13 @@ class PostType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Titre'
-                ]
+                ],
+                'constraints' => [
+                    new Length([
+                        'max' => 80,
+                        'maxMessage' => 'Le titre ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
+                ],
             ])
             ->add('image', FileType::class, [
                 'label' => false,
@@ -42,12 +52,12 @@ class PostType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('content', TextareaType::class, [
+            ->add('content', CKEditorType::class, [
                 'label' => false,
                 'attr' => [
                     'class' => 'form-control textarea-edit-profil',
                     'placeholder' => 'Texte'
-                ]
+                ],
             ])
             ->add('link', TextType::class, [
                 'label' => false,
@@ -55,7 +65,12 @@ class PostType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Lien'
-                ]
+                ],
+                'constraints' => [
+                    new Url([
+                        'message' => 'Veuillez saisir une URL valide',
+                    ]),
+                ],
             ])
             ->add('isPinned', null, [
                 'label' => 'Post épinglé',

@@ -94,11 +94,6 @@
 						<a href="{{ path('app_post_show', {'id': postIsPinned.id, 'username': user.username}) }}" class="text-dark">
 							{% include "include/forPostIsPinned.html.twig" %}
 						</a>
-						<div class="d-flex justify-content-center">
-							<a href="{{ path('app_post_edit', {'id': postIsPinned.id, 'username': user.username}) }}" class="btn btn-dark btn-rounded btn-post-edit">
-								<i class="fas fa-pen-to-square"></i>
-							</a>
-						</div>
 					</div>
 				{% endfor %}
 

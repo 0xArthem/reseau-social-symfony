@@ -74,6 +74,26 @@ class HomeController extends AbstractController
         $posts = $this->paginator->paginate(
             $query,
             $request->query->get('page', 1),
+            6
+        );
+
+        return $this->render('home/index-other.html.twig', [
+            'posts' => $posts,
+            'postTags' => $postTags
+        ]);
+    }
+
+    /**
+     * @Route("/posts/nouveautes", name="app_home_news")
+     */
+    public function nouveautes(Request $request): Response
+    {
+        $postTags = $this->postTagRepository->findAll();
+
+        $query = $this->postRepository->findBy(array(), array('createdAt' => 'DESC'));
+        $posts = $this->paginator->paginate(
+            $query,
+            $request->query->get('page', 1),
             12
         );
 

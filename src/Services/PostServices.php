@@ -17,6 +17,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+
 use Twig\Environment;
 
 class PostServices
@@ -34,6 +36,7 @@ class PostServices
     private $urlGenerator;
     private $formFactory;
     private $twig;
+    private $flashBag;
 
     public function __construct(
         UserRepository $userRepository,
@@ -41,7 +44,8 @@ class PostServices
         ParameterBagInterface $parameterBag,
         UrlGeneratorInterface $urlGenerator,
         FormFactoryInterface $formFactory,
-        Environment $twig
+        Environment $twig,
+        FlashBagInterface $flashBag
     ) {
         $this->userRepository = $userRepository;
         $this->postRepository = $postRepository;
@@ -49,6 +53,7 @@ class PostServices
         $this->urlGenerator = $urlGenerator;
         $this->formFactory = $formFactory;
         $this->twig = $twig;
+        $this->flashBag = $flashBag;
     }
 
     public function checkUsers(string $username, User $userConnected): array
@@ -104,7 +109,12 @@ class PostServices
         if ($form->isSubmitted() && $form->isValid()) {
             $this->handlePostImageUpload($form, $post);
             $this->savePost($post, $post->getUser());
+
             return new RedirectResponse($this->urlGenerator->generate('app_account', ['username' => $post->getUser()->getUsername()]));
+        }
+        elseif ($form->isSubmitted() && !$form->isValid()) {
+            // Message d'erreur
+            $this->flashBag->add('error', 'Votre publication n\'a pas pu être publiée.');
         }
 
         return new Response($this->twig->render('post/edit.html.twig', [
