@@ -14,29 +14,15 @@
   display: flex;
   justify-content: center;
 }
-/** TL **/
-.posts-TL {
-  padding: 5%;
+.div-global {
+  background-color: var(--third) !important;
 }
 /***************/
-.barre-form {
-  margin-top: 2.5%;
-
-  margin-left: 5%;
-  margin-right: 5%;
-  padding: 3.5%;
-  background-color: var(--third) !important;
+.card-img-top {
   border-radius: 5px !important;
+  border-bottom-left-radius: 1px !important;
+  border-bottom-right-radius: 1px !important;
 }
 .titre-home {
   color: var(--main) !important;
-}
-.form-log {
-  padding-top: 35px;
-  padding-left: 250px;
-  padding-right: 250px;
-  min-height: 550px;
-}
-.fa-check-postTag {
-  color: var(--second);
 }

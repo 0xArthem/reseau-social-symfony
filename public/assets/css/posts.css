@@ -1,0 +1,62 @@
+.posts-TL {
+  padding: 5%;
+}
+/** forPostAccount **/
+.post-card-img {
+  height: 293px !important;
+}
+.post-card-body-img {
+  height: 175px !important;
+  background-color: var(--third);
+}
+.div-btn-post-compteur {
+  margin-top: -42.5px;
+  padding-bottom: 10px !important;
+}
+.btn-post-compteur {
+  text-transform: none !important;
+  font-size: 14px !important;
+  font-weight: normal !important;
+  color: var(--main) !important;
+  background-color: #fbfbfb !important;
+}
+.btn-post-user {
+  text-transform: none !important;
+  font-size: 14px !important;
+  font-weight: normal !important;
+  color: var(--third) !important;
+  background-color: var(--second) !important;
+
+  margin-left: 5px !important;
+}
+.post-card-body {
+  background-color: var(--third);
+  height: 467.5px !important;
+}
+.post-card-text {
+  margin-top: 22.5px !important;
+  margin-bottom: 22.5px !important;
+}
+/** forPostIsPinned **/
+.fa-bookmark {
+  color: var(--second) !important;
+}
+/** form Posts **/
+.form-log {
+  padding-top: 35px;
+  padding-left: 250px;
+  padding-right: 250px;
+  min-height: 550px;
+}
+.fa-check-postTag {
+  color: var(--second);
+}
+.barre-form {
+  margin-top: 2.5%;
+
+  margin-left: 5%;
+  margin-right: 5%;
+  padding: 3.5%;
+  background-color: var(--third) !important;
+  border-radius: 5px !important;
+}

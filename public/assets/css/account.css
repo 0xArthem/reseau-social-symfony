@@ -41,34 +41,6 @@
   width: 50% !important;
   text-align: center !important;
 }
-
-/*** affichage des posts ****/
-.section-posts {
-  padding: 5%;
-}
-.post-card-body {
-  background-color: var(--third);
-  height: 467.5px !important;
-}
-.post-card-body-img {
-  height: 175px !important;
-  background-color: var(--third);
-}
-.card-img-top {
-  border-radius: 5px !important;
-  border-bottom-left-radius: 1px !important;
-  border-bottom-right-radius: 1px !important;
-}
-.post-card-img {
-  height: 293px !important;
-}
-.post-card-text {
-  margin-top: 22.5px !important;
-  margin-bottom: 22.5px !important;
-}
-.fa-bookmark {
-  color: var(--second) !important;
-}
 /**** POST CRUD ***/
 .form-crud {
   background-color: var(--third) !important;
@@ -93,26 +65,6 @@
 }
 .img-fluid {
   border-radius: 5px !important;
-}
-.div-btn-post-compteur {
-  margin-top: -42.5px;
-  padding-bottom: 10px !important;
-}
-.btn-post-compteur {
-  text-transform: none !important;
-  font-size: 14px !important;
-  font-weight: normal !important;
-  color: var(--main) !important;
-  background-color: #fbfbfb !important;
-}
-.btn-post-user {
-  text-transform: none !important;
-  font-size: 14px !important;
-  font-weight: normal !important;
-  color: var(--third) !important;
-  background-color: var(--second) !important;
-
-  margin-left: 5px !important;
 }
 /*** système d'abonnement ***/
 .nbr_abonnes-abonnements {
@@ -141,9 +93,6 @@
 }
 
 /****/
-.div-global {
-  background-color: var(--third) !important;
-}
 .app-user-info {
   color: var(--second) !important;
 }

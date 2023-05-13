@@ -81,7 +81,7 @@
 		</div>
 
 		<!-- section d'affichage des posts -->
-		<section class="section-posts">
+		<section class="posts-TL">
 			<a href="{{ path('app_post_new', {'username': user.username}) }}" class="btn btn-dark btn-rounded">
 				<i class="fas fa-plus"></i>
 			</a>
@@ -99,7 +99,7 @@
 
 				<!-- affichage de tous les posts -->
 				{% for post in posts %}
-					<div>
+					<div class="mb-4">
 						<a href="{{ path('app_post_show', {'id': post.id, 'username': user.username}) }}" class="text-dark">
 							{% include "include/forPostAccount.html.twig" %}
 						</a>

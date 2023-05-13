@@ -81,7 +81,7 @@
 		</div>
 
 		<!-- affichage de la section des posts -->
-		<section class="section-posts mt-4">
+		<section class="posts-TL mt-4">
 			<div
 				class="row row-cols-1 row-cols-md-3 g-4">
 				<!-- affichage des posts épinglés par l'utilisateur -->
@@ -90,6 +90,7 @@
 						{% include "include/forPostIsPinned.html.twig" %}
 					</a>
 				{% endfor %}
+
 
 				<!-- affichage de tous les posts -->
 				{% for post in posts %}
