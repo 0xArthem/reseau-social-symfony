@@ -56,21 +56,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $lastname;
 
     /**
-     * @ORM\OneToMany(targetEntity=Address::class, mappedBy="user")
-     */
-    private $addresses;
-
-    /**
-     * @ORM\OneToMany(targetEntity=ReviewsProduct::class, mappedBy="user")
-     */
-    private $reviewsProducts;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="user")
-     */
-    private $orders;
-
-    /**
      * @ORM\Column(type="string", length=200, nullable=true)
      */
     private $bio;
@@ -112,9 +97,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->addresses = new ArrayCollection();
-        $this->reviewsProducts = new ArrayCollection();
-        $this->orders = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->abonnements = new ArrayCollection();
         $this->abonnes = new ArrayCollection();
@@ -237,108 +219,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastname(?string $lastname): self
     {
         $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Address>
-     */
-    public function getAddresses(): Collection
-    {
-        return $this->addresses;
-    }
-
-    public function addAddress(Address $address): self
-    {
-        if (!$this->addresses->contains($address)) {
-            $this->addresses[] = $address;
-            $address->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAddress(Address $address): self
-    {
-        if ($this->addresses->removeElement($address)) {
-            // set the owning side to null (unless already changed)
-            if ($address->getUser() === $this) {
-                $address->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, ReviewsProduct>
-     */
-    public function getReviewsProducts(): Collection
-    {
-        return $this->reviewsProducts;
-    }
-
-    public function addReviewsProduct(ReviewsProduct $reviewsProduct): self
-    {
-        if (!$this->reviewsProducts->contains($reviewsProduct)) {
-            $this->reviewsProducts[] = $reviewsProduct;
-            $reviewsProduct->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReviewsProduct(ReviewsProduct $reviewsProduct): self
-    {
-        if ($this->reviewsProducts->removeElement($reviewsProduct)) {
-            // set the owning side to null (unless already changed)
-            if ($reviewsProduct->getUser() === $this) {
-                $reviewsProduct->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Order>
-     */
-    public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
-
-    public function addOrder(Order $order): self
-    {
-        if (!$this->orders->contains($order)) {
-            $this->orders[] = $order;
-            $order->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrder(Order $order): self
-    {
-        if ($this->orders->removeElement($order)) {
-            // set the owning side to null (unless already changed)
-            if ($order->getUser() === $this) {
-                $order->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getBio(): ?string
-    {
-        return $this->bio;
-    }
-
-    public function setBio(?string $bio): self
-    {
-        $this->bio = $bio;
 
         return $this;
     }
@@ -487,4 +367,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function setBio(?string $bio): self
+    {
+        $this->bio = $bio;
+
+        return $this;
+    }
+    
+    public function getBio()
+    {
+        return $this->bio;
+    }
 }
