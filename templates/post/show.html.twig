@@ -25,7 +25,14 @@
 					{{ post.title }}
 				</h1>
 				<p class="ms-1">
-					<span class="me-2">
+					Publié le
+					{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
+					à
+					{{ post.createdAt|date('H:i') }}
+
+					<span class="mx-2">-</span>
+
+					<span>
 						{% if app.user %}
 							{% if isLikedByUser %}
 								<a href="{{ path('app_post_dislike', {'id':post.id, 'username':user.username}) }}">
@@ -36,7 +43,6 @@
 									<i class="far fa-heart"></i>
 								</a>
 							{% endif %}
-							
 						{% else %}
 							<a href="{{ path('app_login') }}">
 								<i class="far fa-heart"></i>
@@ -44,10 +50,11 @@
 						{% endif %}
 					</span>
 
-					Publié le
-					{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
-					à
-					{{ post.createdAt|date('H:i') }}
+					{% if likesCount > 0 %}
+						<span class="ms-1">
+							{{ likesCount }}
+						</span>
+					{% endif %}
 				</p>
 				<a href="{{ path('app_account', {'username':user.username}) }}" class="btn shadow show-post-user ms-1">
 					{{ post.user }}

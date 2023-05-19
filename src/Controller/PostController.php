@@ -39,8 +39,16 @@ class PostController extends AbstractController
 
         // on récupère l'user connecté
         $user = $this->getUser();
-        
-       // on crée une nouvelle instance de Like et on associe le post et l'utilisateur
+    
+        // on contrôle si l'user a déjà liké le post pour ne pas qu'il puisse le liker deux fois
+        $likes = $post->getLikes();
+        foreach ($likes as $like) {
+            if ($like->getUser() === $user) {
+                return $this->redirectToRoute('app_post_show', ['id' => $post->getId(), 'username' => $username]);
+            }
+        }
+
+        // on crée une nouvelle instance de Like et on associe le post et l'utilisateur
         $like = new Like();
         $like->setPost($post);
         $like->setUser($user);
@@ -119,11 +127,16 @@ class PostController extends AbstractController
             }
         }
 
+        // on récupère tous les likes du post
+        $likesCount = count($post->getLikes());
+
+
         return $this->render('post/show.html.twig', [
             'user' => $user,
             'post' => $post,
             'postTags' => $postTags,
             'isLikedByUser' => $isLikedByUser,
+            'likesCount' => $likesCount
         ]);
     }
 
