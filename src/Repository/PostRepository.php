@@ -70,6 +70,24 @@ class PostRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
+    /**
+     * on récupère les posts les plus likés + trie également par date de création décroissante en cas d'égalité du nombre de likes
+     * = les posts les plus likés seront affichés en premier, et parmi ces posts, ceux ayant été créés plus récemment
+     * seront placés en haut de la liste.
+     */
+    public function findMostLikedPosts($limit)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->leftJoin('p.likes', 'l')
+            ->groupBy('p')
+            ->orderBy('COUNT(l.id)', 'DESC')
+            ->addOrderBy('p.createdAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+    
 //    /**
 //     * @return Post[] Returns an array of Post objects
 //     */

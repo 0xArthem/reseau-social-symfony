@@ -62,9 +62,12 @@ class HomeServices {
             9
         );
 
+        $mostLikedPosts = $this->postRepository->findMostLikedPosts(3);
+
         return new Response($this->twig->render('home/index-other.html.twig', [
             'posts' => $posts,
-            'postTags' => $postTags
+            'postTags' => $postTags,
+            'mostLikedPosts' => $mostLikedPosts
         ]));
     }
 

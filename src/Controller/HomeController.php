@@ -31,7 +31,7 @@ class HomeController extends AbstractController
             return $this->homeServices->renderForVisitedUser($request);
         }
     }
-
+    
     /**
      * @Route("/posts/nouveautes", name="app_home_news")
      */

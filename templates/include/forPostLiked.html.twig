@@ -1,0 +1,57 @@
+<div class="col mb-4">
+	{% if mostLikedPost.image %}
+		<div class="card">
+			<img src="{{ asset('assets/images/post/' ~ mostLikedPost.image) }}" class="card-img-top post-card-img shadow" alt="{{ mostLikedPost.title }}"/>
+			<div class="card-body post-card-body-img">
+				<div class="mb-2 div-btn-post-compteur">
+					<button class="btn btn-light btn-post-compteur shadow">
+						<i class="far fa-clock me-1"></i>
+						{{ mostLikedPost.createdAt|date('d ') ~ months[mostLikedPost.createdAt|date('n')-1] ~ mostLikedPost.createdAt|date(' Y') }}
+					</button>
+					<button class="btn btn-light btn-post-user shadow">
+						{{ mostLikedPost.user }}
+					</button>
+				</div>
+
+				{% if mostLikedPost.title %}
+					<h5 class="card-title">
+						{{ mostLikedPost.title|striptags|length > 40 ? mostLikedPost.title|striptags|slice(0, 40) ~ ' ...' : mostLikedPost.title|striptags }}
+					</h5>
+				{% else %}
+					<div class="mt-3"></div>
+				{% endif %}
+
+				<p class="card-text">
+					{{ mostLikedPost.content|striptags|length > 140 ? mostLikedPost.content|striptags|slice(0, 140) ~ ' ...' : mostLikedPost.content|striptags }}
+				</p>
+			</div>
+		</div>
+	{% else %}
+		<div class="card">
+			<div class="card-body post-card-body">
+				<div class="mb-2 div-btn-post-compteur">
+					<button class="btn btn-light btn-post-compteur shadow">
+						<i class="far fa-clock me-1"></i>
+						{{ mostLikedPost.createdAt|date('d ') ~ months[mostLikedPost.createdAt|date('n')-1] ~ mostLikedPost.createdAt|date(' Y') }}
+					</button>
+					<button class="btn btn-light btn-post-user shadow">
+						{{ mostLikedPost.user }}
+					</button>
+				</div>
+				{% if mostLikedPost.title %}
+					<h5 class="card-title mt-1">
+						{{ mostLikedPost.title|striptags|length > 40 ? mostLikedPost.title|striptags|slice(0, 40) ~ ' ...' : mostLikedPost.title|striptags }}
+					</h5>
+
+					<p class="card-text mt-3">
+						{{ mostLikedPost.content|striptags|length > 700 ? mostLikedPost.content|striptags|slice(0, 700) ~ ' ...' : mostLikedPost.content|striptags }}
+					</p>
+				{% else %}
+					<p class="card-text post-card-text">
+						{{ mostLikedPost.content|striptags|length > 700 ? mostLikedPost.content|striptags|slice(0, 700) ~ ' ...' : mostLikedPost.content|striptags }}
+					</p>
+				{% endif %}
+			</div>
+		</div>
+	{% endif %}
+</div>

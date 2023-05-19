@@ -15,7 +15,15 @@
 
 		<!-- affichage de tous les posts de tous les utilisateurs par ordre décroissant -->
 		<section class="posts-TL">
-			<h4 class="text-dark mb-5">
+
+			<h4 class="text-dark mb-5 mt-5">
+				<i class="fas fa-caret-right me-1"></i>
+				En tendance
+			</h4>
+			<!-- include de l'affichage des posts les plus likés -->
+			{% include "include/postLiked.html.twig" %}
+
+			<h4 class="text-dark mb-5 mt-5">
 				<i class="fas fa-caret-right me-1"></i>
 				Nouveautés
 			</h4>
