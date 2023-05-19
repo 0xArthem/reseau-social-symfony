@@ -5,12 +5,13 @@ namespace App\Controller;
 use App\Entity\Like;
 use App\Entity\Post;
 use App\Entity\User;
+use App\Services\LikeServices;
 use App\Services\PostServices;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/compte/{username}/post")
@@ -19,82 +20,12 @@ class PostController extends AbstractController
 {
 
     private $postServices;
+    private $likeServices;
 
-    public function __construct(PostServices $postServices)
+    public function __construct(PostServices $postServices, LikeServices $likeServices)
     {
         $this->postServices = $postServices;
-    }
-
-    /**
-     * @Route("/{id}/like", name="app_post_like", methods={"GET"})
-     */
-    public function like($id, $username)
-    {
-        // on récupére le post correspondant à l'ID
-        $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
-
-        if (!$post) {
-            return $this->redirectToRoute('app_home');
-        }
-
-        // on récupère l'user connecté
-        $user = $this->getUser();
-    
-        // on contrôle si l'user a déjà liké le post pour ne pas qu'il puisse le liker deux fois
-        $likes = $post->getLikes();
-        foreach ($likes as $like) {
-            if ($like->getUser() === $user) {
-                return $this->redirectToRoute('app_post_show', ['id' => $post->getId(), 'username' => $username]);
-            }
-        }
-
-        // on crée une nouvelle instance de Like et on associe le post et l'utilisateur
-        $like = new Like();
-        $like->setPost($post);
-        $like->setUser($user);
-        // on ajoute le like à l'entité Post
-        $post->addLike($like);
-        // on enregistrer les modifications dans la base de données
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($like);
-        $entityManager->flush();
-
-        // on rediriger l'utilisateur vers la page du post, par l'id et le username
-        return $this->redirectToRoute('app_post_show', ['id' => $post->getId(), 'username' => $username]);
-    }
-
-    /**
-     * @Route("/{id}/dislike", name="app_post_dislike", methods={"GET"})
-     */
-    public function removeLike($id, $username)
-    {
-        // on récupérer le post correspondant à l'ID
-        $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
-
-        if (!$post) {
-            return $this->redirectToRoute('app_home');
-        }
-
-        // on récupérer l'utilisateur connecté
-        $user = $this->getUser();
-
-        // on rechercher le "like" associé au post et à l'utilisateur
-        $like = $this->getDoctrine()->getRepository(Like::class)->findOneBy([
-            'post' => $post,
-            'user' => $user
-        ]);
-
-        // si le "like" existe, le supprimer
-        if ($like) {
-            $post->removeLike($like);
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($like);
-            $entityManager->flush();
-        }
-
-        // Rediriger l'utilisateur vers la page du post, par l'id et le username
-        return $this->redirectToRoute('app_post_show', ['id' => $post->getId(), 'username' => $username]);
+        $this->likeServices = $likeServices;
     }
 
     /**
@@ -129,7 +60,6 @@ class PostController extends AbstractController
 
         // on récupère tous les likes du post
         $likesCount = count($post->getLikes());
-
 
         return $this->render('post/show.html.twig', [
             'user' => $user,
@@ -168,5 +98,45 @@ class PostController extends AbstractController
         $this->postServices->deletePost($post, $userConnected);
 
         return $this->redirectToRoute('app_account', ['username' => $user->getUsername()], Response::HTTP_SEE_OTHER);
+    }
+
+    /** système de likes **/
+
+    /**
+     * @Route("/{id}/like", name="app_post_like", methods={"GET"})
+     */
+    public function like($id, $username)
+    {
+        // On récupère le post correspondant à l'ID
+        $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
+
+        if (!$post) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        // On récupère l'utilisateur connecté
+        $user = $this->getUser();
+
+        // On utilise le service LikeServices pour liker le post
+        return $this->likeServices->like($post, $user, $username);
+    }
+
+    /**
+     * @Route("/{id}/dislike", name="app_post_dislike", methods={"GET"})
+     */
+    public function removeLike($id, $username)
+    {
+        // On récupère le post correspondant à l'ID
+        $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
+
+        if (!$post) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        // On récupère l'utilisateur connecté
+        $user = $this->getUser();
+
+        // On utilise le service LikeServices pour supprimer le like
+        return $this->likeServices->removeLike($post, $user, $username);
     }
 }
