@@ -82,21 +82,26 @@
   padding-left: 5% !important;
   padding-right: 5% !important;
 
-  padding-top: 1% !important;
+  padding-top: 1.5% !important;
 }
 .div-pills {
   padding-top: 3.1% !important;
-  padding-left: 25% !important;
-  padding-right: 25% !important;
+  padding-left: 5% !important;
+  display: flex !important;
+  justify-content: left !important;
 }
 .nav-link-pills {
   text-transform: none !important;
-  font-size: 16px !important;
+  font-size: 15.5px !important;
   font-weight: normal !important;
   color: var(--main) !important;
   border-radius: 100px !important;
+  background-color: var(--third) !important;
+
+  margin-right: 15px !important;
+  width: 200px !important;
 }
 a.nav-link.nav-link-pills.active {
-  background-color: var(--main);
+  background-color: var(--third) !important;
   color: var(--second) !important;
 }
