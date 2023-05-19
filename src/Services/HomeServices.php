@@ -37,17 +37,22 @@ class HomeServices {
         $postTags = $this->postTagRepository->findAll();
         $query = $this->postRepository->findBy(['user' => $usersAbonnement], ['createdAt' => 'DESC']);
 
+        $page = $request->query->get('page', 1);
         $posts = $this->paginator->paginate(
             $query,
-            $request->query->get('page', 1),
-            9
+            $page,
+            12
         );
+
+        $mostLikedPosts = $this->postRepository->findMostLikedPosts(12);
 
         return new Response($this->twig->render('home/index.html.twig', [
             'user' => $user,
             'posts' => $posts,
             'abonnements' => $abonnements,
-            'postTags' => $postTags
+            'postTags' => $postTags,
+            'mostLikedPosts' => $mostLikedPosts,
+            'page' => $page
         ]));
     }
 
