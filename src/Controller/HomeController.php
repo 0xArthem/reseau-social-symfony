@@ -2,28 +2,20 @@
 
 namespace App\Controller;
 
-use App\Entity\Post;
-use App\Repository\PostRepository;
-use App\Repository\PostTagRepository;
-use Knp\Component\Pager\PaginatorInterface;
+use App\Services\HomeServices;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
-    private $postRepository;
-    private $postTagRepository;
-    private $paginator;
+    private $homeServices;
     
-    public function __construct(PostRepository $postRepository, PostTagRepository $postTagRepository, PaginatorInterface $paginator)
+    public function __construct(HomeServices $homeServices)
     {
-        $this->postRepository = $postRepository;
-        $this->postTagRepository = $postTagRepository;
-        $this->paginator = $paginator;
+        $this->homeServices = $homeServices;
     }
 
     /**
@@ -34,53 +26,10 @@ class HomeController extends AbstractController
         $user = $security->getUser();
         
         if ($user) {
-            return $this->renderForConnectedUser($user, $request, $this->postRepository, $this->postTagRepository);
+            return $this->homeServices->renderForConnectedUser($user, $request);
         } else {
-            return $this->renderForVisitedUser($request, $this->postRepository, $this->postTagRepository);
+            return $this->homeServices->renderForVisitedUser($request);
         }
-    }
-
-    private function renderForConnectedUser(UserInterface $user, Request $request): Response
-    {
-        $abonnements = $user->getAbonnements();
-        $usersAbonnement = [];
-
-        foreach ($abonnements as $abonnement) {
-            $usersAbonnement[] = $abonnement->getAbonnement();
-        }
-
-        $postTags = $this->postTagRepository->findAll();
-        $query = $this->postRepository->findBy(['user' => $usersAbonnement], ['createdAt' => 'DESC']);
-
-        $posts = $this->paginator->paginate(
-            $query,
-            $request->query->get('page', 1),
-            12
-        );
-
-        return $this->render('home/index.html.twig', [
-            'user' => $user,
-            'posts' => $posts,
-            'abonnements' => $abonnements,
-            'postTags' => $postTags
-        ]);
-    }
-
-    private function renderForVisitedUser(Request $request): Response
-    {
-        $postTags = $this->postTagRepository->findAll();
-
-        $query = $this->postRepository->findBy(array(), array('createdAt' => 'DESC'));
-        $posts = $this->paginator->paginate(
-            $query,
-            $request->query->get('page', 1),
-            6
-        );
-
-        return $this->render('home/index-other.html.twig', [
-            'posts' => $posts,
-            'postTags' => $postTags
-        ]);
     }
 
     /**
@@ -88,19 +37,7 @@ class HomeController extends AbstractController
      */
     public function nouveautes(Request $request): Response
     {
-        $postTags = $this->postTagRepository->findAll();
-
-        $query = $this->postRepository->findBy(array(), array('createdAt' => 'DESC'));
-        $posts = $this->paginator->paginate(
-            $query,
-            $request->query->get('page', 1),
-            12
-        );
-
-        return $this->render('home/index-other.html.twig', [
-            'posts' => $posts,
-            'postTags' => $postTags
-        ]);
+        return $this->homeServices->nouveautes($request);
     }
     
     /**
@@ -108,45 +45,14 @@ class HomeController extends AbstractController
      */
     public function byPostTag($slug, Request $request): Response
     {
-        $postTag = $this->postTagRepository->findOneBySlug($slug);
-        $postTags = $this->postTagRepository->findAll();
-
-        $query = $postTag->getPosts();
-
-        $posts = $this->paginator->paginate(
-            $query,
-            $request->query->get('page', 1),
-            12
-        );
-
-        return $this->render('post/byTag.html.twig', [
-            'posts' => $posts,
-            'postTag' => $postTag,
-            'postTags' => $postTags,
-            'query' => $query,
-        ]);
+        return $this->homeServices->byPostTag($slug, $request);
     }
 
     /**
      * @Route("/posts/recherche", name="post_search")
      */
-    public function searchPosts(Request $request, PostRepository $postRepository, PostTagRepository $postTagRepository): Response
+    public function searchPosts(Request $request): Response
     {
-        $query = $request->query->get('q');
-        $postTags = $postTagRepository->findAll();
-
-        $q = $postRepository->searchByPost($query);
-
-        $posts = $this->paginator->paginate(
-            $q,
-            $request->query->get('page', 1),
-            12
-        );
-
-        return $this->render('post/bySearch.html.twig', [
-            'posts' => $posts,
-            'query' => $query,
-            'postTags' => $postTags
-        ]);
+        return $this->homeServices->searchPosts($request);
     }
 }
