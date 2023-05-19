@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/compte/{username}/post")
@@ -24,7 +25,6 @@ class PostController extends AbstractController
         $this->postServices = $postServices;
     }
 
-    /********/
     /**
      * @Route("/{id}/like", name="app_post_like", methods={"GET"})
      */
@@ -55,6 +55,39 @@ class PostController extends AbstractController
         return $this->redirectToRoute('app_post_show', ['id' => $post->getId(), 'username' => $username]);
     }
 
+    /**
+     * @Route("/{id}/dislike", name="app_post_dislike", methods={"GET"})
+     */
+    public function removeLike($id, $username)
+    {
+        // on récupérer le post correspondant à l'ID
+        $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
+
+        if (!$post) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        // on récupérer l'utilisateur connecté
+        $user = $this->getUser();
+
+        // on rechercher le "like" associé au post et à l'utilisateur
+        $like = $this->getDoctrine()->getRepository(Like::class)->findOneBy([
+            'post' => $post,
+            'user' => $user
+        ]);
+
+        // si le "like" existe, le supprimer
+        if ($like) {
+            $post->removeLike($like);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($like);
+            $entityManager->flush();
+        }
+
+        // Rediriger l'utilisateur vers la page du post, par l'id et le username
+        return $this->redirectToRoute('app_post_show', ['id' => $post->getId(), 'username' => $username]);
+    }
 
     /**
      * @Route("/new", name="app_post_new", methods={"GET", "POST"})
@@ -70,16 +103,27 @@ class PostController extends AbstractController
     /**
      * @Route("/{id}", name="app_post_show", methods={"GET"})
      */
-    public function show(Post $post, $username): Response
+    public function show(Post $post, $username, Security $security): Response
     {
-        // récupérer l'utilisateur correspondant à l'username
+        // Récupérer l'utilisateur correspondant à l'username
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
         $postTags = $post->getPosttag();
+
+        $isLikedByUser = false;
+        // on vérifie si l'utilisateur connecté a déjà liké le post
+        $likes = $post->getLikes();
+        foreach ($likes as $like) {
+            if ($like->getUser() === $security->getUser()) {
+                $isLikedByUser = true;
+                break;
+            }
+        }
 
         return $this->render('post/show.html.twig', [
             'user' => $user,
             'post' => $post,
-            'postTags' => $postTags
+            'postTags' => $postTags,
+            'isLikedByUser' => $isLikedByUser,
         ]);
     }
 
