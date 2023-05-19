@@ -55,19 +55,21 @@ class HomeServices {
     {
         $postTags = $this->postTagRepository->findAll();
 
-        $query = $this->postRepository->findBy([], ['createdAt' => 'DESC']);
+        $query = $this->postRepository->findBy(array(), array('createdAt' => 'DESC'));
+        $page = $request->query->get('page', 1);
         $posts = $this->paginator->paginate(
             $query,
-            $request->query->get('page', 1),
-            9
+            $page,
+            12
         );
 
-        $mostLikedPosts = $this->postRepository->findMostLikedPosts(3);
+        $mostLikedPosts = $this->postRepository->findMostLikedPosts(12);
 
         return new Response($this->twig->render('home/index-other.html.twig', [
             'posts' => $posts,
             'postTags' => $postTags,
-            'mostLikedPosts' => $mostLikedPosts
+            'mostLikedPosts' => $mostLikedPosts,
+            'page' => $page
         ]));
     }
 
@@ -82,7 +84,7 @@ class HomeServices {
             9
         );
 
-        $content = $this->twig->render('home/index-other.html.twig', [
+        $content = $this->twig->render('home/nouveautes.html.twig', [
             'posts' => $posts,
             'postTags' => $postTags
         ]);

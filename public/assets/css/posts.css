@@ -76,3 +76,27 @@
 .fa-heart {
   color: var(--second) !important;
 }
+/** section en tendance **/
+.posts-TL-index-other {
+  padding-bottom: 5% !important;
+  padding-left: 5% !important;
+  padding-right: 5% !important;
+
+  padding-top: 1% !important;
+}
+.div-pills {
+  padding-top: 3.1% !important;
+  padding-left: 25% !important;
+  padding-right: 25% !important;
+}
+.nav-link-pills {
+  text-transform: none !important;
+  font-size: 16px !important;
+  font-weight: normal !important;
+  color: var(--main) !important;
+  border-radius: 100px !important;
+}
+a.nav-link.nav-link-pills.active {
+  background-color: var(--main);
+  color: var(--second) !important;
+}
