@@ -55,7 +55,7 @@ class AccountServices
             $posts = $this->paginator->paginate(
                 $query,
                 $request->query->get('page', 1),
-                12
+                9
             );
 
             $postsIsPinned = $this->postRepository->findBy(['isPinned' => true, 'user' => $visitedUser], ['id' => 'DESC']);

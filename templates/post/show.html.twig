@@ -25,6 +25,18 @@
 					{{ post.title }}
 				</h1>
 				<p class="ms-1">
+					<span class="me-2">
+						{% if app.user %}
+							<a href="{{ path('app_post_like', {'id':post.id, 'username':user.username}) }}">
+								<i class="fa fa-heart"></i>
+							</a>
+						{% else %}
+							<a href="{{ path('app_login') }}">
+								<i class="fa fa-heart"></i>
+							</a>
+						{% endif %}
+					</span>
+
 					Publié le
 					{{ post.createdAt|date('d ') ~ months[post.createdAt|date('n')-1] ~ post.createdAt|date(' Y') }}
 					à

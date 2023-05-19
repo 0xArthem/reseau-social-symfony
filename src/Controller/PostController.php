@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Like;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Services\PostServices;
@@ -22,6 +23,38 @@ class PostController extends AbstractController
     {
         $this->postServices = $postServices;
     }
+
+    /********/
+    /**
+     * @Route("/{id}/like", name="app_post_like", methods={"GET"})
+     */
+    public function like($id, $username)
+    {
+        // on récupére le post correspondant à l'ID
+        $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
+
+        if (!$post) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        // on récupère l'user connecté
+        $user = $this->getUser();
+        
+       // on crée une nouvelle instance de Like et on associe le post et l'utilisateur
+        $like = new Like();
+        $like->setPost($post);
+        $like->setUser($user);
+        // on ajoute le like à l'entité Post
+        $post->addLike($like);
+        // on enregistrer les modifications dans la base de données
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($like);
+        $entityManager->flush();
+
+        // on rediriger l'utilisateur vers la page du post, par l'id et le username
+        return $this->redirectToRoute('app_post_show', ['id' => $post->getId(), 'username' => $username]);
+    }
+
 
     /**
      * @Route("/new", name="app_post_new", methods={"GET", "POST"})

@@ -40,7 +40,7 @@ class HomeServices {
         $posts = $this->paginator->paginate(
             $query,
             $request->query->get('page', 1),
-            12
+            9
         );
 
         return new Response($this->twig->render('home/index.html.twig', [
@@ -59,7 +59,7 @@ class HomeServices {
         $posts = $this->paginator->paginate(
             $query,
             $request->query->get('page', 1),
-            6
+            9
         );
 
         return new Response($this->twig->render('home/index-other.html.twig', [
@@ -76,7 +76,7 @@ class HomeServices {
         $posts = $this->paginator->paginate(
             $query,
             $request->query->get('page', 1),
-            12
+            9
         );
 
         $content = $this->twig->render('home/index-other.html.twig', [
@@ -97,7 +97,7 @@ class HomeServices {
         $posts = $this->paginator->paginate(
             $query,
             $request->query->get('page', 1),
-            12
+            9
         );
 
         $content = $this->twig->render('post/byTag.html.twig', [
@@ -120,7 +120,7 @@ class HomeServices {
         $posts = $this->paginator->paginate(
             $q,
             $request->query->get('page', 1),
-            12
+            9
         );
 
         $content = $this->twig->render('post/bySearch.html.twig', [
