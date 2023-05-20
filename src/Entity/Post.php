@@ -56,7 +56,7 @@ class Post
     private $link;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Like", mappedBy="post", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Like", mappedBy="post", cascade={"persist", "remove"})
      */
     private $likes;
 

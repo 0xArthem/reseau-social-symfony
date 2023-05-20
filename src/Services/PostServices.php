@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Entity\Post;
 use App\Entity\User;
+use Twig\Environment;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
@@ -12,14 +13,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
-use Twig\Environment;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class PostServices
 {
@@ -37,6 +38,7 @@ class PostServices
     private $formFactory;
     private $twig;
     private $flashBag;
+    private $slugger;
 
     public function __construct(
         UserRepository $userRepository,
@@ -45,7 +47,8 @@ class PostServices
         UrlGeneratorInterface $urlGenerator,
         FormFactoryInterface $formFactory,
         Environment $twig,
-        FlashBagInterface $flashBag
+        FlashBagInterface $flashBag,
+        SluggerInterface $slugger
     ) {
         $this->userRepository = $userRepository;
         $this->postRepository = $postRepository;
@@ -54,6 +57,7 @@ class PostServices
         $this->formFactory = $formFactory;
         $this->twig = $twig;
         $this->flashBag = $flashBag;
+        $this->slugger = $slugger;
     }
 
     public function checkUsers(string $username, User $userConnected): array
@@ -86,8 +90,15 @@ class PostServices
         $form = $this->formFactory->create(PostType::class, $post)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // on génère du slug à partir du titre du post
+            $title = $post->getTitle();
+            $slug = $this->slugger->slug($title)->replace(' ', '-')->lower();
+            $post->setSlug($slug);
+    
+            // Traitement supplémentaire (upload d'image, sauvegarde, etc.)
             $this->handlePostImageUpload($form, $post);
             $this->savePost($post, $user);
+    
             return new RedirectResponse($this->urlGenerator->generate('app_account', ['username' => $user->getUsername()]));
         }
 
@@ -107,6 +118,11 @@ class PostServices
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // on génère du slug à partir du titre du post
+            $title = $post->getTitle();
+            $slug = $this->slugger->slug($title)->replace(' ', '-')->lower();
+            $post->setSlug($slug);
+            
             $this->handlePostImageUpload($form, $post);
             $this->savePost($post, $post->getUser());
 
