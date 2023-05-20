@@ -15,7 +15,7 @@
 
 				{% if mostLikedPost.title %}
 					<h5 class="card-title">
-						{{ mostLikedPost.title|striptags|length > 40 ? mostLikedPost.title|striptags|slice(0, 40) ~ ' ...' : mostLikedPost.title|striptags }}
+						{{ mostLikedPost.title|striptags|length > 35 ? mostLikedPost.title|striptags|slice(0, 35) ~ ' ...' : mostLikedPost.title|striptags }}
 					</h5>
 				{% else %}
 					<div class="mt-3"></div>
@@ -40,7 +40,7 @@
 				</div>
 				{% if mostLikedPost.title %}
 					<h5 class="card-title mt-1">
-						{{ mostLikedPost.title|striptags|length > 40 ? mostLikedPost.title|striptags|slice(0, 40) ~ ' ...' : mostLikedPost.title|striptags }}
+						{{ mostLikedPost.title|striptags|length > 35 ? mostLikedPost.title|striptags|slice(0, 35) ~ ' ...' : mostLikedPost.title|striptags }}
 					</h5>
 
 					<p class="card-text mt-3">

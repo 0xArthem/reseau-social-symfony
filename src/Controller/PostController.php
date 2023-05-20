@@ -21,13 +21,11 @@ class PostController extends AbstractController
 {
 
     private $postServices;
-    private $likeServices;
     private $postRepository;
 
-    public function __construct(PostServices $postServices, LikeServices $likeServices, PostRepository $postRepository)
+    public function __construct(PostServices $postServices, PostRepository $postRepository)
     {
         $this->postServices = $postServices;
-        $this->likeServices = $likeServices;
         $this->postRepository = $postRepository;
     }
 
@@ -38,7 +36,6 @@ class PostController extends AbstractController
     {
         $userConnected = $this->getUser();
         $response = $postServices->new($request, $userConnected);
-
         return $response;
     }
 
@@ -49,11 +46,8 @@ class PostController extends AbstractController
     {
         // Récupérer l'utilisateur correspondant à l'username
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
-       
         $post = $postRepository->findOneBySlug($slug);
-
         $postTags = $post->getPosttag();
-        
 
         $isLikedByUser = false;
         // on vérifie si l'utilisateur connecté a déjà liké le post
@@ -64,7 +58,6 @@ class PostController extends AbstractController
                 break;
             }
         }
-
         // on récupère tous les likes du post
         $likesCount = count($post->getLikes());
 
@@ -83,11 +76,9 @@ class PostController extends AbstractController
     public function edit($slug, Request $request): Response
     {
         $post = $this->postRepository->findOneBy(['slug' => $slug]);
-
         if ($post === null) {
-            throw $this->createNotFoundException('Post not found');
+            return $this->redirectToRoute('app_home');
         }
-
         $userConnected = $this->getUser();
         $users = $this->postServices->checkUsers($post->getUser()->getUsername(), $userConnected);
         $userConnected = $users['userConnected'];
@@ -103,52 +94,10 @@ class PostController extends AbstractController
         // Récupère l'utilisateur connecté
         $userConnected = $this->getUser();
         $users = $this->postServices->checkUsers($post->getUser()->getUsername(), $userConnected);
-
         $userConnected = $users['userConnected'];
         $user = $users['user'];
-
         $this->postServices->deletePost($post, $userConnected);
 
         return $this->redirectToRoute('app_account', ['username' => $user->getUsername()], Response::HTTP_SEE_OTHER);
-    }
-
-    /** système de likes **/
-
-    /**
-     * @Route("/{slug}/like", name="app_post_like", methods={"GET"})
-     */
-    public function like($slug, $username)
-    {
-        // On récupère le post correspondant au slug
-        $post = $this->getDoctrine()->getRepository(Post::class)->findOneBy(['slug' => $slug]);
-
-        if (!$post) {
-            return $this->redirectToRoute('app_home');
-        }
-
-        // On récupère l'utilisateur connecté
-        $user = $this->getUser();
-
-        // On utilise le service LikeServices pour liker le post
-        return $this->likeServices->like($post, $user, $username);
-    }
-
-    /**
-     * @Route("/{slug}/dislike", name="app_post_dislike", methods={"GET"})
-     */
-    public function removeLike($slug, $username)
-    {
-        // On récupère le post correspondant au slug
-        $post = $this->getDoctrine()->getRepository(Post::class)->findOneBy(['slug' => $slug]);
-
-        if (!$post) {
-            return $this->redirectToRoute('app_home');
-        }
-
-        // On récupère l'utilisateur connecté
-        $user = $this->getUser();
-
-        // On utilise le service LikeServices pour supprimer le like
-        return $this->likeServices->removeLike($post, $user, $username);
     }
 }
