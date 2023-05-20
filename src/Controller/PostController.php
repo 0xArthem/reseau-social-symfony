@@ -96,14 +96,14 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_post_delete", methods={"POST"})
+     * @Route("/{slug}", name="app_post_delete", methods={"POST"})
      */
     public function delete(Post $post, $username): Response
     {
-        // récupère l'utilisateur connecté
+        // Récupère l'utilisateur connecté
         $userConnected = $this->getUser();
-        $users = $this->postServices->checkUsers($username, $userConnected);
-        
+        $users = $this->postServices->checkUsers($post->getUser()->getUsername(), $userConnected);
+
         $userConnected = $users['userConnected'];
         $user = $users['user'];
 
@@ -115,12 +115,12 @@ class PostController extends AbstractController
     /** système de likes **/
 
     /**
-     * @Route("/{id}/like", name="app_post_like", methods={"GET"})
+     * @Route("/{slug}/like", name="app_post_like", methods={"GET"})
      */
-    public function like($id, $username)
+    public function like($slug, $username)
     {
-        // On récupère le post correspondant à l'ID
-        $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
+        // On récupère le post correspondant au slug
+        $post = $this->getDoctrine()->getRepository(Post::class)->findOneBy(['slug' => $slug]);
 
         if (!$post) {
             return $this->redirectToRoute('app_home');
@@ -134,12 +134,12 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/dislike", name="app_post_dislike", methods={"GET"})
+     * @Route("/{slug}/dislike", name="app_post_dislike", methods={"GET"})
      */
-    public function removeLike($id, $username)
+    public function removeLike($slug, $username)
     {
-        // On récupère le post correspondant à l'ID
-        $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
+        // On récupère le post correspondant au slug
+        $post = $this->getDoctrine()->getRepository(Post::class)->findOneBy(['slug' => $slug]);
 
         if (!$post) {
             return $this->redirectToRoute('app_home');

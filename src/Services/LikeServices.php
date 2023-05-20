@@ -25,7 +25,7 @@ class LikeServices
         $likes = $post->getLikes();
         foreach ($likes as $like) {
             if ($like->getUser() === $user) {
-                return new RedirectResponse($this->urlGenerator->generate('app_post_show', ['id' => $post->getId(), 'username' => $username]));
+                return new RedirectResponse($this->urlGenerator->generate('app_post_show', ['slug' => $post->getSlug(), 'username' => $username]));
             }
         }
 
@@ -40,8 +40,8 @@ class LikeServices
         $this->entityManager->persist($like);
         $this->entityManager->flush();
 
-        // On redirige l'utilisateur vers la page du post, par l'id et le username
-        return new RedirectResponse($this->urlGenerator->generate('app_post_show', ['id' => $post->getId(), 'username' => $username]));
+        // On redirige l'utilisateur vers la page du post, par le slug et le username
+        return new RedirectResponse($this->urlGenerator->generate('app_post_show', ['slug' => $post->getSlug(), 'username' => $username]));
     }
 
     public function removeLike(Post $post, $user, $username)
@@ -60,7 +60,7 @@ class LikeServices
             $this->entityManager->flush();
         }
 
-        // Rediriger l'utilisateur vers la page du post, par l'id et le username
-        return new RedirectResponse($this->urlGenerator->generate('app_post_show', ['id' => $post->getId(), 'username' => $username]));
+        // Rediriger l'utilisateur vers la page du post, par le slug et le username
+        return new RedirectResponse($this->urlGenerator->generate('app_post_show', ['slug' => $post->getSlug(), 'username' => $username]));
     }
 }

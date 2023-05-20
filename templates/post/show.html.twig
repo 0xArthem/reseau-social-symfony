@@ -35,11 +35,11 @@
 					<span>
 						{% if app.user %}
 							{% if isLikedByUser %}
-								<a href="{{ path('app_post_dislike', {'id':post.id, 'username':user.username}) }}">
+								<a href="{{ path('app_post_dislike', {'slug':post.slug, 'username':user.username}) }}">
 									<i class="fas fa-heart"></i>
 								</a>
 							{% else %}
-								<a href="{{ path('app_post_like', {'id':post.id, 'username':user.username}) }}">
+								<a href="{{ path('app_post_like', {'slug':post.slug, 'username':user.username}) }}">
 									<i class="far fa-heart"></i>
 								</a>
 							{% endif %}
