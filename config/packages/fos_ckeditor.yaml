@@ -5,6 +5,7 @@ twig:
 fos_ck_editor:
   configs:
     main_config:
+      entities: false
       toolbar:
         - {
             name: "styles",

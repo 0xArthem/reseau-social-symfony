@@ -3,10 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Post;
+use App\Entity\PostTag;
 use Symfony\Component\Form\AbstractType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Url;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Length;
@@ -30,7 +32,7 @@ class PostType extends AbstractType
                 ],
                 'constraints' => [
                     new Length([
-                        'max' => 80,
+                        'max' => 200,
                         'maxMessage' => 'Le titre ne peut pas dépasser {{ limit }} caractères.',
                     ]),
                 ],
@@ -72,11 +74,18 @@ class PostType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('posttag', EntityType::class, [
+                'class' => PostTag::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true,
+            ])
             ->add('isPinned', null, [
-                'label' => 'Post épinglé',
+                'label' => 'Voulez-vous épingler cette publication ?',
                 'label_attr' => [
-                    'class' => 'me-2'
-                ]
+                    'class' => 'me-2',
+                ],
+                'attr' => ['class' => 'form-check-input'],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Sauvegarder',

@@ -3,5 +3,7 @@
 		<a href="{{ path('app_post_show', {'slug': mostLikedPost.slug, 'username': mostLikedPost.user.username}) }}" class="text-dark">
 			{% include "include/forPostLiked.html.twig" %}
 		</a>
+	{% else %}
+		<p>Aucune publication pour le moment.</p>
 	{% endfor %}
 </div>

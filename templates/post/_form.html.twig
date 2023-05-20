@@ -22,10 +22,18 @@
 		{{ form_row(form.content) }}
 	</div>
 	<div class="row mt-4">
-		{{ form_row(form.link) }}
+		{{ form_row(form.isPinned) }}
 	</div>
 	<div class="row mt-4">
-		{{ form_row(form.isPinned) }}
+		{{ form_row(form.link) }}
+	</div>
+	<div class="row mt-4 ms-1">
+		{% for tag in form.posttag %}
+			<div class="form-check form-check-inline">
+				{{ form_widget(tag, {'attr': {'class': 'form-check-input'}}) }}
+				<label class="form-check-label">{{ form_label(tag) }}</label>
+			</div>
+		{% endfor %}
 	</div>
 	<div class="row mt-4">
 		{{ form_row(form.submit) }}

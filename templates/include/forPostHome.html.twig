@@ -4,6 +4,8 @@
 			<a href="{{ path('app_post_show', {'slug': post.slug, 'username': post.user.username}) }}" class="text-dark">
 				{% include "include/forPostAccount.html.twig" %}
 			</a>
+		{% else %}
+			<p>Aucune publication pour le moment.</p>
 		{% endfor %}
 	</div>
 {% else %}
