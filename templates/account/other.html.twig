@@ -86,7 +86,7 @@
 				class="row row-cols-1 row-cols-md-3 g-4">
 				<!-- affichage des posts épinglés par l'utilisateur -->
 				{% for postIsPinned in postsIsPinned %}
-					<a href="{{ path('app_post_show', {'id': postIsPinned.id, 'username': visitedUser.username}) }}" class="text-dark">
+					<a href="{{ path('app_post_show', {'slug': postIsPinned.slug, 'username': visitedUser.username}) }}" class="text-dark">
 						{% include "include/forPostIsPinned.html.twig" %}
 					</a>
 				{% endfor %}
@@ -94,7 +94,7 @@
 
 				<!-- affichage de tous les posts -->
 				{% for post in posts %}
-					<a href="{{ path('app_post_show', {'id': post.id, 'username': visitedUser.username}) }}" class="text-dark">
+					<a href="{{ path('app_post_show', {'slug': post.slug, 'username': visitedUser.username}) }}" class="text-dark">
 						{% include "include/forPostAccount.html.twig" %}
 					</a>
 				{% endfor %}

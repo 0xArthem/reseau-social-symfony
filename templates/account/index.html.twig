@@ -91,7 +91,7 @@
 				<!-- affichage des posts épinglés par l'utilisateur -->
 				{% for postIsPinned in postsIsPinned %}
 					<div>
-						<a href="{{ path('app_post_show', {'id': postIsPinned.id, 'username': user.username}) }}" class="text-dark">
+						<a href="{{ path('app_post_show', {'slug': postIsPinned.slug, 'username': user.username}) }}" class="text-dark">
 							{% include "include/forPostIsPinned.html.twig" %}
 						</a>
 					</div>
@@ -100,11 +100,11 @@
 				<!-- affichage de tous les posts -->
 				{% for post in posts %}
 					<div class="mb-4">
-						<a href="{{ path('app_post_show', {'id': post.id, 'username': user.username}) }}" class="text-dark">
+						<a href="{{ path('app_post_show', {'slug': post.slug, 'username': user.username}) }}" class="text-dark">
 							{% include "include/forPostAccount.html.twig" %}
 						</a>
 						<div class="d-flex justify-content-center">
-							<a href="{{ path('app_post_edit', {'id': post.id, 'username': user.username}) }}" class="btn btn-dark btn-rounded btn-post-edit">
+							<a href="{{ path('app_post_edit', {'slug': post.slug, 'username': user.username}) }}" class="btn btn-dark btn-rounded btn-post-edit">
 								<i class="fas fa-pen-to-square"></i>
 							</a>
 						</div>

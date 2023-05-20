@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Like;
 use App\Entity\Post;
 use App\Entity\User;
+use App\Repository\PostRepository;
 use App\Services\LikeServices;
 use App\Services\PostServices;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,11 +22,13 @@ class PostController extends AbstractController
 
     private $postServices;
     private $likeServices;
+    private $postRepository;
 
-    public function __construct(PostServices $postServices, LikeServices $likeServices)
+    public function __construct(PostServices $postServices, LikeServices $likeServices, PostRepository $postRepository)
     {
         $this->postServices = $postServices;
         $this->likeServices = $likeServices;
+        $this->postRepository = $postRepository;
     }
 
     /**
@@ -40,13 +43,17 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_post_show", methods={"GET"})
+     * @Route("/{slug}", name="app_post_show", methods={"GET"})
      */
-    public function show(Post $post, $username, Security $security): Response
+    public function show($slug, $username, Security $security, PostRepository $postRepository): Response
     {
         // Récupérer l'utilisateur correspondant à l'username
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
+       
+        $post = $postRepository->findOneBySlug($slug);
+
         $postTags = $post->getPosttag();
+        
 
         $isLikedByUser = false;
         // on vérifie si l'utilisateur connecté a déjà liké le post
@@ -71,13 +78,18 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_post_edit", methods={"GET", "POST"})
+     * @Route("/{slug}/edit", name="app_post_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Post $post, $username): Response
+    public function edit($slug, Request $request): Response
     {
+        $post = $this->postRepository->findOneBy(['slug' => $slug]);
+
+        if ($post === null) {
+            throw $this->createNotFoundException('Post not found');
+        }
+
         $userConnected = $this->getUser();
-        $users = $this->postServices->checkUsers($username, $userConnected);
-        
+        $users = $this->postServices->checkUsers($post->getUser()->getUsername(), $userConnected);
         $userConnected = $users['userConnected'];
 
         return $this->postServices->editPost($request, $post, $userConnected);

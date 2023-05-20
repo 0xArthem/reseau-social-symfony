@@ -1,6 +1,6 @@
 <div class="row row-cols-1 row-cols-md-3 g-4">
 	{% for mostLikedPost in mostLikedPosts %}
-		<a href="{{ path('app_post_show', {'id': mostLikedPost.id, 'username': mostLikedPost.user.username}) }}" class="text-dark">
+		<a href="{{ path('app_post_show', {'slug': mostLikedPost.slug, 'username': mostLikedPost.user.username}) }}" class="text-dark">
 			{% include "include/forPostLiked.html.twig" %}
 		</a>
 	{% endfor %}

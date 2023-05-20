@@ -1,7 +1,7 @@
 {% if posts %}
 	<div class="row row-cols-1 row-cols-md-3 g-4">
 		{% for post in posts %}
-			<a href="{{ path('app_post_show', {'id': post.id, 'username': post.user.username}) }}" class="text-dark">
+			<a href="{{ path('app_post_show', {'slug': post.slug, 'username': post.user.username}) }}" class="text-dark">
 				{% include "include/forPostAccount.html.twig" %}
 			</a>
 		{% endfor %}
