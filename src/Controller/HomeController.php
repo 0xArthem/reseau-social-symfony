@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\InfoRepository;
 use App\Services\HomeServices;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
@@ -12,10 +13,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     private $homeServices;
+    private $infoRepository;
     
-    public function __construct(HomeServices $homeServices)
+    public function __construct(HomeServices $homeServices, InfoRepository $infoRepository)
     {
         $this->homeServices = $homeServices;
+        $this->infoRepository = $infoRepository;
+
     }
 
     /**
@@ -24,11 +28,12 @@ class HomeController extends AbstractController
     public function index(Security $security, Request $request): Response
     {
         $user = $security->getUser();
+        $infos = $this->infoRepository->findBy(array(), array('id' => 'DESC'), 1, 0);
         
         if ($user) {
-            return $this->homeServices->renderForConnectedUser($user, $request);
+            return $this->homeServices->renderForConnectedUser($user, $infos, $request);
         } else {
-            return $this->homeServices->renderForVisitedUser($request);
+            return $this->homeServices->renderForVisitedUser($request, $infos);
         }
     }
     

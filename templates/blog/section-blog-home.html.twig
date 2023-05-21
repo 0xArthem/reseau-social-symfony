@@ -1,5 +1,7 @@
 <div class="shadow" id="header-info">
-	Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum adipisci omnis ratione ?
+	{% for info in infos %}
+		{{ info.header|raw}}
+	{% endfor %}
 </div>
 <div class="section-blog-home">
 	<h1 class="text-light text-center">Actualités</h1>

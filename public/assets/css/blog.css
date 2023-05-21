@@ -3,11 +3,3 @@
   padding-top: 7%;
   background-color: var(--main);
 }
-#header-info {
-  font-size: 15.5px !important;
-  font-weight: lighter !important;
-  padding: 12.5px !important;
-  background-color: var(--second) !important;
-  color: var(--third) !important;
-  text-align: center !important;
-}
