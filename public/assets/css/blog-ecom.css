@@ -1,0 +1,34 @@
+.section-blog-ecom-home {
+  /* background-color: var(--third); */
+  background-color: white;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.03),
+    rgba(0, 0, 0, 0.03) 3px,
+    transparent 2px,
+    transparent 4px
+  );
+  padding-top: 3.5%;
+  padding-bottom: 3.5%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+.card-article {
+  color: var(--main) !important;
+  background-color: var(--third) !important;
+}
+.card-ecommerce {
+  color: var(--main) !important;
+  background-color: var(--third) !important;
+  text-align: center;
+}
+.fa-hand-holding-heart {
+  color: var(--second) !important;
+}
+.btn-ecommerce {
+  background-color: var(--main) !important;
+}
+.card-title-ecommerce {
+  color: var(--second) !important;
+  font-weight: normal !important;
+}

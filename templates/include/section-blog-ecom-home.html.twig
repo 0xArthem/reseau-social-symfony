@@ -1,0 +1,56 @@
+<div class="shadow" id="header-info">
+	{% for info in infos %}
+		{{ info.header|raw}}
+	{% endfor %}
+</div>
+<div class="section-blog-ecom-home">
+
+	<h1 class="text-dark text-left">
+		<i class="fas fa-feather-pointed" style="font-size:25px;color:var(--second);"></i>
+		Actualités
+	</h1>
+
+	<div
+		class="row mt-5">
+		<!-- section-blog -->
+		{% for article in articles %}
+			<div class="col-sm-6 mb-4">
+				<div class="card card-article">
+					<div class="card-body">
+						<h5 class="card-title">{{ article.title }}</h5>
+						<p class="card-text">{{ article.content }}</p>
+						<button class="btn btn-light btn-post-compteur shadow">
+							<i class="far fa-clock me-1"></i>
+							{{ article.createdAt|date('d ') ~ months[article.createdAt|date('n')-1] ~ article.createdAt|date(' Y') }}
+						</button>
+						<button class="btn btn-light btn-post-compteur shadow ms-3">
+							<i class="fas fa-folder-open me-1"></i>
+							{{ article.category.name }}
+						</button>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+
+		<!-- section-ecommerce -->
+		<section class="d-flex justify-content-center mb-3">
+			<i class="fas fa-angle-down text-dark mt-4 mb-4"></i>
+		</section>
+
+		<div class="col-sm-12 mb-4">
+			<div class="card card-ecommerce shadow">
+				<div class="card-body">
+					<h5 class="card-title card-title-ecommerce">
+						Special title treatment !
+					</h5>
+					<p>
+						Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+					</p>
+					<button class="btn btn-light btn-ecommerce shadow">
+						<i class="fas fa-hand-holding-heart"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

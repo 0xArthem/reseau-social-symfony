@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ArticleRepository;
 use App\Repository\InfoRepository;
 use App\Services\HomeServices;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,11 +15,13 @@ class HomeController extends AbstractController
 {
     private $homeServices;
     private $infoRepository;
+    private $articleRepository;
     
-    public function __construct(HomeServices $homeServices, InfoRepository $infoRepository)
+    public function __construct(HomeServices $homeServices, InfoRepository $infoRepository, ArticleRepository $articleRepository)
     {
         $this->homeServices = $homeServices;
         $this->infoRepository = $infoRepository;
+        $this->articleRepository = $articleRepository;
 
     }
 
@@ -29,11 +32,12 @@ class HomeController extends AbstractController
     {
         $user = $security->getUser();
         $infos = $this->infoRepository->findBy(array(), array('id' => 'DESC'), 1, 0);
+        $articles = $this->articleRepository->findBy(array('isActive' => True), array('id' => 'DESC'), 2, 0);
         
         if ($user) {
-            return $this->homeServices->renderForConnectedUser($user, $infos, $request);
+            return $this->homeServices->renderForConnectedUser($user, $infos, $articles, $request);
         } else {
-            return $this->homeServices->renderForVisitedUser($request, $infos);
+            return $this->homeServices->renderForVisitedUser($request, $infos, $articles);
         }
     }
     
