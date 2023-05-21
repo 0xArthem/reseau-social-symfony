@@ -1,5 +1,16 @@
 .section-blog-home {
-  height: 720px;
-  padding-top: 7%;
-  background-color: var(--main);
+  /* background-color: var(--third); */
+  background-color: #f9f9f9;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.04),
+    rgba(0, 0, 0, 0.04) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  padding: 5%;
+}
+.card-article {
+  color: var(--main) !important;
+  background-color: var(--third) !important;
 }
