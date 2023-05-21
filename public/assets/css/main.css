@@ -35,3 +35,18 @@
 .titre-home {
   color: var(--main) !important;
 }
+/**/
+.pre-icon {
+  font-size: 25px;
+  color: var(--second);
+}
+
+/*********** form de contact ***********/
+.form-de-contact {
+  min-height: 720px;
+  padding-bottom: 50px;
+  padding-top: 110px;
+  padding-left: 300px;
+  padding-right: 300px;
+  background-color: var(--third);
+}

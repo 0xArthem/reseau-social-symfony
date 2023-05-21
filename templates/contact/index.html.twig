@@ -4,24 +4,42 @@
 {% endblock %}
 
 {% block body %}
-	<div>
-		<h2>Formulaire de contact</h2>
+	<div class="form-de-contact">
+		<h2>
+			<i class="fa fa-envelope-open-text pre-icon"></i>
+			Formulaire de contact</h2>
 
-		<section>
-			{% for message in app.flashes('success') %}
-				{{ message }}
-			{% endfor %}
-			{% for message in app.flashes('error') %}
-				{{ message }}
-			{% endfor %}
+		<section class="mt-4">
+			<div class="mb-4">
+				{% for message in app.flashes('success') %}
+					<i class="fas fa-bell me-1"></i>
+					{{ message }}
+				{% endfor %}
+				{% for message in app.flashes('error') %}
+					<i class="fas fa-bell me-1"></i>
+					{{ message }}
+				{% endfor %}
+			</div>
 
 			{{ form_start(form)}}
 
-			{{form_row(form.name)}}
-			{{form_row(form.email)}}
-			{{form_row(form.subject)}}
-			{{form_row(form.content)}}
-			{{form_row(form.isChecked)}}
+			<div class="row">
+				<div class="col">
+					{{form_row(form.name)}}
+				</div>
+				<div class="col">
+					{{form_row(form.email)}}
+				</div>
+			</div>
+			<div class="row mt-4">
+				{{form_row(form.subject)}}
+			</div>
+			<div class="row mt-4">
+				{{form_row(form.content)}}
+			</div>
+			<div class="row mt-4">
+				{{form_row(form.isChecked)}}
+			</div>
 
 			{{ form_end(form)}}
 		</section>

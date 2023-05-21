@@ -23,7 +23,8 @@ class ContactType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Nom'
+                    'placeholder' => 'Nom',
+                    'class' => 'form-control'
                 ],
                 'required' => false,
                 'constraints' => [
@@ -35,7 +36,8 @@ class ContactType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Adresse électronique'
+                    'placeholder' => 'Adresse électronique',
+                    'class' => 'form-control'
                 ],
                 'required' => false,
                 'constraints' => [
@@ -50,7 +52,8 @@ class ContactType extends AbstractType
             ->add('subject', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Object'
+                    'placeholder' => 'Object',
+                    'class' => 'form-control'
                 ],
                 'required' => false,
                 'constraints' => [
@@ -62,7 +65,8 @@ class ContactType extends AbstractType
             ->add('content', TextareaType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Message'
+                    'placeholder' => 'Message',
+                    'class' => 'form-control'
                 ],
                 'required' => false,
                 'constraints' => [
@@ -84,7 +88,10 @@ class ContactType extends AbstractType
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Envoyer'
+                'label' => 'Envoyer',
+                'attr' => [
+                    'class' => 'btn btn-dark mt-4'
+                ]
             ])
         ;
     }
