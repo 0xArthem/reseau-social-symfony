@@ -48,6 +48,11 @@ class Contact
      */
     private $isAnswered = false;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isChecked;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -126,6 +131,18 @@ class Contact
     public function setIsAnswered(bool $isAnswered): self
     {
         $this->isAnswered = $isAnswered;
+
+        return $this;
+    }
+
+    public function isIsChecked(): ?bool
+    {
+        return $this->isChecked;
+    }
+
+    public function setIsChecked(bool $isChecked): self
+    {
+        $this->isChecked = $isChecked;
 
         return $this;
     }
