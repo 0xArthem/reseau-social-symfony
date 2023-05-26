@@ -37,20 +37,23 @@
 			<i class="fas fa-angle-down text-dark mt-4 mb-4"></i>
 		</section>
 
-		<div class="col-sm-12 mb-4">
-			<div class="card card-ecommerce shadow">
-				<div class="card-body">
-					<h5 class="card-title card-title-ecommerce">
-						Special title treatment !
-					</h5>
-					<p>
-						Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
-					</p>
-					<button class="btn btn-light btn-ecommerce shadow">
-						<i class="fas fa-hand-holding-heart"></i>
-					</button>
+		{% for product in products %}
+			<div class="col-sm-12 mb-4">
+				<div class="card card-ecommerce shadow">
+					<div class="card-body">
+						<h5 class="card-title card-title-ecommerce">
+							{{ product.title }}
+						</h5>
+						<p>
+							{{ product.content }}
+						</p>
+						<button class="btn btn-light btn-ecommerce shadow">
+							<span class="text-light me-2">{{ product.price }}&euro;</span>
+							<i class="fas fa-hand-holding-heart"></i>
+						</button>
+					</div>
 				</div>
 			</div>
-		</div>
+		{% endfor %}
 	</div>
 </div>

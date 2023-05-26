@@ -25,7 +25,7 @@ class HomeServices {
         $this->twig = $twig;
     }
     
-    public function renderForConnectedUser(UserInterface $user, $infos, $articles, Request $request): Response
+    public function renderForConnectedUser(UserInterface $user, $infos, $articles, $products, Request $request): Response
     {
         $abonnements = $user->getAbonnements();
         $usersAbonnement = [];
@@ -54,11 +54,12 @@ class HomeServices {
             'mostLikedPosts' => $mostLikedPosts,
             'page' => $page,
             'infos' => $infos,
-            'articles' => $articles
+            'articles' => $articles,
+            'products' => $products
         ]));
     }
 
-    public function renderForVisitedUser(Request $request, $infos, $articles): Response
+    public function renderForVisitedUser(Request $request, $infos, $articles, $products): Response
     {
         $postTags = $this->postTagRepository->findAll();
 
@@ -78,7 +79,8 @@ class HomeServices {
             'mostLikedPosts' => $mostLikedPosts,
             'page' => $page,
             'infos' => $infos,
-            'articles' => $articles
+            'articles' => $articles,
+            'products' => $products
         ]));
     }
 
