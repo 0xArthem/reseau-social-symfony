@@ -32,6 +32,17 @@ class CartServices {
         $this->getSession()->set('cart', $card);
     }
 
+    public function decrementToCart(int $id): void {
+        $card = $this->requestStack->getSession()->get('cart', []);
+        if (!empty($card[$id])) {
+            $card[$id]--;
+        }
+        if($card[$id] <= 0) {
+            unset($card[$id]);
+        }
+        $this->getSession()->set('cart', $card);
+    }
+
     public function removeToCart(int $id) {
         $card = $this->requestStack->getSession()->get('cart', []);
         unset($card[$id]);

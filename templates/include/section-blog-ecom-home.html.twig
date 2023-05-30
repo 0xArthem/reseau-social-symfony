@@ -49,7 +49,7 @@
 						</p>
 						<a type="button" class="btn btn-light btn-ecommerce shadow" href="{{ path('addToCart', {'id':product.id}) }}">
 							<span class="text-light me-2">
-								{{ product.price }}&euro;
+								{{ (product.price / 100)|number_format(2, ',', '.') }}&euro;
 							</span>
 							<i class="fas fa-hand-holding-heart"></i>
 						</a>

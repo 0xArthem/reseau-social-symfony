@@ -27,7 +27,16 @@ class ProductController extends AbstractController
     public function addToCart(CartServices $cartServices, $id): Response
     {
        $cartServices->addToCart($id);
-    //    dd($cartServices);
+
+        return $this->redirectToRoute('cart_index');
+    }
+
+    /**
+     * @Route("/mon-panier/supprimer/{id}", name="decrementToCart")
+     */
+    public function decrementToCart(CartServices $cartServices, $id): Response
+    {
+       $cartServices->decrementToCart($id);
 
         return $this->redirectToRoute('cart_index');
     }
@@ -49,6 +58,6 @@ class ProductController extends AbstractController
     {
        $cartServices->removeToCart($id);
 
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('cart_index');
     }
 }
