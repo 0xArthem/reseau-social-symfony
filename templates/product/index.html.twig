@@ -17,6 +17,10 @@
 					{{ item.product.price }}&euro;
 					{{ item.quantity }}
 					{{ item.product.price * item.quantity }}&euro;
+
+					<a href="{{ path('removeToCart', {'id':item.product.id}) }}">
+						Supprimer ce produit du panier
+					</a>
 				{% endfor %}
 			</section>
 		{% else %}

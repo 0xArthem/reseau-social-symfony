@@ -41,4 +41,14 @@ class ProductController extends AbstractController
 
         return $this->redirectToRoute('app_home');
     }
+
+    /**
+     * @Route("/mon-panier/supprimer-le-produit/{id}", name="removeToCart")
+     */
+    public function removeToCart(CartServices $cartServices, $id): Response
+    {
+       $cartServices->removeToCart($id);
+
+        return $this->redirectToRoute('app_home');
+    }
 }
