@@ -13,10 +13,11 @@ class ProductController extends AbstractController
     /**
      * @Route("/mon-panier", name="cart_index")
      */
-    public function index(): Response
+    public function index(CartServices $cartServices): Response
     {
+    // dd($cartServices->getTotal());
        return $this->render('product/index.html.twig', [
-            'controller_name' => 'ProductController',
+            'cart' => $cartServices->getTotal(),
         ]);
     }
 
@@ -27,7 +28,7 @@ class ProductController extends AbstractController
     {
        $cartServices->addToCart($id);
     //    dd($cartServices);
-    
+
         return $this->redirectToRoute('cart_index');
     }
 }
