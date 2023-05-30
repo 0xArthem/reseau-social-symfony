@@ -31,4 +31,14 @@ class ProductController extends AbstractController
 
         return $this->redirectToRoute('cart_index');
     }
+
+    /**
+     * @Route("/mon-panier/supprimer-le-panier", name="removeCartAll")
+     */
+    public function removeCartAll(CartServices $cartServices): Response
+    {
+       $cartServices->removeCartAll();
+
+        return $this->redirectToRoute('app_home');
+    }
 }

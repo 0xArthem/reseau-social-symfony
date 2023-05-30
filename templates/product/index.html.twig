@@ -6,14 +6,21 @@
 {% block body %}
 	<div>
 		<h1>Mon panier</h1>
+		{% if cart|length > 0 %}
 
-		<section>
-			{% for item in cart %}
-				{{ item.product.title }}
-				{{ item.product.price }}&euro;
-				{{ item.quantity }}
-				{{ item.product.price * item.quantity }}&euro;
-			{% endfor %}
-		</section>
+			<a href="{{ path('removeCartAll')}}">
+				Vider le panier
+			</a>
+			<section>
+				{% for item in cart %}
+					{{ item.product.title }}
+					{{ item.product.price }}&euro;
+					{{ item.quantity }}
+					{{ item.product.price * item.quantity }}&euro;
+				{% endfor %}
+			</section>
+		{% else %}
+			Votre panier est vide.
+		{% endif %}
 	</div>
 {% endblock %}

@@ -32,6 +32,10 @@ class CartServices {
         $this->getSession()->set('cart', $card);
     }
 
+    public function removeCartAll() {
+        return $this->getSession()->remove('cart');
+    }
+
     public function getTotal() : array{
         $cart = $this->getSession()->get('cart');
         $cartData = [];
