@@ -41,7 +41,7 @@ class HomeController extends AbstractController
         if ($user) {
             return $this->homeServices->renderForConnectedUser($user, $infos, $articles, $products, $request);
         } else {
-            return $this->homeServices->renderForVisitedUser($request, $infos, $products, $articles);
+            return $this->homeServices->renderForVisitedUser($request, $infos, $articles, $products);
         }
     }
     
