@@ -11,30 +11,36 @@
 			<a href="{{ path('removeCartAll')}}">
 				Vider le panier
 			</a>
-			<section>
-				{% set total = null %}
-				{% for item in cart %}
-					{% set total = total + (item.product.price * item.quantity) %}
-					{{ item.product.title }}
-					{{ item.product.price }}&euro;
-					{{ item.quantity }}
-					{{ item.product.price * item.quantity }}&euro;
+			<form action="{{ path('order_index')}}">
+				<section>
+					{% set total = null %}
+					{% for item in cart %}
+						{% set total = total + (item.product.price * item.quantity) %}
+						{{ item.product.title }}
+						{{ item.product.price }}&euro;
+						{{ item.quantity }}
+						{{ item.product.price * item.quantity }}&euro;
 
-					<a href="{{ path('decrementToCart', {'id':item.product.id}) }}">-</a>
-					<a href="{{ path('addToCart', {'id':item.product.id}) }}">+</a>
+						<a href="{{ path('decrementToCart', {'id':item.product.id}) }}">-</a>
+						<a href="{{ path('addToCart', {'id':item.product.id}) }}">+</a>
 
-					<a href="{{ path('removeToCart', {'id':item.product.id}) }}">
-						Supprimer ce produit du panier
-					</a>
-					<br><br>
-				{% endfor %}
+						<a href="{{ path('removeToCart', {'id':item.product.id}) }}">
+							Supprimer ce produit du panier
+						</a>
+						<br><br>
+					{% endfor %}
 
-				<div>
-					<p>Total du panier :
-						{{ (total / 100)|number_format(2, ',', '.') }}&euro;
-					</p>
-				</div>
-			</section>
+					<div>
+						<p>Total du panier :
+							{{ (total / 100)|number_format(2, ',', '.') }}&euro;
+						</p>
+					</div>
+
+					<button type="submit">
+						Je valide mon panier
+					</button>
+				</section>
+			</form>
 		{% else %}
 			Votre panier est vide.
 		{% endif %}
