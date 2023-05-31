@@ -32,6 +32,11 @@ class Transporter
      */
     private $price;
 
+    public function __toString()
+    {
+        return $this->title;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
