@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Order;
+use App\Entity\RecapDetails;
 use App\Form\OrderType;
 use App\Services\CartServices;
 use Doctrine\ORM\EntityManagerInterface;
@@ -42,7 +43,7 @@ class OrderController extends AbstractController
     /**
      * @Route("/order/prepare", name="order_prepare", methods={"POST"})
      */
-    public function prepareOrder(Request $request): Response {
+    public function prepareOrder(Request $request, CartServices $cartServices): Response {
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
@@ -65,7 +66,6 @@ class OrderController extends AbstractController
             $deliveryForOrder .= '</br>' . $delivery->getAddress();
             $deliveryForOrder .= '</br>' . $delivery->getPostalCode() . ' ' . $delivery->getCity();
             $deliveryForOrder .= '</br>' . $delivery->getCountry();
-            // dd($deliveryForOrder);
             
             $order = new Order();
             $reference = $datetime->format('dmY').'-'.uniqid();
@@ -80,10 +80,28 @@ class OrderController extends AbstractController
             $order->setMethod('stripe');
 
             $this->em->persist($order);
+
+            foreach ($cartServices->getTotal() as $product) {
+                $recapDetails = new RecapDetails();
+                $recapDetails->setOrderProduct($order);
+                $recapDetails->setQuantity($product['quantity']);
+                $recapDetails->setPrice($product['product']->getPrice());
+                $recapDetails->setProduct($product['product']->getTitle());
+                $recapDetails->setTotalRecap($product['product']->getPrice() * $product['quantity']);
+                
+                $this->em->persist($recapDetails);
+            }
+
             $this->em->flush();
+            return $this->render('order/recap.html.twig', [
+                'method' => $order->getMethod(),
+                'cart' => $cartServices->getTotal(),
+                'transporter' => $transporter,
+                'delivery' => $deliveryForOrder,
+                'reference' => $order->getReference()
+            ]);
         }
 
-        return $this->render('order/recap.html.twig', [
-        ]);
+        return $this->redirectToRoute('app_index');
     }
 }

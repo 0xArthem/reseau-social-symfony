@@ -60,7 +60,8 @@ class CartServices {
         foreach ($cart as $id => $quantity) {
             $product = $this->em->getRepository(Product::class)->findOneBy(['id' => $id]);
             if (!$product) {
-                // supprimer le produit + sortir de la boucle
+                $this->removeToCart($id);
+                continue;
             }
             $cartData[] = [
                'product' => $product,
