@@ -69,8 +69,9 @@ class Address
 
     public function __toString()
     {
-        return $this->title;
+        return $this->title . ' - ' . $this->firstname . ' ' . $this->lastname . ' ' . $this->address . ' ' . $this->postalcode . ' ' . $this->country;
     }
+    
 
     public function getId(): ?int
     {

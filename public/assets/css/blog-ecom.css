@@ -34,7 +34,10 @@
 }
 /**** panier ***/
 .div-panier {
-  padding: 5%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  padding-left: 10%;
+  padding-right: 10%;
   background-color: var(--third);
   min-height: 610px;
 }

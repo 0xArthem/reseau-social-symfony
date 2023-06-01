@@ -1,53 +1,72 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello OrderController!
+{% block title %}Mon panier - Détails
 {% endblock %}
 
 {% block body %}
-	<div>
+	<div class="div-panier">
 		{{ form_start(form, { 'action': path('order_prepare'), 'method': 'POST' }) }}
 
-		<h1>Récapitulatif</h1>
+		<h1 class="mb-3 text-dark">Mon panier</h1>
 
-		<p>
-			Nombre total de produit :
-			{{ cart|length}}
-		</p>
-		<section>
-			{% set total = null %}
-			{% for item in cart %}
-				{% set total = total + (item.product.price * item.quantity) %}
-				{{ item.product.title }}
-				{{ item.product.price / 100 }}&euro;
-				{{ item.quantity }}
-				{{ item.product.price / 100 * item.quantity }}&euro;
+		{% if cart|length > 0 %}
+			<section>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Produit</th>
+							<th>Prix</th>
+							<th>Quantité</th>
+							<th>Total</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody class="shadow">
+						{% set total = null %}
+						{% for item in cart %}
+							{% set productTotal = item.product.price * item.quantity %}
+							{% set total = total + productTotal %}
+							<tr>
+								<td>
+									{{ item.product.title }}
+								</td>
+								<td>{{ (item.product.price / 100)|number_format(2, ',', '.') }}&euro;</td>
+								<td>
+									<span class="mx-3">{{ item.quantity }}</span>
+								</td>
+								<td>{{ (productTotal / 100)|number_format(2, ',', '.') }}&euro;</td>
+								<td></td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</section>
+		{% else %}
+			<div class="alert alert-info">
+				Votre panier est vide.
+			</div>
+		{% endif %}
 
-				<a href="{{ path('decrementToCart', {'id':item.product.id}) }}">-</a>
-				<a href="{{ path('addToCart', {'id':item.product.id}) }}">+</a>
-
-				<a href="{{ path('removeToCart', {'id':item.product.id}) }}">
-					Supprimer ce produit du panier
-				</a>
-				<br><br>
-			{% endfor %}
-
-			<div>
-				<p>Total du panier :
-					{{ (total / 100)|number_format(2, ',', '.') }}&euro;
-				</p>
+		<section class="mt-5">
+			<h4 class="mb-4 text-dark">Adresse & livraison</h4>
+			<div class="row">
+				<div class="col">
+					{{ form_widget(form.addresses)}}
+				</div>
+				<div class="col">
+					{{ form_widget(form.transporter)}}
+				</div>
 			</div>
 		</section>
 
-
-		<section>
-			<h1>Adresse & livraison</h1>
-			{{ form_widget(form.addresses)}}
-			{{ form_widget(form.transporter)}}
+		<section class="d-flex justify-content-center mt-5">
+			<button type="submit" class="btn btn-dark">
+				Je confirme ma commande
+				<br>
+				({{ (total / 100)|number_format(2, ',', '.') }}&euro;)
+			</button>
 		</section>
-
-		<button type="submit">
-			Valider ma commande
-		</button>
+		<a class="text-danger" href="{{ path('cart_index') }}">Retour</a>
 
 		{{ form_end(form) }}
 	</div>

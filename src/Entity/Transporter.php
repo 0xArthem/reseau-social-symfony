@@ -34,7 +34,7 @@ class Transporter
 
     public function __toString()
     {
-        return $this->title;
+        return $this->price . '€' . ' - '. $this->title . ' - ' . $this->content;
     }
 
     public function getId(): ?int

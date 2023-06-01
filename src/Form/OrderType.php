@@ -20,14 +20,20 @@ class OrderType extends AbstractType
                 'label' => false,
                 'required' => true,
                 'multiple' => false,
-                'choices' => $user->getAddresses()
-                // 'expanded' => true
+                'choices' => $user->getAddresses(),
+                // 'expanded' => true,
+                'attr' => [
+                    'class' => 'form-select',
+                ]
             ])
             ->add('transporter', EntityType::class, [
                 'class' => Transporter::class,
                 'label' => false,
                 'required' => true,
                 'multiple' => false,
+                'attr' => [
+                    'class' => 'form-select'
+                ]
             ])
         ;
     }
