@@ -5,7 +5,7 @@
 
 {% block body %}
 	<div>
-		{{ form_start(form) }}
+		{{ form_start(form, { 'action': path('order_prepare'), 'method': 'POST' }) }}
 
 		<h1>Récapitulatif</h1>
 
