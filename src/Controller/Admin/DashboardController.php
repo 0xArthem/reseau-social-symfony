@@ -18,6 +18,7 @@ use App\Entity\ReviewsProduct;
 use App\Controller\Admin\OrderCrudController;
 use App\Entity\Article;
 use App\Entity\ArticleCategory;
+use App\Entity\RecapDetails;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -50,6 +51,7 @@ class DashboardController extends AbstractDashboardController
             
             yield MenuItem::subMenu('E-commerce', 'fas fa-boxes')->setSubItems([
                 MenuItem::linkToCrud('Commandes', 'fas fa-boxes', Order::class),
+                MenuItem::linkToCrud('Commandes - Détails', 'fas fa-boxes', RecapDetails::class),
             ]);
         }
 }

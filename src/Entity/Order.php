@@ -81,6 +81,11 @@ class Order
         $this->recapDetails = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->reference;
+    }
+
     // public function __construct()
     // {
     //     $this->createdAt = new DateTime();
