@@ -45,7 +45,7 @@
 							{{ product.title }}
 						</h5>
 						<p>
-							{{ product.content }}
+							{{ product.content|raw }}
 						</p>
 						<a type="button" class="btn btn-light btn-ecommerce shadow" href="{{ path('addToCart', {'id':product.id}) }}">
 							<span class="text-light me-2">

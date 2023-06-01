@@ -32,3 +32,15 @@
   color: var(--second) !important;
   font-weight: normal !important;
 }
+/**** panier ***/
+.div-panier {
+  padding: 5%;
+  background-color: var(--third);
+  min-height: 610px;
+}
+thead {
+  border-color: var(--third) !important;
+}
+tbody {
+  border-color: var(--third) !important;
+}

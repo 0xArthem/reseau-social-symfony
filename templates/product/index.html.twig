@@ -1,48 +1,72 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProductController!
+{% block title %}Mon panier
 {% endblock %}
 
 {% block body %}
-	<div>
-		<h1>Mon panier</h1>
+	<div class="div-panier">
+
+		<h1 class="mb-3 text-dark">Mon panier</h1>
+
 		{% if cart|length > 0 %}
-
-			<a href="{{ path('removeCartAll')}}">
-				Vider le panier
-			</a>
-			<form action="{{ path('order_index')}}">
+			<form action="{{ path('order_index') }}">
 				<section>
-					{% set total = null %}
-					{% for item in cart %}
-						{% set total = total + (item.product.price * item.quantity) %}
-						{{ item.product.title }}
-						{{ item.product.price / 100 }}&euro;
-						{{ item.quantity }}
-						{{ item.product.price / 100 * item.quantity }}&euro;
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Produit</th>
+								<th>Prix</th>
+								<th>Quantité</th>
+								<th>Total</th>
+								<th>
+									<a href="{{ path('removeCartAll') }}" class="text-dark">
+										<i class="fas fa-trash"></i>
+									</a>
+								</th>
+							</tr>
+						</thead>
+						<tbody class="shadow">
+							{% set total = null %}
+							{% for item in cart %}
+								{% set productTotal = item.product.price * item.quantity %}
+								{% set total = total + productTotal %}
+								<tr>
+									<td>
+										{{ item.product.title }}
+									</td>
+									<td>{{ (item.product.price / 100)|number_format(2, ',', '.') }}&euro;</td>
+									<td>
+										<a href="{{ path('decrementToCart', {'id': item.product.id}) }}" class="text-dark">
+											<i class="fas fa-minus"></i>
+										</a>
+										<span class="mx-3">{{ item.quantity }}</span>
+										<a href="{{ path('addToCart', {'id': item.product.id}) }}" class="text-dark">
+											<i class="fas fa-plus"></i>
+										</a>
+									</td>
+									<td>{{ (productTotal / 100)|number_format(2, ',', '.') }}&euro;</td>
+									<td>
+										<a href="{{ path('removeToCart', {'id': item.product.id}) }}" class="text-danger">
+											<i class="fas fa-trash"></i>
+										</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
 
-						<a href="{{ path('decrementToCart', {'id':item.product.id}) }}">-</a>
-						<a href="{{ path('addToCart', {'id':item.product.id}) }}">+</a>
-
-						<a href="{{ path('removeToCart', {'id':item.product.id}) }}">
-							Supprimer ce produit du panier
-						</a>
-						<br><br>
-					{% endfor %}
-
-					<div>
-						<p>Total du panier :
-							{{ (total / 100)|number_format(2, ',', '.') }}&euro;
-						</p>
-					</div>
-
-					<button type="submit">
-						Je valide mon panier
-					</button>
+					<section class="d-flex justify-content-center mt-5">
+						<button type="submit" class="btn btn-dark">
+							<i class="fas fa-right-long me-1"></i>
+							Je valide mon panier ({{ (total / 100)|number_format(2, ',', '.') }}&euro;)
+						</button>
+					</section>
 				</section>
 			</form>
 		{% else %}
-			Votre panier est vide.
+			<div class="alert alert-info">
+				Votre panier est vide.
+			</div>
 		{% endif %}
 	</div>
 {% endblock %}
