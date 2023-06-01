@@ -16,9 +16,9 @@
 			{% for item in cart %}
 				{% set total = total + (item.product.price * item.quantity) %}
 				{{ item.product.title }}
-				{{ item.product.price }}&euro;
+				{{ item.product.price / 100 }}&euro;
 				{{ item.quantity }}
-				{{ item.product.price * item.quantity }}&euro;
+				{{ item.product.price / 100 * item.quantity }}&euro;
 				<br><br>
 			{% endfor %}
 
@@ -36,7 +36,7 @@
 				{{ transporter.title }}
 				-
 				{{ transporter.price }}&euro;
-								                -
+												                -
 				{{ transporter.content }}
 			</p>
 			<p>
