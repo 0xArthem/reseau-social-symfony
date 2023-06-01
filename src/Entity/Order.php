@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\OrderRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -68,6 +70,16 @@ class Order
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $paypalOrderId;
+
+    /**
+     * @ORM\OneToMany(targetEntity=RecapDetails::class, mappedBy="orderProduct")
+     */
+    private $recapDetails;
+
+    public function __construct()
+    {
+        $this->recapDetails = new ArrayCollection();
+    }
 
     // public function __construct()
     // {
@@ -195,6 +207,36 @@ class Order
     public function setPaypalOrderId(?string $paypalOrderId): self
     {
         $this->paypalOrderId = $paypalOrderId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RecapDetails>
+     */
+    public function getRecapDetails(): Collection
+    {
+        return $this->recapDetails;
+    }
+
+    public function addRecapDetail(RecapDetails $recapDetail): self
+    {
+        if (!$this->recapDetails->contains($recapDetail)) {
+            $this->recapDetails[] = $recapDetail;
+            $recapDetail->setOrderProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecapDetail(RecapDetails $recapDetail): self
+    {
+        if ($this->recapDetails->removeElement($recapDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($recapDetail->getOrderProduct() === $this) {
+                $recapDetail->setOrderProduct(null);
+            }
+        }
 
         return $this;
     }
