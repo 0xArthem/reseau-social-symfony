@@ -48,34 +48,8 @@ class DashboardController extends AbstractDashboardController
         {
             yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
             
-            yield MenuItem::subMenu('Produits', 'fas fa-boxes')->setSubItems([
-                MenuItem::linkToCrud('Produits', 'fas fa-boxes', Product::class),
-                MenuItem::linkToCrud('Catégories', 'fas fa-folder', Categories::class),
-                MenuItem::linkToCrud('Avis', 'fas fa-star', ReviewsProduct::class)
+            yield MenuItem::subMenu('E-commerce', 'fas fa-boxes')->setSubItems([
+                MenuItem::linkToCrud('Commandes', 'fas fa-boxes', Order::class),
             ]);
-            
-            yield MenuItem::subMenu('Commandes', 'fas fa-shopping-cart')->setSubItems([
-                MenuItem::linkToCrud('Commandes', 'fas fa-shopping-cart', Order::class),
-                MenuItem::linkToCrud('Détails des commandes', 'fas fa-info-circle', OrderDetails::class),
-                MenuItem::linkToCrud('Transporteurs', 'fas fa-truck', Carrier::class)
-            ]);
-
-            yield MenuItem::subMenu('Paniers', 'fas fa-shopping-basket')->setSubItems([
-                MenuItem::linkToCrud('Paniers', 'fas fa-shopping-basket', Cart::class),
-                MenuItem::linkToCrud('Détails des paniers', 'fas fa-info-circle', CartDetails::class),
-            ]);
-
-            yield MenuItem::subMenu('Utilisateurs', 'fas fa-users')->setSubItems([
-                MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class),
-                MenuItem::linkToCrud('Adresses', 'fas fa-map-marker-alt', Address::class)
-            ]);  
-
-            yield MenuItem::subMenu('Blog', 'fas fa-blog')->setSubItems([
-                MenuItem::linkToCrud('Articles', 'fas fa-file-alt', Article::class),
-                MenuItem::linkToCrud('Catégories', 'fas fa-folder', ArticleCategory::class)
-            ]);
-
-            // yield MenuItem::linkToCrud('RelatedProduct', 'fas fa-list', RelatedProduct::class);
-            // yield MenuItem::linkToCrud('Tag', 'fas fa-list', TagsProduct::class);
         }
 }
