@@ -59,13 +59,13 @@ class OrderController extends AbstractController
 
             $delivery = $form->get('addresses')->getData();
             $deliveryForOrder = $delivery->getFirstName().' '.$delivery->getLastName();
-            $deliveryForOrder .= '</br>' . $delivery->getPhone();
+            $deliveryForOrder .= ' ' . $delivery->getPhone();
             if ($delivery->getCompany()) {
                 $deliveryForOrder .= ' - ' . $delivery->getCompany();
             }
-            $deliveryForOrder .= '</br>' . $delivery->getAddress();
-            $deliveryForOrder .= '</br>' . $delivery->getPostalCode() . ' ' . $delivery->getCity();
-            $deliveryForOrder .= '</br>' . $delivery->getCountry();
+            $deliveryForOrder .= ' ' . $delivery->getAddress();
+            $deliveryForOrder .= ' ' . $delivery->getPostalCode() . ' ' . $delivery->getCity();
+            $deliveryForOrder .= ' ' . $delivery->getCountry();
             
             $order = new Order();
             $reference = $datetime->format('dmY').'-'.uniqid();
