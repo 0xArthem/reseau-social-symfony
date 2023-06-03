@@ -7,19 +7,20 @@ use App\Entity\User;
 use App\Entity\Order;
 use App\Entity\Promo;
 use App\Entity\Address;
+use App\Entity\Article;
 use App\Entity\Carrier;
 use App\Entity\Product;
 use App\Entity\Categories;
 use App\Entity\CartDetails;
 use App\Entity\TagsProduct;
+use App\Entity\Transporter;
+use App\Entity\CategoryShop;
 use App\Entity\OrderDetails;
+use App\Entity\RecapDetails;
 use App\Entity\RelatedProduct;
 use App\Entity\ReviewsProduct;
-use App\Controller\Admin\OrderCrudController;
-use App\Entity\Article;
 use App\Entity\ArticleCategory;
-use App\Entity\RecapDetails;
-use App\Entity\Transporter;
+use App\Controller\Admin\OrderCrudController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -52,6 +53,7 @@ class DashboardController extends AbstractDashboardController
             
             yield MenuItem::subMenu('E-commerce', 'fas fa-boxes')->setSubItems([
                 MenuItem::linkToCrud('Produits', 'fas fa-boxes', Product::class),
+                MenuItem::linkToCrud('Catégories', 'fas fa-boxes', CategoryShop::class),
                 MenuItem::linkToCrud('Commandes', 'fas fa-boxes', Order::class),
                 MenuItem::linkToCrud('Commandes - Détails', 'fas fa-boxes', RecapDetails::class),
                 MenuItem::linkToCrud('Transporteurs', 'fas fa-boxes', Transporter::class),
