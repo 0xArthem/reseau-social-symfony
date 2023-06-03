@@ -19,6 +19,7 @@ use App\Controller\Admin\OrderCrudController;
 use App\Entity\Article;
 use App\Entity\ArticleCategory;
 use App\Entity\RecapDetails;
+use App\Entity\Transporter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -53,6 +54,7 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToCrud('Produits', 'fas fa-boxes', Product::class),
                 MenuItem::linkToCrud('Commandes', 'fas fa-boxes', Order::class),
                 MenuItem::linkToCrud('Commandes - Détails', 'fas fa-boxes', RecapDetails::class),
+                MenuItem::linkToCrud('Transporteurs', 'fas fa-boxes', Transporter::class),
             ]);
         }
 }

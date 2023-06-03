@@ -8,7 +8,7 @@
 
 		<h1 class="mb-3 text-dark">
 			Récapitulatif de ma commande
-			<i class="fas fa-check ms-1 text-success"></i>
+			{# <i class="fas fa-check ms-1 text-success"></i> #}
 		</h1>
 
 		{% if cart|length > 0 %}
@@ -42,18 +42,38 @@
 						{% endfor %}
 					</tbody>
 				</table>
+
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Mode de livraison</th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody class="shadow">
+						<tr>
+							<td>{{ transporter.title }}</td>
+							<td>{{ transporter.price }}&euro;</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+				<p class="fst-italic text-dark">
+					<i class="fas fa-dolly me-1 text-dark"></i>
+					{{ transporter.content }}
+				</p>
 			</section>
 		{% endif %}
 
 		<section class="mt-5">
-			<h4 class="mb-4 text-dark">Adresse & livraison</h4>
-			<p>
-				<i class="fas fa-dolly me-1 text-dark"></i>
-				{{ transporter.title }}
-				-
-				{{ transporter.price }}&euro; -
-				{{ transporter.content }}
-			</p>
+			<h4 class="mb-4 text-dark">Adresse</h4>
 			<p>
 				<i class="fas fa-location-dot me-1 text-dark"></i>
 				{{ delivery|raw}}
