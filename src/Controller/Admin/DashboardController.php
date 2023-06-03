@@ -23,6 +23,7 @@ use App\Entity\ArticleCategory;
 use App\Controller\Admin\OrderCrudController;
 use App\Entity\Contact;
 use App\Entity\Post;
+use App\Entity\PostTag;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -69,7 +70,8 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linkToCrud('Contact', 'fa fa-home', Contact::class);
 
             yield MenuItem::subMenu('Publications', 'fas fa-boxes')->setSubItems([
-                MenuItem::linkToCrud('Publications', 'fas fa-boxes', Post::class)
+                MenuItem::linkToCrud('Publications', 'fas fa-boxes', Post::class),
+                MenuItem::linkToCrud('Catégories', 'fas fa-boxes', PostTag::class)
             ]);
         }
 }
