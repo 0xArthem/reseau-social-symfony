@@ -58,6 +58,7 @@ class DashboardController extends AbstractDashboardController
             ]);
 
             yield MenuItem::subMenu('Utilisateur', 'fas fa-boxes')->setSubItems([
+                MenuItem::linkToCrud('Utilisateurs', 'fas fa-boxes', User::class),
                 MenuItem::linkToCrud('Adresses', 'fas fa-boxes', Address::class),
             ]);
         }
