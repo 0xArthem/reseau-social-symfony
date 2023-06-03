@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 
 class UserCrudController extends AbstractCrudController
@@ -23,7 +24,7 @@ class UserCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->setLabel('Id')->hideOnForm()->hideOnIndex(),
-            TextField::new('email')->setLabel('Adresse électronique'),
+            EmailField::new('email')->setLabel('Adresse électronique'),
             ArrayField::new('roles')->setLabel('Roles'),
             TextField::new('username')->setLabel('Pseudo'),
             TextField::new('firstname')->hideOnIndex()->setLabel('Prénom'),

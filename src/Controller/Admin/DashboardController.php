@@ -21,6 +21,7 @@ use App\Entity\RelatedProduct;
 use App\Entity\ReviewsProduct;
 use App\Entity\ArticleCategory;
 use App\Controller\Admin\OrderCrudController;
+use App\Entity\Contact;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -63,5 +64,7 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToCrud('Utilisateurs', 'fas fa-boxes', User::class),
                 MenuItem::linkToCrud('Adresses', 'fas fa-boxes', Address::class),
             ]);
+
+            yield MenuItem::linkToCrud('Contact', 'fa fa-home', Contact::class);
         }
 }
