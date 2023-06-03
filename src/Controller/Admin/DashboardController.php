@@ -56,5 +56,9 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToCrud('Commandes - Détails', 'fas fa-boxes', RecapDetails::class),
                 MenuItem::linkToCrud('Transporteurs', 'fas fa-boxes', Transporter::class),
             ]);
+
+            yield MenuItem::subMenu('Utilisateur', 'fas fa-boxes')->setSubItems([
+                MenuItem::linkToCrud('Adresses', 'fas fa-boxes', Address::class),
+            ]);
         }
 }
