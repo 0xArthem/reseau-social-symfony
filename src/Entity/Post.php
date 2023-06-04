@@ -70,6 +70,11 @@ class Post
      */
     private $slug;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Topic::class, mappedBy="post", cascade={"persist", "remove"})
+     */
+    private $topic;
+
     public function __toString()
     {
         return $this->title;
@@ -233,6 +238,28 @@ class Post
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getTopic(): ?Topic
+    {
+        return $this->topic;
+    }
+
+    public function setTopic(?Topic $topic): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($topic === null && $this->topic !== null) {
+            $this->topic->setPost(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($topic !== null && $topic->getPost() !== $this) {
+            $topic->setPost($this);
+        }
+
+        $this->topic = $topic;
 
         return $this;
     }

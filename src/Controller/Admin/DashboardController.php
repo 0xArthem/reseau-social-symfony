@@ -2,30 +2,21 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Cart;
-use App\Entity\User;
-use App\Entity\Order;
-use App\Entity\Promo;
-use App\Entity\Address;
-use App\Entity\Article;
-use App\Entity\Carrier;
-use App\Entity\Product;
-use App\Entity\Categories;
-use App\Entity\CartDetails;
-use App\Entity\TagsProduct;
-use App\Entity\Transporter;
-use App\Entity\CategoryShop;
-use App\Entity\OrderDetails;
-use App\Entity\RecapDetails;
-use App\Entity\RelatedProduct;
-use App\Entity\ReviewsProduct;
-use App\Entity\ArticleCategory;
-use App\Controller\Admin\OrderCrudController;
-use App\Entity\Contact;
 use App\Entity\Info;
 use App\Entity\Like;
 use App\Entity\Post;
+use App\Entity\User;
+use App\Entity\Order;
+use App\Entity\Address;
+use App\Entity\Article;
+use App\Entity\Contact;
 use App\Entity\PostTag;
+use App\Entity\Product;
+use App\Entity\Transporter;
+use App\Entity\CategoryShop;
+use App\Entity\RecapDetails;
+use App\Entity\ArticleCategory;
+use App\Controller\Admin\PostCrudController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -43,7 +34,7 @@ class DashboardController extends AbstractDashboardController
         // return parent::index();
         $routeBuilder = $this->get(AdminUrlGenerator::class);
 
-        return $this->redirect($routeBuilder->setController(OrderCrudController::class)->generateUrl());
+        return $this->redirect($routeBuilder->setController(PostCrudController::class)->generateUrl());
     }
 
     public function configureDashboard(): Dashboard
@@ -72,7 +63,7 @@ class DashboardController extends AbstractDashboardController
 
             yield MenuItem::linkToCrud('Contact', 'fas fa-envelope', Contact::class);
 
-            yield MenuItem::subMenu('Publications', 'fas fa-newspaper')->setSubItems([
+            yield MenuItem::subMenu('Publication', 'fas fa-newspaper')->setSubItems([
                 MenuItem::linkToCrud('Publications', 'fas fa-pencil-alt', Post::class),
                 MenuItem::linkToCrud('Catégories', 'fas fa-tags', PostTag::class),
                 MenuItem::linkToCrud('Likes', 'fas fa-thumbs-up', Like::class)
