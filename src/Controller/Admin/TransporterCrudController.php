@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Transporter;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
@@ -14,6 +15,15 @@ class TransporterCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return Transporter::class;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setEntityLabelInSingular('Transporteur')
+            ->setEntityLabelInPlural('Transporteurs')
+            ->setSearchFields(['title'])
+            ->setDefaultSort(['id' => 'DESC']);
     }
     
     public function configureFields(string $pageName): iterable

@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\CategoryShop;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
@@ -13,6 +14,15 @@ class CategoryShopCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return CategoryShop::class;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setEntityLabelInSingular('Catégories du produit')
+            ->setEntityLabelInPlural('Catégories des produits')
+            ->setSearchFields(['name'])
+            ->setDefaultSort(['id' => 'DESC']);
     }
 
     public function configureFields(string $pageName): iterable

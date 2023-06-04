@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Address;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
@@ -14,6 +15,15 @@ class AddressCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return Address::class;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setEntityLabelInSingular('Adresse')
+            ->setEntityLabelInPlural('Adresses')
+            ->setSearchFields(['title'])
+            ->setDefaultSort(['id' => 'DESC']);
     }
 
     public function configureFields(string $pageName): iterable

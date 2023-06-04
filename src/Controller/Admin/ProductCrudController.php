@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Product;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -17,6 +18,15 @@ class ProductCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return Product::class;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setEntityLabelInSingular('Produit')
+            ->setEntityLabelInPlural('Produits')
+            ->setSearchFields(['title'])
+            ->setDefaultSort(['id' => 'DESC']);
     }
 
     public function configureFields(string $pageName): iterable

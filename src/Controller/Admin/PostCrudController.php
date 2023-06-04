@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Post;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -17,6 +18,15 @@ class PostCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return Post::class;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setEntityLabelInSingular('Publication')
+            ->setEntityLabelInPlural('Publications')
+            ->setSearchFields(['title'])
+            ->setDefaultSort(['id' => 'DESC']);
     }
 
     public function configureFields(string $pageName): iterable
