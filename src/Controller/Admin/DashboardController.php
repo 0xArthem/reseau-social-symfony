@@ -55,32 +55,32 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
         {
             yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-            yield MenuItem::linkToCrud('Info', 'fa fa-home', Info::class);
-            
-            yield MenuItem::subMenu('E-commerce', 'fas fa-boxes')->setSubItems([
+            yield MenuItem::linkToCrud('Info', 'fas fa-info', Info::class);
+
+            yield MenuItem::subMenu('E-commerce', 'fas fa-shopping-cart')->setSubItems([
                 MenuItem::linkToCrud('Produits', 'fas fa-boxes', Product::class),
-                MenuItem::linkToCrud('Catégories', 'fas fa-boxes', CategoryShop::class),
-                MenuItem::linkToCrud('Commandes', 'fas fa-boxes', Order::class),
-                MenuItem::linkToCrud('Commandes - Détails', 'fas fa-boxes', RecapDetails::class),
-                MenuItem::linkToCrud('Transporteurs', 'fas fa-boxes', Transporter::class),
+                MenuItem::linkToCrud('Catégories', 'fas fa-folder', CategoryShop::class),
+                MenuItem::linkToCrud('Commandes', 'fas fa-shopping-basket', Order::class),
+                MenuItem::linkToCrud('Commandes - Détails', 'fas fa-file', RecapDetails::class),
+                MenuItem::linkToCrud('Transporteurs', 'fas fa-truck', Transporter::class),
             ]);
 
-            yield MenuItem::subMenu('Utilisateur', 'fas fa-boxes')->setSubItems([
-                MenuItem::linkToCrud('Utilisateurs', 'fas fa-boxes', User::class),
-                MenuItem::linkToCrud('Adresses', 'fas fa-boxes', Address::class),
+            yield MenuItem::subMenu('Utilisateur', 'fas fa-user')->setSubItems([
+                MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class),
+                MenuItem::linkToCrud('Adresses', 'fas fa-map-marker-alt', Address::class),
             ]);
 
-            yield MenuItem::linkToCrud('Contact', 'fa fa-home', Contact::class);
+            yield MenuItem::linkToCrud('Contact', 'fas fa-envelope', Contact::class);
 
-            yield MenuItem::subMenu('Publications', 'fas fa-boxes')->setSubItems([
-                MenuItem::linkToCrud('Publications', 'fas fa-boxes', Post::class),
-                MenuItem::linkToCrud('Catégories', 'fas fa-boxes', PostTag::class),
-                MenuItem::linkToCrud('Likes', 'fa fa-home', Like::class)
+            yield MenuItem::subMenu('Publications', 'fas fa-newspaper')->setSubItems([
+                MenuItem::linkToCrud('Publications', 'fas fa-pencil-alt', Post::class),
+                MenuItem::linkToCrud('Catégories', 'fas fa-tags', PostTag::class),
+                MenuItem::linkToCrud('Likes', 'fas fa-thumbs-up', Like::class)
             ]);
 
-            yield MenuItem::subMenu('Blog', 'fas fa-boxes')->setSubItems([
-                MenuItem::linkToCrud('Articles', 'fas fa-boxes', Article::class),
-                MenuItem::linkToCrud('Catégories', 'fas fa-boxes', ArticleCategory::class),
+            yield MenuItem::subMenu('Blog', 'fas fa-blog')->setSubItems([
+                MenuItem::linkToCrud('Articles', 'fas fa-file-alt', Article::class),
+                MenuItem::linkToCrud('Catégories', 'fas fa-folder', ArticleCategory::class),
             ]);
         }
 }
