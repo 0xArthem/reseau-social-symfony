@@ -76,6 +76,7 @@ class DashboardController extends AbstractDashboardController
 
             yield MenuItem::subMenu('Blog', 'fas fa-boxes')->setSubItems([
                 MenuItem::linkToCrud('Articles', 'fas fa-boxes', Article::class),
+                MenuItem::linkToCrud('Catégories', 'fas fa-boxes', ArticleCategory::class),
             ]);
         }
 }
