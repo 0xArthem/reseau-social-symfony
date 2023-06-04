@@ -22,6 +22,7 @@ use App\Entity\ReviewsProduct;
 use App\Entity\ArticleCategory;
 use App\Controller\Admin\OrderCrudController;
 use App\Entity\Contact;
+use App\Entity\Info;
 use App\Entity\Post;
 use App\Entity\PostTag;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,6 +54,7 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
         {
             yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+            yield MenuItem::linkToCrud('Info', 'fa fa-home', Info::class);
             
             yield MenuItem::subMenu('E-commerce', 'fas fa-boxes')->setSubItems([
                 MenuItem::linkToCrud('Produits', 'fas fa-boxes', Product::class),
