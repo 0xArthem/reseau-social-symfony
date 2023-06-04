@@ -23,6 +23,7 @@ use App\Entity\ArticleCategory;
 use App\Controller\Admin\OrderCrudController;
 use App\Entity\Contact;
 use App\Entity\Info;
+use App\Entity\Like;
 use App\Entity\Post;
 use App\Entity\PostTag;
 use Symfony\Component\HttpFoundation\Response;
@@ -73,7 +74,8 @@ class DashboardController extends AbstractDashboardController
 
             yield MenuItem::subMenu('Publications', 'fas fa-boxes')->setSubItems([
                 MenuItem::linkToCrud('Publications', 'fas fa-boxes', Post::class),
-                MenuItem::linkToCrud('Catégories', 'fas fa-boxes', PostTag::class)
+                MenuItem::linkToCrud('Catégories', 'fas fa-boxes', PostTag::class),
+                MenuItem::linkToCrud('Likes', 'fa fa-home', Like::class)
             ]);
 
             yield MenuItem::subMenu('Blog', 'fas fa-boxes')->setSubItems([
