@@ -9,7 +9,7 @@
 
 		<h1>{{ post.title }}</h1>
 
-		<section>
+		<section class="mb-5">
 			{% for commentaire in commentaires %}
 				<div class="card w-75 mt-4 mb-4">
 					<div class="card-body">
@@ -28,5 +28,10 @@
 				</div>
 			{% endfor %}
 		</section>
+
+		<div class="navigation">
+			{{ knp_pagination_render(commentaires) }}
+		</div>
+
 	</div>
 {% endblock %}
