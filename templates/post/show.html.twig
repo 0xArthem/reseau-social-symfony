@@ -16,7 +16,10 @@
 			{% endfor %}
 		</section>
 
-		<a href="{{ path('app_topic_show', {'id': topic.id}) }}">Voir le topic associé</a>
+		{% if topic %}
+			<a href="{{ path('app_topic_show', {'id': topic.id}) }}">Voir le topic associé</a>
+		{% endif %}
+
 
 		<div
 			class="row">

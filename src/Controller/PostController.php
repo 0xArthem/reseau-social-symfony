@@ -61,12 +61,15 @@ class PostController extends AbstractController
         // on récupère tous les likes du post
         $likesCount = count($post->getLikes());
 
+        $topic = $post->getTopic();
+
         return $this->render('post/show.html.twig', [
             'user' => $user,
             'post' => $post,
             'postTags' => $postTags,
             'isLikedByUser' => $isLikedByUser,
-            'likesCount' => $likesCount
+            'likesCount' => $likesCount,
+            'topic' => $topic
         ]);
     }
 
