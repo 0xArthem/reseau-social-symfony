@@ -1,10 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Topic
+{% block title %}Commentaires -
+	{{ post.title }}
 {% endblock %}
 
 {% block body %}
 	<div class="show-post">
-		<h1>Topic here !</h1>
+
+		<h1>{{ post.title }}</h1>
+
+		<section>
+			{% for commentaire in commentaires %}
+				<div class="card w-75 mt-4 mb-4">
+					<div class="card-body">
+						<h5 class="card-title card-title-commentaire">
+							{{ commentaire.user }}
+							<span class="date-commentaire">
+								|
+								{{ commentaire.createdAt|date('d/m/Y à H:i') }}
+							</span>
+						</h5>
+						<p class="card-text">
+							<i class="fas fa-caret-right me-1"></i>
+							{{ commentaire.content }}
+						</p>
+					</div>
+				</div>
+			{% endfor %}
+		</section>
 	</div>
 {% endblock %}

@@ -16,11 +16,6 @@
 			{% endfor %}
 		</section>
 
-		{% if topic %}
-			<a href="{{ path('app_topic_show', {'id': topic.id}) }}">Voir le topic associé</a>
-		{% endif %}
-
-
 		<div
 			class="row">
 			<!-- affichage du contenu du post -->
@@ -93,5 +88,13 @@
 				{% endif %}
 			</div>
 		</div>
+		{% if topic %}
+			<section class="d-flex justify-content-center mt-5">
+				<a href="{{ path('app_topic_show', {'id': topic.id}) }}" class="btn btn-light shadow btn-rounded me-4">
+					<i class="fas fa-right-long me-2"></i>
+					Voir les commentaires
+				</a>
+			</section>
+		{% endif %}
 	</div>
 {% endblock %}

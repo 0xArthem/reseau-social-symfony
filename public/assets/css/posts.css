@@ -105,3 +105,12 @@ a.nav-link.nav-link-pills.active {
   background-color: var(--third) !important;
   color: var(--second) !important;
 }
+/*********/
+.date-commentaire {
+  font-weight: lighter !important;
+  font-size: 16px !important;
+  color: var(--main) !important;
+}
+.card-title-commentaire {
+  color: var(--second) !important;
+}

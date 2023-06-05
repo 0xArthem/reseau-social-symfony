@@ -12,16 +12,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TopicController extends AbstractController
 {
     /**
-     * @Route("/topic/{id}", name="app_topic_show")
+     * @Route("/commentaires/{id}", name="app_topic_show")
      */
     public function show($id, TopicRepository $topicRepository): Response
     {
         $topic = $topicRepository->find($id);
-
         if (!$topic) {
             return $this->redirectToRoute('app_home');
         }
 
-        return $this->render('topic/index.html.twig', ['topic' => $topic]);
+        $post = $topic->getPost();
+
+        $commentaires = $topic->getCommentaires();
+
+        return $this->render('topic/index.html.twig', [
+            'topic' => $topic,
+            'post' => $post,
+            'commentaires' => $commentaires
+        ]);
     }
 }
