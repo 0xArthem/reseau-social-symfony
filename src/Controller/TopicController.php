@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Entity\Topic;
+use App\Entity\Commentaire;
+use App\Form\CommentaireType;
 use App\Repository\TopicRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,10 +37,26 @@ class TopicController extends AbstractController
             15
         );
 
+        $commentaire = new Commentaire();
+        $commentaire->setTopic($topic);
+        $commentaire->setUser($this->getUser());
+
+        $commentaireForm = $this->createForm(CommentaireType::class, $commentaire);
+
+        $commentaireForm->handleRequest($request);
+        if ($commentaireForm->isSubmitted() && $commentaireForm->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($commentaire);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_topic_show', ['id' => $id]);
+        }
+
         return $this->render('topic/index.html.twig', [
             'topic' => $topic,
             'post' => $post,
-            'commentaires' => $commentaires
+            'commentaires' => $commentaires,
+            'commentaireForm' => $commentaireForm->createView(),
         ]);
     }
 }

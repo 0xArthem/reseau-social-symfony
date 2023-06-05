@@ -114,3 +114,7 @@ a.nav-link.nav-link-pills.active {
 .card-title-commentaire {
   color: var(--second) !important;
 }
+
+.form-control {
+  max-height: 150px !important;
+}
