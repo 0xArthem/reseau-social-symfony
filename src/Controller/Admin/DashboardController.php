@@ -17,6 +17,7 @@ use App\Entity\CategoryShop;
 use App\Entity\RecapDetails;
 use App\Entity\ArticleCategory;
 use App\Controller\Admin\PostCrudController;
+use App\Entity\Commentaire;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -66,7 +67,8 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::subMenu('Publication', 'fas fa-newspaper')->setSubItems([
                 MenuItem::linkToCrud('Publications', 'fas fa-pencil-alt', Post::class),
                 MenuItem::linkToCrud('Catégories', 'fas fa-tags', PostTag::class),
-                MenuItem::linkToCrud('Likes', 'fas fa-thumbs-up', Like::class)
+                MenuItem::linkToCrud('Likes', 'fas fa-thumbs-up', Like::class),
+                MenuItem::linkToCrud('Commentaires', 'fa fa-comments', Commentaire::class)
             ]);
 
             yield MenuItem::subMenu('Blog', 'fas fa-blog')->setSubItems([
