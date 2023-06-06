@@ -11,29 +11,33 @@
 
 		<div class="row">
 			<div class="col-md-8">
-				<section class="mb-5">
-					{% for commentaire in commentaires %}
-						<div class="card w-100 mt-4 mb-4">
-							<div class="card-body">
-								<h5 class="card-title card-title-commentaire">
-									{{ commentaire.user }}
-									<span class="date-commentaire">
-										|
-										{{ commentaire.createdAt|date('d/m/Y à H:i') }}
-									</span>
-								</h5>
-								<p class="card-text">
-									<i class="fas fa-caret-right me-1"></i>
-									{{ commentaire.content }}
-								</p>
+				{% if commentaires|length > 0 %}
+					<section class="mb-5">
+						{% for commentaire in commentaires %}
+							<div class="card w-100 mt-4 mb-4">
+								<div class="card-body">
+									<h5 class="card-title card-title-commentaire">
+										{{ commentaire.user }}
+										<span class="date-commentaire">
+											|
+											{{ commentaire.createdAt|date('d/m/Y à H:i') }}
+										</span>
+									</h5>
+									<p class="card-text">
+										<i class="fas fa-caret-right me-1"></i>
+										{{ commentaire.content }}
+									</p>
+								</div>
 							</div>
-						</div>
-					{% endfor %}
-				</section>
+						{% endfor %}
+					</section>
 
-				<div class="navigation">
-					{{ knp_pagination_render(commentaires) }}
-				</div>
+					<div class="navigation">
+						{{ knp_pagination_render(commentaires) }}
+					</div>
+				{% else %}
+					<p>Il n'y a pas encore de commentaire pour cette publication.</p>
+				{% endif %}
 			</div>
 
 			<div class="col-md-4 mt-4 mr-1">

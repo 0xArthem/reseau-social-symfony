@@ -4,10 +4,12 @@ namespace App\Services;
 
 use App\Entity\Post;
 use App\Entity\User;
+use App\Entity\Topic;
 use Twig\Environment;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,8 +19,8 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
@@ -39,6 +41,7 @@ class PostServices
     private $twig;
     private $flashBag;
     private $slugger;
+    private $entityManager;
 
     public function __construct(
         UserRepository $userRepository,
@@ -48,7 +51,8 @@ class PostServices
         FormFactoryInterface $formFactory,
         Environment $twig,
         FlashBagInterface $flashBag,
-        SluggerInterface $slugger
+        SluggerInterface $slugger,
+        EntityManagerInterface $entityManager
     ) {
         $this->userRepository = $userRepository;
         $this->postRepository = $postRepository;
@@ -58,6 +62,7 @@ class PostServices
         $this->twig = $twig;
         $this->flashBag = $flashBag;
         $this->slugger = $slugger;
+        $this->entityManager = $entityManager;
     }
 
     public function checkUsers(string $username, User $userConnected): array
@@ -94,11 +99,20 @@ class PostServices
             $title = $post->getTitle();
             $slug = $this->slugger->slug($title)->replace(' ', '-')->lower();
             $post->setSlug($slug);
+
+            // on crée un nouvel objet Topic
+            $topic = new Topic();
+            $topic->setPost($post);
     
             // Traitement supplémentaire (upload d'image, sauvegarde, etc.)
             $this->handlePostImageUpload($form, $post);
             $this->savePost($post, $user);
     
+            // on enregistrer le topic
+            $this->entityManager->persist($topic);
+            $this->entityManager->flush();
+
+
             return new RedirectResponse($this->urlGenerator->generate('app_account', ['username' => $user->getUsername()]));
         }
 
