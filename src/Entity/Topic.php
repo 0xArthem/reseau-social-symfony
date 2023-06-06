@@ -5,9 +5,11 @@ namespace App\Entity;
 use App\Entity\Post;
 use App\Entity\Commentaire;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
 use App\Repository\TopicRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+
 
 /**
  * @ORM\Entity(repositoryClass=TopicRepository::class)
@@ -28,9 +30,16 @@ class Topic
 
     /**
      * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="topic")
-     * @ORM\OrderBy({"createdAt" = "DESC"})
+     * @OrderBy({"createdAt" = "DESC"})
      */
     private $commentaires;
+
+    public function getActiveCommentaires(): Collection
+    {
+        return $this->commentaires->filter(function (Commentaire $commentaire) {
+            return $commentaire->isIsActive();
+        });
+    }
 
     public function __construct()
     {

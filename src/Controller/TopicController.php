@@ -31,7 +31,7 @@ class TopicController extends AbstractController
         }
         $post = $topic->getPost();
 
-        $stockCommentaires = $topic->getCommentaires();
+        $stockCommentaires = $topic->getActiveCommentaires();
         $query = $stockCommentaires;
         $page = $request->query->get('page', 1);
         $commentaires = $paginator->paginate(
