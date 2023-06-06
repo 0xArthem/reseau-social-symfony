@@ -2,9 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\CommentaireRepository;
 use DateTime;
+use App\Entity\Topic;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CommentaireRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\User;
 
 /**
  * @ORM\Entity(repositoryClass=CommentaireRepository::class)
@@ -37,6 +41,11 @@ class Commentaire
      * @ORM\Column(type="text")
      */
     private $content;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isActive = true;
 
     public function __construct()
     {
@@ -92,6 +101,18 @@ class Commentaire
     public function setContent(string $content): self
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function isIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(?bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

@@ -9,9 +9,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class CommentaireType extends AbstractType
 {
@@ -28,9 +29,12 @@ class CommentaireType extends AbstractType
             ->add('content', TextareaType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Envoyer un commentaire ...',
+                    'placeholder' => 'Ecrire un commentaire ...',
                     'class' => 'form-control'
-                ]
+                ],
+                'constraints' => [
+                    new NotBlank(['message' => 'Le commentaire ne peut pas être vide.'])
+                ],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Envoyer',

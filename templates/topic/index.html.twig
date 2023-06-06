@@ -36,12 +36,18 @@
 				</div>
 			</div>
 
-			<div class="col-md-4 mt-4">
-				<section class="shadow bg-white p-5 rounded">
+			<div class="col-md-4 mt-4 mr-1">
+				<section class="shadow bg-white p-5 rounded position-fixed">
 					{% if app.user %}
 
+						<section>
+							{% for message in app.flashes('error') %}
+								{{ message }}
+							{% endfor %}
+						</section>
+
 						{{ form_start(commentaireForm) }}
-						<div class="row">
+						<div class="row mt-2">
 							{{ form_row(commentaireForm.content) }}
 							{{ form_row(commentaireForm.submit) }}
 						</div>

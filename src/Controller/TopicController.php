@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TopicController extends AbstractController
 {
     /**
-     * @Route("/commentaires/{id}", name="app_topic_show")
+     * @Route("/{id}/commentaires", name="app_topic_show")
      */
     public function show($id, TopicRepository $topicRepository, Request $request, PaginatorInterface $paginator): Response
     {
@@ -50,6 +50,9 @@ class TopicController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('app_topic_show', ['id' => $id]);
+        }
+        if ($commentaireForm->isSubmitted() && !$commentaireForm->isValid()) {
+            $this->addFlash('error', 'Oups, votre commentaire n\'a pas pu être envoyé. Veuillez réessayer.');
         }
 
         return $this->render('topic/index.html.twig', [
