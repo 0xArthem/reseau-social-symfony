@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle adresse
+{% endblock %}
+
+{% block body %}
+	<div class="div-panier">
+		<h1>Enregistrer une nouvelle adresse</h1>
+
+		{{ include('address/_form.html.twig') }}
+
+		<br>
+		<a class="text-dark" href="{{ path('order_index') }}">
+			<i class="fas fa-rotate-left me-1"></i>
+			Retourner au panier
+		</a>
+	</div>
+{% endblock %}

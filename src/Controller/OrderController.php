@@ -22,7 +22,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/order/create", name="order_index")
+     * @Route("/panier", name="order_index")
      */
     public function index(CartServices $cartServices): Response
     {
@@ -41,7 +41,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/order/prepare", name="order_prepare", methods={"POST"})
+     * @Route("/panier/recapitulatif", name="order_prepare", methods={"POST"})
      */
     public function prepareOrder(Request $request, CartServices $cartServices): Response {
         if (!$this->getUser()) {
