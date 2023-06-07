@@ -11,7 +11,7 @@ class ProductController extends AbstractController
 {
 
     /**
-     * @Route("/mon-panier", name="cart_index")
+     * @Route("/panier", name="cart_index")
      */
     public function index(CartServices $cartServices): Response
     {

@@ -27,7 +27,20 @@
 										<i class="fas fa-caret-right me-1"></i>
 										{{ commentaire.content }}
 									</p>
+									{% if commentaire.user == app.user %}
+										{% if commentaire.user == app.user %}
+											<a href="#" onclick="confirmDelete('{{ path('app_commentaire_delete', {'id': commentaire.id}) }}')">Supprimer</a>
+										{% endif %}
+									{% endif %}
 								</div>
+
+								<script>
+									function confirmDelete(url) {
+if (confirm("Êtes-vous sûr de vouloir supprimer ce commentaire ?")) {
+window.location.href = url;
+}
+}
+								</script>
 							</div>
 						{% endfor %}
 					</section>

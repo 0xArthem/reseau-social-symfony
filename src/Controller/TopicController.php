@@ -63,4 +63,22 @@ class TopicController extends AbstractController
             'commentaireForm' => $commentaireForm->createView(),
         ]);
     }
+
+    /**
+     * @Route("/commentaire/{id}/supprimer", name="app_commentaire_delete")
+     */
+    public function deleteCommentaire(Commentaire $commentaire, Request $request): Response
+    {
+        // on vérifie si l'utilisateur connecté est l'auteur du commentaire
+        if ($commentaire->getUser() === $this->getUser()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($commentaire);
+            $entityManager->flush();
+        } else {
+            $this->addFlash('error', 'Vous n\'êtes pas autorisé à supprimer ce commentaire.');
+        }
+
+        // on redirige l'utilisateur vers la page précédente
+        return $this->redirect($request->headers->get('referer'));
+    }
 }

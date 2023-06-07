@@ -31,7 +31,7 @@ class TransporterCrudController extends AbstractCrudController
         return [
             IdField::new('id')->setLabel('Id')->hideOnForm()->hideOnIndex(),
             TextField::new('title')->setLabel('Nom'),
-            TextEditorField::new('content')->setLabel('Description'),
+            TextField::new('content')->setLabel('Description'),
             MoneyField::new('price')->setCurrency('EUR')->setLabel('Prix'),
         ];
     }

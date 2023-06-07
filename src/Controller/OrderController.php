@@ -23,7 +23,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/panier", name="order_index")
+     * @Route("/panier/affichage", name="order_index")
      */
     public function index(CartServices $cartServices): Response
     {
@@ -34,10 +34,10 @@ class OrderController extends AbstractController
         $form = $this->createForm(OrderType::class, null, [
             'user' => $this->getUser()
         ]);
-
+        
         return $this->render('order/index.html.twig', [
             'form' => $form->createView(),
-            'cart' => $cartServices->getTotal()
+            'cart' => $cartServices->getTotal(),
         ]);
     }
 
@@ -82,6 +82,8 @@ class OrderController extends AbstractController
             $order->setDelivery($deliveryForOrder);
             $order->setTransporterName($transporter->getTitle());
             $order->setTransporterPrice($transporter->getPrice());
+    
+
             $order->setIsPaid(0);
 
             $order->setMethod('stripe');
