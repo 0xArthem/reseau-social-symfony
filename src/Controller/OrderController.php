@@ -3,13 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Order;
-use App\Entity\RecapDetails;
 use App\Form\OrderType;
+use App\Entity\RecapDetails;
 use App\Services\CartServices;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class OrderController extends AbstractController
@@ -58,6 +59,12 @@ class OrderController extends AbstractController
             $transporter = $form->get('transporter')->getData();
 
             $delivery = $form->get('addresses')->getData();
+
+            if ($delivery === null) {
+                // on redirige vers la page de création d'une adresse
+                return new RedirectResponse($this->generateUrl('app_address_new'));
+            }
+
             $deliveryForOrder = $delivery->getFirstName().' '.$delivery->getLastName();
             $deliveryForOrder .= ' ' . $delivery->getPhone();
             if ($delivery->getCompany()) {
@@ -93,6 +100,7 @@ class OrderController extends AbstractController
             }
 
             $this->em->flush();
+
             return $this->render('order/recap.html.twig', [
                 'method' => $order->getMethod(),
                 'cart' => $cartServices->getTotal(),
@@ -101,7 +109,6 @@ class OrderController extends AbstractController
                 'reference' => $order->getReference()
             ]);
         }
-
         return $this->redirectToRoute('app_index');
     }
 }

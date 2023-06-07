@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AddressController extends AbstractController
 {
     /**
-     * @Route("/order/adresse", name="app_address_new", methods={"GET", "POST"})
+     * @Route("/panier/adresse", name="app_address_new", methods={"GET", "POST"})
      */
     public function new(Request $request, AddressRepository $addressRepository): Response
     {
