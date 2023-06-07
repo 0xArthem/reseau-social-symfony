@@ -72,7 +72,7 @@ class TopicController extends AbstractController
         // on vérifie si l'utilisateur connecté est l'auteur du commentaire
         if ($commentaire->getUser() === $this->getUser()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($commentaire);
+            $commentaire->setIsActive(false);
             $entityManager->flush();
         } else {
             $this->addFlash('error', 'Vous n\'êtes pas autorisé à supprimer ce commentaire.');
