@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+{% block title %}
+	Paiement refusé
+{% endblock %}
+
+{% block body %}
+	<div class="div-panier">
+		<h1>
+			Malheureusement, votre commande n°
+			{{ order.reference }}
+			a échoué.
+		</h1>
+
+		<a href="{{ path('app_home') }}">
+			Retour
+		</a>
+	</div>
+{% endblock %}
