@@ -77,5 +77,16 @@
 				{{ delivery|raw}}
 			</p>
 		</section>
+
+		<section class="mt-4 text-center">
+			{% if method == 'stripe' %}
+				<form method="POST" action="{{ path('payment_stripe', {reference: reference})}}">
+					<button class="btn btn-dark" type="submit">
+						Payer (stripe)
+					</button>
+				</form>
+			{% endif %}
+
+		</section>
 	</div>
 {% endblock %}
