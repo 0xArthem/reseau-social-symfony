@@ -29,7 +29,7 @@
 
 			<!-- Left links -->
 			<div class="d-flex align-items-center">
-				<a type="button" class="btn btn-light shadow btn-rounded me-3" href="{{ path('app_home') }}">
+				<a type="button" class="btn btn-light shadow btn-rounded" href="{{ path('app_home') }}">
 					<i class="fas fa-house"></i>
 				</a>
 				{% if app.user %}
@@ -42,7 +42,7 @@
 					</a>
 				{% else %}
 					<!-- affichage du lien vers le formulaire de connexion -->
-					<a type="button" class="btn btn-dark btn-rounded" href="{{ path('app_login') }}">
+					<a type="button" class="btn btn-dark btn-rounded ms-3" href="{{ path('app_login') }}">
 						<i class="fas fa-user"></i>
 					</a>
 					<!-- affichage du lien vers la faq -->

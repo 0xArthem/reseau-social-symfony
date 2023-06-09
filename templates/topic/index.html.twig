@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body %}
-	<div class="show-post">
+	<div class="show-post show-post-responsive">
 		<h1>{{ post.title }}</h1>
 
 		<div class="row">
@@ -54,10 +54,9 @@ window.location.href = url;
 				{% endif %}
 			</div>
 
-			<div class="col-md-4 mt-4 mr-1">
-				<section class="shadow bg-white p-5 rounded position-fixed">
+			<div class="col-md-4 mt-4">
+				<section class="shadow bg-white p-5 rounded">
 					{% if app.user %}
-
 						<section>
 							{% for message in app.flashes('error') %}
 								{{ message }}
@@ -66,8 +65,15 @@ window.location.href = url;
 
 						{{ form_start(commentaireForm) }}
 						<div class="row mt-2">
-							{{ form_row(commentaireForm.content) }}
-							{{ form_row(commentaireForm.submit) }}
+							<div class="col">
+								{{ form_row(commentaireForm.content) }}
+							</div>
+						</div>
+
+						<div class="row mt-2">
+							<div class="col">
+								{{ form_row(commentaireForm.submit) }}
+							</div>
 						</div>
 						{{ form_end(commentaireForm) }}
 
@@ -76,8 +82,8 @@ window.location.href = url;
 							Pour écrire un commentaire, veuillez
 							<a href="{{ path('app_login') }}">vous connecter</a>.
 						</p>
-					</section>
-				{% endif %}
+					{% endif %}
+				</section>
 			</div>
 		</div>
 	</div>

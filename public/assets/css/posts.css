@@ -94,7 +94,7 @@
   padding-top: 3.1% !important;
   padding-left: 5% !important;
   display: flex !important;
-  justify-content: left !important;
+  justify-content: center !important;
 }
 .nav-link-pills {
   text-transform: none !important;
@@ -105,7 +105,7 @@
   background-color: var(--third) !important;
 
   margin-right: 15px !important;
-  width: 200px !important;
+  width: 200px;
 }
 a.nav-link.nav-link-pills.active {
   background-color: var(--third) !important;
