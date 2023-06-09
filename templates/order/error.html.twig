@@ -5,10 +5,11 @@
 
 {% block body %}
 	<div class="div-panier">
-		<h1>
-			Malheureusement, votre commande n°
+		<h1 class="text-dark">
+			Malheureusement, votre achat n°
 			{{ order.reference }}
-			a échoué.
+			a
+			<span class="text-danger">échoué</span>.
 		</h1>
 
 		<a href="{{ path('app_home') }}">

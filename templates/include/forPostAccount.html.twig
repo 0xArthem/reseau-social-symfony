@@ -14,7 +14,7 @@
 				</div>
 
 				{% if post.title %}
-					<h5 class="card-title">
+					<h5 class="card-title" title="{{ post.title|striptags }}">
 						{{ post.title|striptags|length > 35 ? post.title|striptags|slice(0, 35) ~ ' ...' : post.title|striptags }}
 					</h5>
 				{% else %}
@@ -39,15 +39,15 @@
 					</button>
 				</div>
 				{% if post.title %}
-					<h5 class="card-title mt-1">
+					<h5 class="card-title mt-1" title="{{ post.title|striptags }}">
 						{{ post.title|striptags|length > 35 ? post.title|striptags|slice(0, 35) ~ ' ...' : post.title|striptags }}
 					</h5>
 
-					<p class="card-text mt-3">
+					<p class="card-textmt-3">
 						{{ post.content|striptags|length > 700 ? post.content|striptags|slice(0, 700) ~ ' ...' : post.content|striptags }}
 					</p>
 				{% else %}
-					<p class="card-text post-card-text">
+					<p class="card-text">
 						{{ post.content|striptags|length > 700 ? post.content|striptags|slice(0, 700) ~ ' ...' : post.content|striptags }}
 					</p>
 				{% endif %}

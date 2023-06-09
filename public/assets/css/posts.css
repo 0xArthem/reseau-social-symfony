@@ -118,3 +118,11 @@ a.nav-link.nav-link-pills.active {
 .form-control {
   max-height: 200px !important;
 }
+.post-content {
+  color: var(--main) !important;
+  font-size: 18px !important;
+}
+.element::before {
+  content: attr(title);
+  border: 1px solid white !important;
+}

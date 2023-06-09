@@ -6,12 +6,16 @@
 
 {% block body %}
 	<div class="div-panier">
-		<h1>
-			Merci ! Votre commande n°
-			{{ order.reference }}
-			a bien été enregistrée.
+		<h1 class="text-dark">
+			Merci ! Votre achat n°{{ order.reference }}
+			a bien été enregistré.
 		</h1>
 
+		<section class="d-flex justify-content-center">
+			<img src="{{ asset('assets/images/success.png') }}" type="button" class="img-fluid rounded" width="150px">
+		</section>
+
+		<br>
 		<a href="{{ path('app_home') }}">
 			Retour
 		</a>
