@@ -19,15 +19,12 @@
 							<section>
 								{% if isSubscribed and isFollowed %}
 									<a href="{{ path('app_account_unsubscribe', {'username': visitedUser.username}) }}" class="btn btn-dark"> <i class="fas fa-check me-2"></i>
-									Abonné(e)
-
 									<i class="fas fa-handshake-angle ms-2"></i>
 								</a>
 							{% else %}
 								{% if isSubscribed %}
 									<a href="{{ path('app_account_unsubscribe', {'username': visitedUser.username}) }}" class="btn btn-dark">
 										<i class="fas fa-check me-2"></i>
-										Abonné(e)
 									</a>
 								{% else %}
 									{% if isFollowed %}
@@ -66,7 +63,7 @@
 
 				<!-- affichage du nombre d'abonnements et d'abonnés -->
 				<section class="mb-3">
-					<a class="btn nbr_abonnes-abonnements">
+					<a class="btn nbr_abonnes-abonnements btn-nbr-abonnements-responsive">
 						<span class="fw-bold">{{ abonnements|length }}</span>
 						{% if abonnements|length > 1 %}abonnements{% else %}abonnement
 						{% endif %}
@@ -86,9 +83,11 @@
 				class="row row-cols-1 row-cols-md-3 g-4">
 				<!-- affichage des posts épinglés par l'utilisateur -->
 				{% for postIsPinned in postsIsPinned %}
-					<a href="{{ path('app_post_show', {'slug': postIsPinned.slug, 'username': visitedUser.username}) }}" class="text-dark">
-						{% include "include/forPostIsPinned.html.twig" %}
-					</a>
+					<div class="mb-4">
+						<a href="{{ path('app_post_show', {'slug': postIsPinned.slug, 'username': visitedUser.username}) }}" class="text-dark">
+							{% include "include/forPostIsPinned.html.twig" %}
+						</a>
+					</div>
 				{% endfor %}
 
 

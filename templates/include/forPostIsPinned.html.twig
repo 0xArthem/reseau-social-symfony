@@ -1,8 +1,8 @@
-<div class="col mb-5">
+<div class="col">
 	<div class="card">
 		{% if postIsPinned.image %}
 			<img src="{{ asset('assets/images/post/' ~ postIsPinned.image) }}" class="card-img-top post-card-img shadow" alt="{{ postIsPinned.title }}"/>
-			<div class="card-body post-card-body-img">
+			<div class="card-body post-card-body-img post-card-body-img-isPinned-responsive">
 				<div class="mb-2 div-btn-post-compteur">
 					<button class="btn btn-light btn-post-compteur shadow">
 						<i class="far fa-clock me-1"></i>
@@ -24,7 +24,7 @@
 				</p>
 			</div>
 		{% else %}
-			<div class="card-body post-card-body">
+			<div class="card-body post-card-body post-card-body-isPinned-responsive">
 				<div class="mb-2 div-btn-post-compteur">
 					<button class="btn btn-light btn-post-compteur shadow">
 						<i class="far fa-clock me-1"></i>

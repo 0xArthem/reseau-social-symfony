@@ -1,12 +1,23 @@
 @media screen and (max-width: 480px) {
   .post-card-body-img-responsive {
-    padding-bottom: 50px !important;
+    padding-bottom: 65px !important;
     background-color: var(--third) !important;
   }
+  .post-card-body-img-responsive-connected {
+    padding-bottom: 85px !important;
+    background-color: var(--third) !important;
+  }
+
   .post-card-body-responsive {
-    padding-bottom: 150px !important;
+    /* padding-bottom: 150px !important; */
+    padding-bottom: 240px !important;
     background-color: var(--third) !important;
   }
+  .post-card-body-responsive-connected {
+    padding-bottom: 245px !important;
+    background-color: var(--third) !important;
+  }
+
   .filtres-posts-responsive {
     display: none !important;
   }
@@ -43,5 +54,25 @@
 
   .titre-actualites-reponsive {
     padding-top: 47.5px !important;
+  }
+  .section-profil {
+    margin-top: 35px !important;
+    width: 90% !important;
+  }
+  .btn-nbr-abonnements-responsive {
+    display: none !important;
+  }
+
+  .btn-post-compteur-responsive-none {
+    display: none !important;
+  }
+
+  .post-card-body-img-isPinned-responsive {
+    padding-bottom: 225px !important;
+    background-color: var(--third) !important;
+  }
+  .post-card-body-isPinned-responsive {
+    padding-bottom: 675px !important;
+    background-color: var(--third) !important;
   }
 }
