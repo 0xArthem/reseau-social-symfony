@@ -26,4 +26,22 @@
   .btn-post-responsive {
     display: none !important;
   }
+
+  .navbar-brand {
+    margin-left: 0;
+  }
+  .navbar-collapse {
+    justify-content: center;
+  }
+  .navbar-nav .nav-link,
+  .d-flex.align-items-center .btn {
+    margin-right: 5px;
+  }
+  .d-flex.align-items-center {
+    justify-content: flex-end;
+  }
+
+  .titre-actualites-reponsive {
+    padding-top: 47.5px !important;
+  }
 }

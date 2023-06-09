@@ -1,6 +1,6 @@
 <div class="col mb-4">
 	{% if mostLikedPost.image %}
-		<div class="card">
+		<div class="card post-card-body-img-responsive">
 			<img src="{{ asset('assets/images/post/' ~ mostLikedPost.image) }}" class="card-img-top post-card-img shadow" alt="{{ mostLikedPost.title }}"/>
 			<div class="card-body post-card-body-img">
 				<div class="mb-2 div-btn-post-compteur">
@@ -27,7 +27,7 @@
 			</div>
 		</div>
 	{% else %}
-		<div class="card">
+		<div class="card post-card-body-responsive">
 			<div class="card-body post-card-body">
 				<div class="mb-2 div-btn-post-compteur">
 					<button class="btn btn-light btn-post-compteur shadow">
