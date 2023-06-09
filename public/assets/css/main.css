@@ -43,10 +43,20 @@
 
 /*********** form de contact ***********/
 .form-de-contact {
-  min-height: 720px;
+  /* min-height: 720px;
   padding-bottom: 50px;
   padding-top: 110px;
   padding-left: 300px;
-  padding-right: 300px;
+  padding-right: 300px; */
+
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   background-color: var(--third);
+}
+.section-contact {
+  min-height: 520px;
 }

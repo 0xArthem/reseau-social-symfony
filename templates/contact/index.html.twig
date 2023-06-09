@@ -4,12 +4,12 @@
 {% endblock %}
 
 {% block body %}
-	<div class="form-de-contact">
+	<div class="form-de-contact p-3">
 		<h2>
 			<i class="fa fa-envelope-open-text pre-icon"></i>
 			Formulaire de contact</h2>
 
-		<section class="mt-4">
+		<section class="mt-4 section-contact">
 			<div class="mb-4">
 				{% for message in app.flashes('success') %}
 					<i class="fas fa-bell me-1"></i>

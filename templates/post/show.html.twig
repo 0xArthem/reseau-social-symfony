@@ -6,11 +6,11 @@
 
 {% block body %}
 	<div
-		class="show-post">
+		class="show-post show-post-responsive">
 		<!-- affichage des tags du post -->
 		<section class="mb-4">
 			{% for postTag in postTags %}
-				<a href="{{ path('posts_tag', {'slug': postTag.slug}) }}" class="btn btn-dark btn-rounded me-4">
+				<a href="{{ path('posts_tag', {'slug': postTag.slug}) }}" class="btn btn-dark btn-rounded mx-1">
 					{{ postTag.name }}
 				</a>
 			{% endfor %}
@@ -69,7 +69,6 @@
 				{% if post.link %}
 					<a class="mb-4 mt-4" href="{{ post.link }}" target="_BLANK">
 						<i class="fas fa-link me-1 text-dark"></i>
-						{{ post.link }}
 					</a>
 				{% endif %}
 

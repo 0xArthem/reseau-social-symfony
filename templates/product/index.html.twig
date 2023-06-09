@@ -11,57 +11,59 @@
 		{% if cart|length > 0 %}
 			<form action="{{ path('order_index') }}">
 				<section>
-					<table class="table">
-						<thead>
-							<tr>
-								<th>Produit</th>
-								<th>Prix</th>
-								<th>Quantité</th>
-								<th>Total</th>
-								<th>
-									<a href="{{ path('removeCartAll') }}" class="text-dark">
-										<i class="fas fa-trash"></i>
-									</a>
-								</th>
-							</tr>
-						</thead>
-						<tbody class="shadow">
-							{% set total = null %}
-							{% for item in cart %}
-								{% set productTotal = item.product.price * item.quantity %}
-								{% set total = total + productTotal %}
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
 								<tr>
-									<td>
-										{{ item.product.title }}
-									</td>
-									<td>{{ (item.product.price / 100)|number_format(2, ',', '.') }}&euro;</td>
-									<td>
-										<a href="{{ path('decrementToCart', {'id': item.product.id}) }}" class="text-dark">
-											<i class="fas fa-minus"></i>
-										</a>
-										<span class="mx-3">{{ item.quantity }}</span>
-										<a href="{{ path('addToCart', {'id': item.product.id}) }}" class="text-dark">
-											<i class="fas fa-plus"></i>
-										</a>
-									</td>
-									<td>{{ (productTotal / 100)|number_format(2, ',', '.') }}&euro;</td>
-									<td>
-										<a href="{{ path('removeToCart', {'id': item.product.id}) }}" class="text-danger">
+									<th>Produit</th>
+									<th>Prix</th>
+									<th>Quantité</th>
+									<th>Total</th>
+									<th>
+										<a href="{{ path('removeCartAll') }}" class="text-dark">
 											<i class="fas fa-trash"></i>
 										</a>
-									</td>
+									</th>
 								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
+							</thead>
+							<tbody class="shadow">
+								{% set total = null %}
+								{% for item in cart %}
+									{% set productTotal = item.product.price * item.quantity %}
+									{% set total = total + productTotal %}
+									<tr>
+										<td>
+											{{ item.product.title }}
+										</td>
+										<td>{{ (item.product.price / 100)|number_format(2, ',', '.') }}&euro;</td>
+										<td>
+											<a href="{{ path('decrementToCart', {'id': item.product.id}) }}" class="text-dark">
+												<i class="fas fa-minus"></i>
+											</a>
+											<span class="mx-3">{{ item.quantity }}</span>
+											<a href="{{ path('addToCart', {'id': item.product.id}) }}" class="text-dark">
+												<i class="fas fa-plus"></i>
+											</a>
+										</td>
+										<td>{{ (productTotal / 100)|number_format(2, ',', '.') }}&euro;</td>
+										<td>
+											<a href="{{ path('removeToCart', {'id': item.product.id}) }}" class="text-danger">
+												<i class="fas fa-trash"></i>
+											</a>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
 
-					<section class="d-flex justify-content-center mt-5">
-						<button type="submit" class="btn btn-dark">
-							Je valide mon panier
-							<br>
-							({{ (total / 100)|number_format(2, ',', '.') }}&euro;)
-						</button>
-					</section>
+						<section class="d-flex justify-content-center mt-5">
+							<button type="submit" class="btn btn-dark">
+								Je valide mon panier
+								<br>
+								({{ (total / 100)|number_format(2, ',', '.') }}&euro;)
+							</button>
+						</section>
+					</div>
 				</section>
 			</form>
 		{% else %}

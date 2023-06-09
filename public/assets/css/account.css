@@ -59,7 +59,7 @@
 }
 .show-post {
   color: var(--main) !important;
-  padding: 75px !important;
+  padding: 75px;
   background-color: var(--third);
   min-height: 660px;
 }
