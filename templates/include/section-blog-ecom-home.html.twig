@@ -23,7 +23,7 @@
 							<i class="far fa-clock me-1"></i>
 							{{ article.createdAt|date('d ') ~ months[article.createdAt|date('n')-1] ~ article.createdAt|date(' Y') }}
 						</button>
-						<button class="btn btn-light btn-post-compteur shadow ms-3">
+						<button class="btn btn-light btn-post-compteur btn-post-responsive shadow ms-3">
 							<i class="fas fa-folder-open me-1"></i>
 							{{ article.category.name }}
 						</button>

@@ -1,0 +1,29 @@
+@media screen and (max-width: 480px) {
+  .post-card-body-img-responsive {
+    padding-bottom: 50px !important;
+    background-color: var(--third) !important;
+  }
+  .post-card-body-responsive {
+    padding-bottom: 150px !important;
+    background-color: var(--third) !important;
+  }
+  .filtres-posts-responsive {
+    display: none !important;
+  }
+  .barre-form {
+    margin-top: 5% !important;
+    padding: 0% !important;
+  }
+  #input-form-post-responsive {
+    background-color: var(--third) !important;
+  }
+  .div-pills {
+    padding-top: 3.1% !important;
+    padding-left: 5% !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .btn-post-responsive {
+    display: none !important;
+  }
+}
