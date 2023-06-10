@@ -66,13 +66,126 @@ class PostType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Lien'
+                    'placeholder' => 'Lien 1'
                 ],
                 'constraints' => [
                     new Url([
                         'message' => 'Veuillez saisir une URL valide',
                     ]),
                 ],
+            ])
+            ->add('linkName', TextType::class, [
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Intitulé du lien 1'
+                ]
+            ])
+            ->add('link2', TextType::class, [
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Lien 2'
+                ],
+                'constraints' => [
+                    new Url([
+                        'message' => 'Veuillez saisir une URL valide',
+                    ]),
+                ],
+            ])
+            ->add('linkName2', TextType::class, [
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Intitulé du lien 2'
+                ]
+            ])
+            ->add('link3', TextType::class, [
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Lien 3'
+                ],
+                'constraints' => [
+                    new Url([
+                        'message' => 'Veuillez saisir une URL valide',
+                    ]),
+                ],
+            ])
+            ->add('linkName3', TextType::class, [
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Intitulé du lien 3'
+                ]
+            ])
+            ->add('link4', TextType::class, [
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Lien 4'
+                ],
+                'constraints' => [
+                    new Url([
+                        'message' => 'Veuillez saisir une URL valide',
+                    ]),
+                ],
+            ])
+            ->add('linkName4', TextType::class, [
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Intitulé du lien 4'
+                ]
+            ])
+            ->add('link5', TextType::class, [
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Lien 5'
+                ],
+                'constraints' => [
+                    new Url([
+                        'message' => 'Veuillez saisir une URL valide',
+                    ]),
+                ],
+            ])
+            ->add('linkName5', TextType::class, [
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Intitulé du lien 5'
+                ]
+            ])
+            ->add('link6', TextType::class, [
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Lien 6'
+                ],
+                'constraints' => [
+                    new Url([
+                        'message' => 'Veuillez saisir une URL valide',
+                    ]),
+                ],
+            ])
+            ->add('linkName6', TextType::class, [
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Intitulé du lien 6'
+                ]
             ])
             ->add('posttag', EntityType::class, [
                 'class' => PostTag::class,

@@ -66,11 +66,56 @@
 				</section>
 
 				<!-- si l'utilisateur a ajouté un lien (peut être null) -->
-				{% if post.link %}
-					<a class="mb-4 mt-4" href="{{ post.link }}" target="_BLANK">
-						<i class="fas fa-link me-1 text-dark"></i>
-					</a>
-				{% endif %}
+				<div class="row">
+					<div class="col">
+						{% if post.link %}
+							<a class="mb-4 mt-4" href="{{ post.link }}" target="_BLANK">
+								<i class="fas fa-link me-1 text-dark"></i>
+								{{ post.linkName }}
+							</a>
+						{% endif %}
+					</div>
+					<div class="col">
+						{% if post.link2 %}
+							<a class="mb-4 mt-4" href="{{ post.link2 }}" target="_BLANK">
+								<i class="fas fa-link me-1 text-dark"></i>
+								{{ post.linkName2 }}
+							</a>
+						{% endif %}
+					</div>
+					<div class="col">
+						{% if post.link3 %}
+							<a class="mb-4 mt-4" href="{{ post.link3 }}" target="_BLANK">
+								<i class="fas fa-link me-1 text-dark"></i>
+								{{ post.linkName3 }}
+							</a>
+						{% endif %}
+					</div>
+					<div class="col">
+						{% if post.link4 %}
+							<a class="mb-4 mt-4" href="{{ post.link4 }}" target="_BLANK">
+								<i class="fas fa-link me-1 text-dark"></i>
+								{{ post.linkName4 }}
+							</a>
+						{% endif %}
+					</div>
+					<div class="col">
+						{% if post.link5 %}
+							<a class="mb-4 mt-4" href="{{ post.link5 }}" target="_BLANK">
+								<i class="fas fa-link me-1 text-dark"></i>
+								{{ post.linkName5 }}
+							</a>
+						{% endif %}
+					</div>
+					<div class="col">
+						{% if post.link6 %}
+							<a class="mb-4 mt-4" href="{{ post.link6 }}" target="_BLANK">
+								<i class="fas fa-link me-1 text-dark"></i>
+								{{ post.linkName6 }}
+							</a>
+						{% endif %}
+					</div>
+				</div>
 
 				<!-- si le post a une image -->
 				{% if post.image %}

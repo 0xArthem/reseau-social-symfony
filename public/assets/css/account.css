@@ -47,7 +47,7 @@
   min-height: 675px;
   padding-left: 15% !important;
   padding-right: 15% !important;
-  padding-top: 100px !important;
+  padding-top: 100px;
   color: var(--main) !important;
 }
 .form-post {

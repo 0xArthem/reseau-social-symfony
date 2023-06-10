@@ -75,6 +75,61 @@ class Post
      */
     private $topic;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $link2;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $link3;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $link4;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $link5;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $link6;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkName2;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkName3;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkName4;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkName5;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkName6;
+
     public function __toString()
     {
         return $this->title;
@@ -260,6 +315,138 @@ class Post
         }
 
         $this->topic = $topic;
+
+        return $this;
+    }
+
+    public function getLink2(): ?string
+    {
+        return $this->link2;
+    }
+
+    public function setLink2(?string $link2): self
+    {
+        $this->link2 = $link2;
+
+        return $this;
+    }
+
+    public function getLink3(): ?string
+    {
+        return $this->link3;
+    }
+
+    public function setLink3(?string $link3): self
+    {
+        $this->link3 = $link3;
+
+        return $this;
+    }
+
+    public function getLink4(): ?string
+    {
+        return $this->link4;
+    }
+
+    public function setLink4(?string $link4): self
+    {
+        $this->link4 = $link4;
+
+        return $this;
+    }
+
+    public function getLink5(): ?string
+    {
+        return $this->link5;
+    }
+
+    public function setLink5(?string $link5): self
+    {
+        $this->link5 = $link5;
+
+        return $this;
+    }
+
+    public function getLink6(): ?string
+    {
+        return $this->link6;
+    }
+
+    public function setLink6(?string $link6): self
+    {
+        $this->link6 = $link6;
+
+        return $this;
+    }
+
+    public function getLinkName(): ?string
+    {
+        return $this->linkName;
+    }
+
+    public function setLinkName(?string $linkName): self
+    {
+        $this->linkName = $linkName;
+
+        return $this;
+    }
+
+    public function getLinkName2(): ?string
+    {
+        return $this->linkName2;
+    }
+
+    public function setLinkName2(?string $linkName2): self
+    {
+        $this->linkName2 = $linkName2;
+
+        return $this;
+    }
+
+    public function getLinkName3(): ?string
+    {
+        return $this->linkName3;
+    }
+
+    public function setLinkName3(?string $linkName3): self
+    {
+        $this->linkName3 = $linkName3;
+
+        return $this;
+    }
+
+    public function getLinkName4(): ?string
+    {
+        return $this->linkName4;
+    }
+
+    public function setLinkName4(?string $linkName4): self
+    {
+        $this->linkName4 = $linkName4;
+
+        return $this;
+    }
+
+    public function getLinkName5(): ?string
+    {
+        return $this->linkName5;
+    }
+
+    public function setLinkName5(?string $linkName5): self
+    {
+        $this->linkName5 = $linkName5;
+
+        return $this;
+    }
+
+    public function getLinkName6(): ?string
+    {
+        return $this->linkName6;
+    }
+
+    public function setLinkName6(?string $linkName6): self
+    {
+        $this->linkName6 = $linkName6;
 
         return $this;
     }
