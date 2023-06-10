@@ -1,20 +1,29 @@
 @media screen and (max-width: 480px) {
   .post-card-body-img-responsive {
-    padding-bottom: 65px !important;
+    padding-bottom: 35px !important;
     background-color: var(--third) !important;
   }
   .post-card-body-img-responsive-connected {
-    padding-bottom: 85px !important;
+    padding-bottom: 50px !important;
     background-color: var(--third) !important;
   }
 
   .post-card-body-responsive {
     /* padding-bottom: 150px !important; */
-    padding-bottom: 240px !important;
+    padding-bottom: 50px !important;
     background-color: var(--third) !important;
   }
   .post-card-body-responsive-connected {
-    padding-bottom: 245px !important;
+    padding-bottom: 50px !important;
+    background-color: var(--third) !important;
+  }
+
+  .post-card-body-img-isPinned-responsive {
+    padding-bottom: 165px !important;
+    background-color: var(--third) !important;
+  }
+  .post-card-body-isPinned-responsive {
+    padding-bottom: 490px !important;
     background-color: var(--third) !important;
   }
 
@@ -68,18 +77,8 @@
     display: none !important;
   }
 
-  .post-card-body-img-isPinned-responsive {
-    padding-bottom: 225px !important;
-    background-color: var(--third) !important;
-  }
-  .post-card-body-isPinned-responsive {
-    padding-bottom: 675px !important;
-    background-color: var(--third) !important;
-  }
-
-  .show-post-responsive {
+  .show-post {
     padding: 15px !important;
-    background-color: var(--third);
   }
 
   .form-log {

@@ -6,7 +6,7 @@
 
 {% block body %}
 	<div
-		class="show-post show-post-responsive">
+		class="show-post">
 		<!-- affichage des tags du post -->
 		<section class="mb-4">
 			{% for postTag in postTags %}
@@ -117,11 +117,20 @@
 					</div>
 				</div>
 
-				<div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
-					<div
-						class="col">
-						<!-- Si le post a une image -->
-						{% if post.image %}
+				{% if topic %}
+					<section class="d-flex justify-content-center mt-5">
+						<a href="{{ path('app_topic_show', {'slug': post.slug}) }}" class="btn btn-light shadow btn-rounded me-4">
+							<i class="fas fa-right-long me-2"></i>
+							Voir les commentaires
+						</a>
+					</section>
+				{% endif %}
+
+				<div
+					class="row row-cols-1 row-cols-md-3 g-4 mt-5">
+					<!-- Si le post a une image -->
+					{% if post.image %}
+						<div class="col">
 							<div class="mb-3">
 								<img src="{{ asset('assets/images/post/' ~ post.image) }}" type="button" data-mdb-toggle="modal" data-mdb-target="#modalPostImage" alt="{{ post.title }}" class="img-fluid rounded shadow">
 							</div>
@@ -132,13 +141,12 @@
 									<img src="{{ asset('assets/images/post/' ~ post.image) }}" alt="{{ post.title }}" width="800px" class="img-fluid rounded shadow">
 								</div>
 							</div>
-						{% endif %}
-					</div>
+						</div>
+					{% endif %}
 
-					<div
-						class="col">
-						<!-- Si le post a une image2 -->
-						{% if post.image2 %}
+					<!-- Si le post a une image2 -->
+					{% if post.image2 %}
+						<div class="col">
 							<div class="mb-3">
 								<img src="{{ asset('assets/images/post/' ~ post.image2) }}" type="button" data-mdb-toggle="modal" data-mdb-target="#modalPostImage2" alt="{{ post.title }}" class="img-fluid rounded shadow">
 							</div>
@@ -149,13 +157,12 @@
 									<img src="{{ asset('assets/images/post/' ~ post.image2) }}" alt="{{ post.title }}" width="800px" class="img-fluid rounded shadow">
 								</div>
 							</div>
-						{% endif %}
-					</div>
+						</div>
+					{% endif %}
 
-					<div
-						class="col">
-						<!-- Si le post a une image3 -->
-						{% if post.image3 %}
+					<!-- Si le post a une image3 -->
+					{% if post.image3 %}
+						<div class="col">
 							<div class="mb-3">
 								<img src="{{ asset('assets/images/post/' ~ post.image3) }}" type="button" data-mdb-toggle="modal" data-mdb-target="#modalPostImage3" alt="{{ post.title }}" class="img-fluid rounded shadow">
 							</div>
@@ -166,14 +173,13 @@
 									<img src="{{ asset('assets/images/post/' ~ post.image3) }}" alt="{{ post.title }}" width="800px" class="img-fluid rounded shadow">
 								</div>
 							</div>
-						{% endif %}
-					</div>
+						</div>
+					{% endif %}
 
-					<div
-						class="col">
-						<!-- Si le post a une image4 -->
-						{% if post.image4 %}
-							<div class="mb-3">
+					<!-- Si le post a une image4 -->
+					{% if post.image4 %}
+						<div class="col">
+							<div>
 								<img src="{{ asset('assets/images/post/' ~ post.image4) }}" type="button" data-mdb-toggle="modal" data-mdb-target="#modalPostImage4" alt="{{ post.title }}" class="img-fluid rounded shadow">
 							</div>
 
@@ -183,14 +189,13 @@
 									<img src="{{ asset('assets/images/post/' ~ post.image4) }}" alt="{{ post.title }}" width="800px" class="img-fluid rounded shadow">
 								</div>
 							</div>
-						{% endif %}
-					</div>
+						</div>
+					{% endif %}
 
-					<div
-						class="col">
-						<!-- Si le post a une image5 -->
-						{% if post.image5 %}
-							<div class="mb-3">
+					<!-- Si le post a une image5 -->
+					{% if post.image5 %}
+						<div class="col">
+							<div>
 								<img src="{{ asset('assets/images/post/' ~ post.image5) }}" type="button" data-mdb-toggle="modal" data-mdb-target="#modalPostImage5" alt="{{ post.title }}" class="img-fluid rounded shadow">
 							</div>
 
@@ -200,14 +205,13 @@
 									<img src="{{ asset('assets/images/post/' ~ post.image5) }}" alt="{{ post.title }}" width="800px" class="img-fluid rounded shadow">
 								</div>
 							</div>
-						{% endif %}
-					</div>
+						</div>
+					{% endif %}
 
-					<div
-						class="col">
-						<!-- Si le post a une image6 -->
-						{% if post.image6 %}
-							<div class="mb-3">
+					<!-- Si le post a une image6 -->
+					{% if post.image6 %}
+						<div class="col">
+							<div>
 								<img src="{{ asset('assets/images/post/' ~ post.image6) }}" type="button" data-mdb-toggle="modal" data-mdb-target="#modalPostImage6" alt="{{ post.title }}" class="img-fluid rounded shadow">
 							</div>
 
@@ -217,18 +221,10 @@
 									<img src="{{ asset('assets/images/post/' ~ post.image6) }}" alt="{{ post.title }}" width="800px" class="img-fluid rounded shadow">
 								</div>
 							</div>
-						{% endif %}
-					</div>
+						</div>
+					{% endif %}
 				</div>
 			</div>
 		</div>
-		{% if topic %}
-			<section class="d-flex justify-content-center mt-5">
-				<a href="{{ path('app_topic_show', {'slug': post.slug}) }}" class="btn btn-light shadow btn-rounded me-4">
-					<i class="fas fa-right-long me-2"></i>
-					Voir les commentaires
-				</a>
-			</section>
-		{% endif %}
 	</div>
 {% endblock %}
