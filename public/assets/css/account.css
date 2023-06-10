@@ -60,7 +60,6 @@
 .show-post {
   color: var(--main) !important;
   padding: 75px;
-  padding-bottom: 0px !important;
   background-color: var(--third);
   min-height: 660px;
 }

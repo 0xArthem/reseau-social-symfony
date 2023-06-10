@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +42,11 @@ class Article
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
+
+    public function __construct()
+    {
+        $this->createdAt = new DateTime();
+    }
 
     public function __toString()
     {

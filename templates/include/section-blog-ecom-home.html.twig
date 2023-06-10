@@ -18,7 +18,7 @@
 				<div class="card card-article">
 					<div class="card-body">
 						<h5 class="card-title">{{ article.title }}</h5>
-						<p class="card-text">{{ article.content }}</p>
+						<p class="card-text">{{ article.content|raw }}</p>
 						<button class="btn btn-light btn-post-compteur shadow">
 							<i class="far fa-clock me-1"></i>
 							{{ article.createdAt|date('d ') ~ months[article.createdAt|date('n')-1] ~ article.createdAt|date(' Y') }}

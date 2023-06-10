@@ -1,0 +1,82 @@
+<section
+	class="">
+	<!-- Footer -->
+	<footer
+		class="bg-dark text-white text-center text-md-start">
+		<!-- Grid container -->
+		<div
+			class="container p-4">
+			<!--Grid row-->
+			<div
+				class="row pt-2">
+				<!--Grid column-->
+				<div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+					<p>
+						Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste atque ea quis molestias. Fugiat pariatur maxime quis culpa corporis vitae repudiandae aliquam voluptatem veniam, est atque cumque eum delectus sint!
+					</p>
+				</div>
+				<!--Grid column-->
+
+				<!--Grid column-->
+				<div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+					<ul class="list-unstyled">
+						<li>
+							<a href="{{ path('app_home') }}" class="text-white">Accueil</a>
+						</li>
+						<li>
+							<a href="{{ path('app_home_news') }}" class="text-white">Nouveautés</a>
+						</li>
+						<li>
+							<a href="{{ path('app_home', {'_fragment': 'actualites'}) }}" class="text-white">Actualités</a>
+						</li>
+					</ul>
+				</div>
+				<!--Grid column-->
+
+				<!--Grid column-->
+				<div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+					<ul class="list-unstyled mb-0">
+						{% if app.user %}
+							<li>
+								<a href="{{ path('app_logout')}}" class="text-white">
+									Se déconnecter
+								</a>
+
+							</li>
+						{% else %}
+							<li>
+								<a href="{{ path('app_login') }}" class="text-white">
+									Se connecter
+								</a>
+							</li>
+							<li>
+								<a href="{{ path('app_register') }}" class="text-white">S'inscrire</a>
+							</li>
+						{% endif %}
+
+						<li>
+							<a href="{{ path('app_contact') }}" class="text-white">
+								Nous contacter
+							</a>
+						</li>
+					</ul>
+				</div>
+				<!--Grid column-->
+			</div>
+			<!--Grid row-->
+		</div>
+		<!-- Grid container -->
+
+		<!-- Copyright -->
+		<div class="text-center p-3 bg-dark text-light">
+			©
+			{{ 'now'|date('Y') }}
+			Copyright
+			<a style="color:var(--second);" class="ms-1 fst-italic">
+				Nom du projet
+			</a>
+		</div>
+		<!-- Copyright -->
+	</footer>
+	<!-- Footer -->
+</section>
