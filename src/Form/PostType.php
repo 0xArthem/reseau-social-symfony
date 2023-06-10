@@ -200,6 +200,91 @@ class PostType extends AbstractType
                 ],
                 'attr' => ['class' => 'form-check-input'],
             ])
+            ->add('image2', FileType::class, [
+                'label' => false,
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez sélectionner une image au format JPG ou PNG',
+                    ]),
+                ],
+            ])
+            ->add('image3', FileType::class, [
+                'label' => false,
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez sélectionner une image au format JPG ou PNG',
+                    ]),
+                ],
+            ])
+            ->add('image4', FileType::class, [
+                'label' => false,
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez sélectionner une image au format JPG ou PNG',
+                    ]),
+                ],
+            ])
+            ->add('image5', FileType::class, [
+                'label' => false,
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez sélectionner une image au format JPG ou PNG',
+                    ]),
+                ],
+            ])
+            ->add('image6', FileType::class, [
+                'label' => false,
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez sélectionner une image au format JPG ou PNG',
+                    ]),
+                ],
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Sauvegarder',
                 'attr' => [

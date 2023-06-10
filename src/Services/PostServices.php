@@ -156,21 +156,26 @@ class PostServices
     
     public function handlePostImageUpload(FormInterface $form, Post $post): void
     {
-        $imageFile = $form->get('image')->getData();
+        $imageFields = ['image', 'image2', 'image3', 'image4', 'image5', 'image6'];
 
-        if ($imageFile) {
-            $newFilename = uniqid().'.'.$imageFile->guessExtension();
+        foreach ($imageFields as $field) {
+            $imageFile = $form->get($field)->getData();
 
-            try {
-                $imageFile->move(
-                    $this->postImagesDirectory,
-                    $newFilename
-                );
-            } catch (FileException $e) {
-                // gestion des erreurs d'upload ici
+            if ($imageFile) {
+                $newFilename = uniqid() . '.' . $imageFile->guessExtension();
+
+                try {
+                    $imageFile->move(
+                        $this->postImagesDirectory,
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // Gestion des erreurs d'upload ici
+                }
+
+                $setter = 'set' . ucfirst($field);
+                $post->$setter($newFilename);
             }
-
-            $post->setImage($newFilename);
         }
     }
 
