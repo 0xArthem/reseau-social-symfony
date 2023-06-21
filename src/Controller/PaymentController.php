@@ -70,7 +70,7 @@ class PaymentController extends AbstractController
         Stripe::setApiKey('sk_test_51M3KrLJysBhvIGnlEYRSx3rY9tXPoyJy2DZ8meJWaByaMO2A13ne45OjjDNmjfB1j8YDgAWCUe5mUzKAfxkLg5Jc001tEfq9X8');
         // dd($checkout_session);
         $checkout_session = \Stripe\Checkout\Session::create([
-            // 'customer_email' => $this->getUser()->getEmail(),
+            'customer_email' => $this->getUser()->getEmail(),
             'payment_method_types' => ['card'],
             'line_items' => $productStripe,
             'mode' => 'payment',

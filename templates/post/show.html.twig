@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Publication
+	{{ post.title }}
+	par
+	{{ post.user }}
 {% endblock %}
 
 {% block body %}
@@ -91,6 +93,9 @@
 							</a>
 						{% endif %}
 					</div>
+				</div>
+
+				<div class="row mt-3">
 					<div class="col">
 						{% if post.link4 %}
 							<a class="mb-4 mt-4" href="{{ post.link4 }}" target="_BLANK">
@@ -116,6 +121,7 @@
 						{% endif %}
 					</div>
 				</div>
+
 
 				{% if topic %}
 					<section class="d-flex justify-content-center mt-5">
