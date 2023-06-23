@@ -14,8 +14,9 @@
   justify-content: space-between;
 }
 .section-profil-img {
-  border-radius: 100px;
-  width: 125px;
+  border-radius: 10px;
+  width: 135px;
+  /* height: 115px !important; */
   margin-top: -50px !important;
 }
 .vers-edit-profil {
@@ -52,6 +53,7 @@
 }
 .form-post {
   border-radius: 5px !important;
+  padding-bottom: 50px !important;
 }
 .btn-post-edit {
   margin-top: -35px !important;

@@ -41,6 +41,7 @@ class EditProfilType extends AbstractType
             ])
             ->add('bio', TextareaType::class, [
                 'label' => false,
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control textarea-edit-profil',
                     'placeholder' => 'Bio'
@@ -54,6 +55,7 @@ class EditProfilType extends AbstractType
             ])
             ->add('localisation', TextType::class, [
                 'label' => false,
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Localisation',

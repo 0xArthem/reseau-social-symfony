@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class AccountServices
 {
@@ -29,8 +31,9 @@ class AccountServices
     private $postRepository;
     private $users;
     private $urlGenerator;
+    private $parameterBag;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator, UserRepository $users, PostRepository $postRepository, PaginatorInterface $paginator, AbonnementRepository $abonnementRepository, \Twig\Environment $twig, \Doctrine\ORM\EntityManagerInterface $entityManager, FormFactoryInterface $formFactory, SessionInterface $session)
+    public function __construct(ParameterBagInterface $parameterBag, UrlGeneratorInterface $urlGenerator, UserRepository $users, PostRepository $postRepository, PaginatorInterface $paginator, AbonnementRepository $abonnementRepository, \Twig\Environment $twig, \Doctrine\ORM\EntityManagerInterface $entityManager, FormFactoryInterface $formFactory, SessionInterface $session)
     {
         $this->twig = $twig;
         $this->entityManager = $entityManager;
@@ -41,6 +44,40 @@ class AccountServices
         $this->postRepository = $postRepository;
         $this->users = $users;
         $this->urlGenerator = $urlGenerator;
+        $this->parameterBag = $parameterBag;
+    }
+
+    public function updateProfile(User $user, Request $request): void
+    {
+        $form = $this->formFactory->create(EditProfilType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Gérer l'upload de l'image de profil
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+
+                try {
+                    $imageFile->move(
+                        $this->parameterBag->get('profile_images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // Gérer les erreurs d'upload ici
+                }
+
+                $user->setImage($newFilename);
+            }
+
+            $this->entityManager->flush();
+
+            // Message de succès
+            $this->session->getFlashBag()->add('success', 'Votre profil a été correctement mis à jour !');
+        } elseif ($form->isSubmitted() && !$form->isValid()) {
+            // Message d'erreur
+            $this->session->getFlashBag()->add('error', 'Votre profil n\'a pas pu être correctement mis à jour.');
+        }
     }
 
     public function index(Request $request, ?User $user): Response
@@ -139,39 +176,6 @@ class AccountServices
         $form->handleRequest($request);
 
         return $this->renderAccountPage($user, $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned, $form);
-    }
-
-    public function updateProfile(User $user, Request $request): void
-    {
-        $form = $this->formFactory->create(EditProfilType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Gérer l'upload de l'image de profil
-            $imageFile = $form->get('image')->getData();
-            if ($imageFile) {
-                $newFilename = uniqid().'.'.$imageFile->guessExtension();
-
-                try {
-                    $imageFile->move(
-                        $this->getParameter('profile_images_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // Gérer les erreurs d'upload ici
-                }
-
-                $user->setImage($newFilename);
-            }
-
-            $this->getDoctrine()->getManager()->flush();
-
-            // Message de succès
-            $this->session->getFlashBag()->add('success', 'Votre profil a été correctement mis à jour !');
-        } elseif ($form->isSubmitted() && !$form->isValid()) {
-            // Message d'erreur
-            $this->session->getFlashBag()->add('error', 'Votre profil n\'a pas pu être correctement mis à jour.');
-        }
     }
 
     public function renderAccountPage(User $user, User $visitedUser, $abonnements, $abonnes, $posts, $postsIsPinned, $form): Response
