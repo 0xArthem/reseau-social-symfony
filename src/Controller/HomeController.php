@@ -35,7 +35,7 @@ class HomeController extends AbstractController
     {
         $user = $security->getUser();
         $infos = $this->infoRepository->findBy(array(), array('id' => 'DESC'), 1, 0);
-        $articles = $this->articleRepository->findBy(array('isActive' => True), array('id' => 'DESC'), 4, 0);
+        $articles = $this->articleRepository->findBy(array('isActive' => True), array('id' => 'DESC'));
         $products = $this->productRepository->findBy(array('online' => True), array('id' => 'DESC'), 1, 0);
         
         if ($user) {

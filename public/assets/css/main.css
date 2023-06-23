@@ -60,3 +60,8 @@
 .section-contact {
   min-height: 520px;
 }
+.section-error {
+  min-height: 520px !important;
+  text-align: center !important;
+  background-color: var(--third) !important;
+}
